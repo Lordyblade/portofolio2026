@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Portfolio - Ibrahim Mousa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/custom.css">
+</head>
+<body class="bg-ibraa-gradient min-vh-100 d-flex flex-column">
+    
+    <nav class="navbar navbar-expand-md bg-white fixed-top">
+      <div class="container">
+        <a class="navbar-brand fw-bold link-hover" href="index.html">IM</a>
+
+        <button 
+          class="navbar-toggler link-hover" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="nav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+               <a class="nav-link link-hover" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link link-hover" href="about.html">About</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link active" href="portofolio.html">Portfolio</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link link-hover" href="kontak.html">Contact</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link link-hover" href="laprak.html">Laprak</a>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <section class="container py-5">
+        <h2 class="text-center mb-4 fw-bold">Portfolio Showcase</h2>
+
+        <ul class="nav nav-pills justify-content-center mb-5 gap-3" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="pills-all-tab" data-bs-toggle="pill" data-bs-target="#pills-all" type="button">All</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-java-tab" data-bs-toggle="pill" data-bs-target="#pills-java" type="button">Java</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-web-tab" data-bs-toggle="pill" data-bs-target="#pills-web" type="button">Web</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-soon-tab" data-bs-toggle="pill" data-bs-target="#pills-soon" type="button">Soon</button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-all">
+                <div class="row g-4">
+                    
+                    <div class="col-md-4">
+                        <div class="card h-100 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalProject1" > 
+                            <img src="images/project1.png" class="card-img-top" alt="Project 1">
+                            <div class="card-body">
+                                <h5 class="card-title">Laundry App</h5>
+                                <p class="card-text text-muted">Aplikasi manajemen laundry berbasis Java.</p> 
+                                <span class="badge bg-info">Java</span> 
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card h-100 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalProject2">
+                            <img src="images/project2.png" class="card-img-top" alt="Project 2">
+                            <div class="card-body">
+                                <h5 class="card-title">Integrasi Web dengan Wordpress</h5>
+                                <p class="card-text text-muted">Website portofolio responsive dan Integrasi dengan Wordpress.</p>
+                                <span class="badge bg-primary">Web</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card h-100 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalProject3">
+                            <img src="images/project3.png" class="card-img-top" alt="Project 3">
+                            <div class="card-body">
+                                <h5 class="card-title">Calculator</h5>
+                                <p class="card-text text-muted">Membuat sebuah kalkulator sederhana menggunakan Java.</p>
+                                <span class="badge bg-info">Java</span>
+                            </div>
+                        </div>
+                    </div>
+
+                     
+                    <div class="col-md-4">
+                        <div class="card h-100 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalProject4">
+                            <img src="images/cs1.png" class="card-img-top" alt="Project 4">
+                            <div class="card-body">
+                                <h5 class="card-title">Coming Soon</h5>
+                                <p class="card-text text-muted">. . .</p>
+                                <span class="badge bg-secondary">Soon</span> 
+                            </div>
+                        </div>
+                    </div> 
+
+                    <div class="col-md-4">
+                        <div class="card h-100 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalProject5">
+                            <img src="images/cs2.png" class="card-img-top" alt="Project 5">
+                            <div class="card-body">
+                                <h5 class="card-title">Coming Soon</h5>
+                                <p class="card-text text-muted">. . . Stay Tuned. . .</p>
+                                <span class="badge bg-secondary">Soon</span> 
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card h-100 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalProject6">
+                            <img src="images/cs.png" class="card-img-top" alt="Project 6">
+                            <div class="card-body">
+                                <h5 class="card-title">Coming Soon</h5>
+                                <p class="card-text text-muted">. . .</p>
+                                <span class="badge bg-secondary">Soon</span> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-pane fade" id="pills-web">
+                <div class="row g-4">
+                     <div class="col-md-4">
+                        <div class="card h-100 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalProject2">
+                            <img src="images/project2.png" class="card-img-top" alt="Project 2">
+                            <div class="card-body">
+                                <h5 class="card-title">Integrasi Web dengan Wordpress</h5>
+                                <p class="card-text text-muted">Website portofolio responsive dan Integrasi dengan Wordpress.</p>
+                                <span class="badge bg-primary">Web</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+           <div class="tab-pane fade" id="pills-java">
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="card h-100 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalProject1" > 
+                          <img src="images/project1.png" class="card-img-top" alt="Project 1">
+                            <div class="card-body">
+                             <h5 class="card-title">Laundry App</h5> 
+                             <p class="card-text text-muted">Aplikasi manajemen laundry berbasis Java.</p> 
+                             <span class="badge bg-info">Java</span> 
+                            </div>
+                        </div>
+                    </div>
+                 
+
+                   <div class="col-md-4">
+                        <div class="card h-100 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalProject3">
+                            <img src="images/project3.png" class="card-img-top" alt="Project 3">
+                             <div class="card-body">
+                                <h5 class="card-title">Calculator</h5>
+                                <p class="card-text text-muted">Membuat sebuah kalkulator sederhana menggunakan Java. Mampu mengerjakan tugas seperti penjumlahan, pengurangan , pembagian ,dan perkalian</p>
+                                <span class="badge bg-info">Java</span>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="pills-soon">
+              <div class="row g-4">
+                 
+                    <div class="col-md-4">
+                      <div class="card h-100 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalProject6">
+                        <img src="images/cs.png" class="card-img-top" alt="Project 6">
+                          <div class="card-body">
+                             <h5 class="card-title">Coming Soon</h5>
+                             <p class="card-text text-muted">. . .</p>
+                             <span class="badge bg-secondary">Soon</span> 
+                          </div>
+                      </div>
+                   </div>
+
+                   <div class="col-md-4">
+                        <div class="card h-100 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalProject5">
+                            <img src="images/cs2.png" class="card-img-top" alt="Project 5">
+                            <div class="card-body">
+                                <h5 class="card-title">Coming Soon</h5>
+                                <p class="card-text text-muted">. . . Stay Tuned. . .</p>
+                                <span class="badge bg-secondary">Soon</span> 
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card h-100 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalProject4">
+                            <img src="images/cs1.png" class="card-img-top" alt="Project 4">
+                            <div class="card-body">
+                                <h5 class="card-title">Coming Soon</h5>
+                                <p class="card-text text-muted">. . .</p>
+                                <span class="badge bg-secondary">Soon</span> 
+                            </div>
+                        </div>
+                    </div> 
+             </div>
+        </div>
+    </section>
+
+  <div class="modal fade" id="modalProject1" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Laundry App</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div> 
+            <div class="modal-body">
+                <img src="images/project1.png" class="img-fluid rounded mb-3" alt="Detail "> 
+                <p><strong>Deskripsi Lengkap:</strong> Aplikasi ini dibuat menggunakan Java Swing dan database MySQL untuk membantu operasional bisnis laundry. Fitur mencakup pencatatan order, manajemen pelanggan, dan laporan transaksi.</p>
+                <p>Dibuat menggunakan <strong>Java, MySQL, Eclipse IDE.</strong></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalProject2" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Integrasi Web dengan Wordpress</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div> 
+            <div class="modal-body">
+                <img src="images/project2.png" class="img-fluid rounded mb-3" alt="Detail "> 
+                <p><strong>Deskripsi Lengkap:</strong> Website dibuat dengan menggunakan Bootstrap 5 dan telah  diintegrasikan dengan Wordpress. Berhasil menjadi salah satu themes di Wordpress.</p>
+                <p>Dibuat menggunakan <strong>HTML, CSS, dan Bootstrap 5.</strong></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalProject3" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Calculator Sederhana</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div> 
+            <div class="modal-body">
+                <img src="images/project3.png" class="img-fluid rounded mb-3" alt="Detail "> 
+                <p><strong>Deskripsi Lengkap:</strong> Kalkulator sederhana yang dibuat menggunakan Java.</p>
+                <p>Dibuat menggunakan <strong>Java, dan Eclipse IDE.</strong></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+  </div>
+
+   <div class="modal fade" id="modalProject4" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">My Future Project</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div> 
+            <div class="modal-body">
+                <img src="images/cs.png" class="img-fluid rounded mb-3" alt="Detail "> 
+                <p><strong>Stay Tuned</strong></p>
+                <p>See ya</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+  </div>
+
+   <div class="modal fade" id="modalProject5" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">My Future Project</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div> 
+            <div class="modal-body">
+                <img src="images/cs.png" class="img-fluid rounded mb-3" alt="Detail "> 
+                <p><strong>Stay Tuned</strong></p>
+                <p>See ya</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+  </div>
+
+   <div class="modal fade" id="modalProject6" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">My Future Project</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div> 
+            <div class="modal-body">
+                <img src="images/cs.png" class="img-fluid rounded mb-3" alt="Detail "> 
+                <p><strong>Stay Tuned</strong></p>
+                <p>See ya</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+  </div>
+   
+      <footer class="pb-5 bg-white mt-auto shadow-lg">
+        <div class="container text-center text-dark pt-5">
+          <div class="row text-center text-md-start">
+            
+            <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                <h5 class="mb-4 fw-normal text-secondary">About</h5>
+                <p class="fw-light">Hanya seorang manusia biasa yang berharap suatu saat nanti dapat menjadi manusia 
+                   yang dapat membahagiakan dan membanggakan orang tua, keluarga, serta bermanfaat bagi banyak orang.
+                </p>
+            </div>
+            
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+                <h5 class="mb-4 fw-normal text-secondary">Quick Links</h5>
+                <p><a href="index.html" class="text-dark text-decoration-none link-hover">Home</a></p>
+                <p><a href="about.html" class="text-dark text-decoration-none link-hover">About</a></p>
+                <p><a href="portofolio.html" class="text-dark text-decoration-none link-hover">Portofolio</a></p>
+                <p><a href="kontak.html" class="text-dark text-decoration-none link-hover">Contact</a></p>
+                <p><a href="laprak.html" class="text-dark text-decoration-none link-hover">Laprak</a></p>
+            </div>
+
+            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+                <h5 class="mb-4 fw-normal text-secondary">Social Media</h5>
+                <a href="https://www.instagram.com/ibraahimousa/" class="link-hover p-1"><i class="bi bi-instagram text-dark link-hover"></i></a> 
+                <a href="https://www.linkedin.com/in/ibrahimousa27/" class="link-hover p-1"><i class="bi bi-linkedin text-dark link-hover"></i></a>
+                <a href="https://github.com/Lordyblade" class="link-hover p-1"><i class="bi bi-github text-dark link-hover"></i></a>
+                <a href="mailto:ciburakatoprak@gmail.com" class="link-hover p-1"><i class="bi bi-envelope text-dark link-hover"></i></a>
+                </div>
+            </div>
+                   
+         </div>
+         <div class="container">
+         <div class="row mt-4">
+         <div class="col-md-12 pt-5">
+                <p class="text-center">&copy; 2025 Design by 
+                  <a href="https://www.instagram.com/ibraahimousa" class="text-warning text-decoration-none fw-bold">Ibrahim Mousa
+                  <i class="bi bi-lightning-charge text-warning"></i></a>. All Rights Reserved.</p> 
+            </div>
+          </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
