@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Praktikum 7: Migration, Seeding, etc</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/custom.css">
+    
+    <style>
+        :root {
+            --primary-color: #111827;
+            --text-color: #374151;
+            --muted-color: #6b7280;
+            --bg-color: #f3f4f6; 
+            --container-bg: #ffffff;
+            --border-color: #e5e7eb;
+            --border-dark: #d1d5db;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.75;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Container utama untuk membungkus seluruh dokumen */
+        .main-document-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: var(--container-bg);
+            padding: 60px 80px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border-radius: 8px;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 0; }
+            .main-document-wrapper { padding: 40px 20px; border-radius: 0; }
+        }
+
+        h1 { font-weight: 700; color: var(--primary-color); margin-bottom: 8px; letter-spacing: -0.02em; font-size: 2.2rem; }
+        h2 { font-weight: 600; font-size: 1.3rem; color: var(--primary-color); margin-top: 1px; margin-bottom: 25px; padding-bottom: 8px; border-bottom: 2px solid var(--primary-color); display: inline-block; }
+        h3 { font-weight: 600; font-size: 1.1rem; color: var(--primary-color); margin-top: 25px; }
+        
+        .justify-text { text-align: justify; text-justify: inter-word; }
+
+        /* --- PEMBATAS KOLOM --- */
+        .column-divider {
+            column-count: 2;
+            column-gap: 40px;
+            column-rule: 1px solid var(--border-dark); 
+        }
+
+        .col-bordered {
+            border-right: 1px solid var(--border-dark);
+        }
+
+        /* List Langkah-langkah  */
+        .step-list-item {
+            border-left: 3px solid var(--bs-secondary);
+            background-color: #f9fafb;
+            padding: 20px 25px;
+            border-radius: 0 6px 6px 0;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--bs-secondary);
+        }
+
+        @media (max-width: 768px) { 
+            .column-divider { column-count: 1; column-rule: none; } 
+            .col-bordered { border-right: none; border-bottom: 1px solid var(--border-dark); padding-bottom: 15px; margin-bottom: 15px; }
+        }
+
+        .metadata {
+            margin-bottom: 40px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        pre[class*="language-"] {
+            background: #ffffff !important;
+            border: 1px solid var(--border-color) !important;
+            padding: 1.2em !important;
+            border-radius: 6px !important;
+            margin-top: 15px !important;
+        }
+        .req-item {
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            color: var(--text-color);
+            background-color: var(--container-bg);
+            display: flex;
+            align-items: center;
+        }
+
+        .req-item span {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+    </style>
+</head>
+<body class="bg-ibraaa-gradient">
+
+    <nav class="navbar navbar-expand-md bg-white fixed-top ">
+      <div class="container">
+        <a class="navbar-brand fw-bold link-hover" href="index.html">IM</a>
+
+        <button 
+          class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="nav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link link-hover" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link link-hover" href="about.html">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link link-hover" href="portofolio.html">Portfolio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link link-hover" href="kontak.html">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link link-hover" href="laprak.html">Laprak</a>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mb-5 mt-5">
+        <article class="main-document-wrapper shadow">
+            <header class="metadata">
+                <div class="row align-items-center">
+                    <div class="col-md-7">
+                        <h6 class="text-uppercase text-muted mb-2" style="letter-spacing: 1.5px; font-size: 0.75rem; font-weight: 600;">Laporan Praktikum 7 - Pemrograman Web</h6>
+                        <h1>Migration, Seeding, Routing, Model, Controller, View</h1>
+                    </div>
+                    <div class="col-md-5 text-md-end mt-3 mt-md-0 text-muted" style="font-size: 0.85rem;">
+                        <span class="d-block text-dark fw-semibold">Ibrahim Mousa Dhani</span>
+                        <span>2411532010</span><br>
+                        <span>IF - Universitas Andalas</span>
+                    </div>
+                </div>
+            </header>
+
+            <main>
+                <section>
+                    <h2>A. Pendahuluan</h2>
+                    <div class="column-divider justify-text small">
+                       <p><strong>1. Konfigurasi Database (.env)</strong><br>
+                       File environment global (.env) menyimpan kredensial database lokal. Hal ini memisahkan konfigurasi sensitif dari kode program inti aplikasi..</p>
+                        
+                       <p><strong>2. Migration</strong><br>
+                       Fitur yang bertindak sebagai version control bagi skema database. Pengembang dapat mendesain struktur tabel secara konsisten menggunakan kode program PHP tanpa menyentuh DBMS manual.</p>
+
+                       <p><strong>3. Seeding</strong><br>
+                       Proses pengisian data awal atau rekaman dummy ke dalam tabel pangkalan data secara otomatis untuk mempermudah proses pengujian fungsionalitas sistem.</p>
+
+                       <p><strong>4. Model (Eloquent ORM):</strong><br>
+                       Menyediakan abstraksi berorientasi objek yang memetakan setiap tabel database menjadi satu representasi kelas kode program, menyederhanakan kueri SQL melalui Active Record.</p>
+
+                       <p><strong>5. Controller</strong><br>
+                       Berfungsi mengelola alur logika aplikasi, menerima masukan data dari request pengguna, memprosesnya melalui Model, lalu mengembalikannya menuju komponen View.</p>
+
+                       <p><strong>6. View (Blade Layout)</strong><br>
+                       Mesin pemrosesan template visual bawaan Laravel untuk memproduksi tampilan antarmuka pengguna secara dinamis dan mendukung reusabilitas komponen UI.</p>
+                    </div>
+                </section>
+
+
+                <section class="mt-5">
+                    <h2>B. Tujuan Praktikum</h2>
+                    <div class="justify-text small text-muted">
+                        <p class="mb-2">Setelah menyelesaikan praktikum ini, mahasiswa diharapkan mampu:</p>
+                        <ul class="ps-3 mb-0">
+                            <li class="mb-1">Memberikan pemahaman dan keterampilan dasar kepada mahasiswa dalam membangun aplikasi web modern berbasis framework PHP dengan menerapkan konsep MVC</li>
+                            <li class="mb-1">Memahami struktur dan alur kerja Laravel sebagai salah satu framework yang banyak digunakan dalam pengembangan aplikasi web.</li>
+                            <li class="mb-1">Melatih kemampuan mahasiswa dalam mengelola database menggunakan migration dan seeding.</li>
+                            <li class="mb-1">Membuat serta mengatur routing aplikasi, membangun model untuk interaksi data, serta membuat tampilan antarmuka menggunakan Blade Template Engine.</li>
+                            <li class="mb-1">Mengembangkan controller sebagai penghubung antara model, view, and request user.</li>
+                            <li class="mb-1">Mengimplementasikan seluruh materi dalam bentuk aplikasi CRUD (Create, Read, Update, Delete) sederhana.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="mt-5">
+                    <h2>C. Alat</h2>
+                    <div class="justify-text small text-muted">
+                        <p class="mb-2">Perangkat dan dependensi yang digunakan selama praktikum:</p>
+                        <ul class="ps-3 mb-0">
+                            <li class="mb-1">Computer / Laptop</li>
+                            <li class="mb-1">XAMPP (Apache, MySQL, PHP)</li>
+                            <li class="mb-1">Visual Studio Code</li>
+                            <li class="mb-1">Composer, GIT, Node JS, NPM</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="mt-5">
+                    <h2>D. Langkah-langkah Praktikum</h2>
+
+                    <div class="step-list-item justify-text small mb-4">
+                    <strong>1. Konfigurasi Database</strong>
+                    <p class="mt-2 mb-2">Buka file .env pada root project Laravel, kemudian ubah konfigurasi database sesuai dengan pengaturan MySQL yang digunakan.</p>
+                    <figcaption class="text-muted small text-center pt-3">File .env</figcaption>
+                             <img src="images/Screenshot 2026-05-21 210212.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                           
+                   </div>
+                        <div class="mt-3">
+                        <div class="step-list-item justify-text small">
+                            <strong>Buat Migration Tabel Products</strong>
+                            <p class="mt-1 mb-0">Jalankan perintah berikut di terminal untuk membuat file migration.</p>
+                             <pre class="language-bash">php artisan make:migration create_products_table</pre>
+                            <figcaption class="text-muted small text-center pt-3">File Migration berhasil dibuat</figcaption>
+                             <img src="images/Screenshot 2026-05-21 104629.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                             <p class="mt-1 mb-0">Selanjutnya buka file migration yang telah dibuat yang berada pada folder <strong>database/migrations</strong>, lalu pada method up() sesuaikan dengan gambar berikut.</p>
+                             <figcaption class="text-muted small text-center pt-3">Isi File Migration Products</figcaption>
+                             <img src="images/kk.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                             <p class="mt-1 mb-0">terdiri dari id, name, price, description, dan timestamps untuk menyimpan waktu create dan update data.</p>
+                        </div>
+
+                        <div class="mt-3">
+                        <div class="step-list-item justify-text small">
+                            <strong>Jalankan Migration</strong>
+                            <p class="mt-1 mb-0">Jalankan perintah berikut di terminal untuk menjalankan migration.</p>
+                            <pre class="language-bash">php artisan migrate</pre>
+                            <figcaption class="text-muted small text-center pt-3">Migration berhasil dijalankan</figcaption>
+                            <img src="images/Screenshot 2026-05-21 210511.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>Buat File Seeder Product</strong>
+                            <p class="mt-1 mb-0">Jalankan perintah berikut di terminal untuk membuat file seeder untuk memasukkan data uji coba awal ke dalam tabel produk.</p>
+                            <pre class="language-bash">php artisan make:seeder ProductSeeder</pre>
+                            <figcaption class="text-muted small text-center pt-3">File Seeder berhasil dibuat</figcaption>
+                            <img src="images/Screenshot 2026-05-21 210616.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                             <p class="mt-1 mb-0">Lalu  buka file ProductSeeder.php di folder <strong>database/seeders</strong>, kemudian isi dengan data produk awal seperti Laptop dan Mouse seperti gambar berikut.</p>
+                            <figcaption class="text-muted small text-center pt-3">Isi File Seeder Product</figcaption>
+                            <img src="images/qq.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Selanjutnya daftarkan seeder pada file <strong>DatabaseSeeder.php</strong> dengan menambahkan syntax berikut</p>
+                            <pre class="language-php">$this->call(ProductSeeder::class);</pre>
+                            <figcaption class="text-muted small text-center pt-3">Daftarkan Seeder pada DatabaseSeeder.php</figcaption>
+                            <img src="images/Screenshot 2026-05-21 211115.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+
+                        </div>
+
+                         <div class="step-list-item justify-text small mb-5 ">
+                            <strong>Jalankan Seeder</strong>
+                            <p class="mt-1 mb-0">Seeder dijalankan agar data products otomatis tersimpan pada database. Bisa menggunakan 2 cara yaitu dengan mengetikkan perintah </p>
+                            <pre class="language-bash">php artisan db:seed</pre>
+                            <p class="mt-1 mb-0">atau dengan menjalankan perintah berikut yang akan otomatis menjalankan migration dan seeding sekaligus.</p>
+                            <pre class="language-bash">php artisan migrate --seed</pre>
+                             <p class="mt-1 mb-0">Setelah menjalankan perintah tersebut maka data produk yang telah dibuat pada file seeder akan otomatis tersimpan pada database, untuk mengecek apakah data sudah tersimpan atau belum bisa dengan mengakses phpMyAdmin lalu cek pada tabel products.</p>
+                            <figcaption class="text-muted small text-center pt-3">Jalankan Seeder</figcaption>
+                            <img src="images/Screenshot 2026-05-21 211530.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-5 ">
+                            <strong>Buat File Model Product</strong>
+                            <p class="mt-1 mb-0">Model adalah kelas yang digunakan untuk berinteraksi dengan tabel di database menggunakan Eloquent ORM. Jalankan perintah berikut di terminal untuk membuat file model Product.</p>
+                            <pre class="language-bash">php artisan make:model Product</pre>
+                            <figcaption class="text-muted small text-center pt-3">File Model berhasil dibuat</figcaption>
+                            <img src="images/Screenshot 2026-05-21 212222.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Setelah file model berhasil dibuat, buka file <strong>Product.php</strong> yang berada pada folder <strong>app/Models</strong> lalu sesuaikan dengan gambar berikut.</p>
+                            <figcaption class="text-muted small text-center pt-3">Isi File Model Product</figcaption>
+                            <img src="images/Screenshot 2026-05-21 214648.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Menambahkan properti $fillable yang berfungsi untuk menentukan field mana saja yang boleh diisi saat membuat atau memperbarui data produk.</p>
+                        </div>
+
+                         <div class="step-list-item justify-text small mb-5 ">
+                            <strong>Buat Controller</strong>
+                            <p class="mt-1 mb-0">Controller adalah kelas yang digunakan untuk menangani request dan meresponsnya. Jalankan perintah berikut di terminal untuk membuat file controller Product.</p>
+                            <pre class="language-bash">php artisan make:controller ProductController</pre>
+                            <figcaption class="text-muted small text-center pt-3">File Controller berhasil dibuat</figcaption>
+                            <img src="images/Screenshot 2026-05-21 212350.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Setelah file controller berhasil dibuat, buka file <strong>ProductController.php</strong> yang berada pada folder <strong>app/Http/Controllers</strong> lalu sesuaikan dengan gambar berikut.</p>
+                            <figcaption class="text-muted small text-center pt-3">Isi File Controller Product</figcaption>
+                            <img src="images/Screenshot 2026-05-21 214701.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Menambahkan method index() yang mengambil semua data produk menggunakan Product::all() dan mengirimkannya ke view.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-5 ">
+                            <strong>Atur Routing</strong>
+                            <p class="mt-1 mb-0">Routing digunakan untuk menentukan URL mana yang akan mengeksekusi fungsi tertentu pada controller. Buka file <strong>web.php</strong> yang berada pada<strong> routes/ </strong> lalu tambahkan routing berikut.</p>
+                            <pre class="language-bash">Route::get('/products', [ProductController::class, 'index']);</pre>
+                            <figcaption class="text-muted small text-center pt-3">Routing berhasil ditambahkan</figcaption>
+                            <img src="images/Screenshot 2026-05-21 214626.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                             <p class="mt-1 mb-0">Routing tersebut akan mengarahkan URL http://localhost:8000/products untuk mengeksekusi method index() pada ProductController yang akan menampilkan semua data produk.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-5 ">
+                            <strong>Buat View dengan Blade Layout</strong>
+                            <p class="mt-1 mb-0">View adalah file yang digunakan untuk menampilkan data kepada pengguna. Blade Layout memungkinkan kerangka HTML yang sama digunakan ulang di banyak halaman tanpa penulisan ulang. </p>
+                            <p class="mt-1 mb-0">Pertama buat file layout utama dengan nama <strong>app.blade.php</strong> pada folder <strong>resources/views/layouts</strong> lalu sesuaikan dengan gambar berikut.</p>
+                            <figcaption class="text-muted small text-center pt-3">Isi File Layout app.blade.php</figcaption>
+                            <img src="images/Screenshot 2026-05-21 214546.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Selanjutnya buat file view untuk menampilkan data produk dengan nama <strong>products.blade.php</strong> pada folder <strong>resources/views/products</strong> lalu sesuaikan dengan gambar berikut.</p>
+                            <figcaption class="text-muted small text-center pt-3">Isi File View products.blade.php</figcaption>
+                            <img src="images/Screenshot 2026-05-21 214552.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                             <p class="mt-1 mb-0">Menggunakan layout dengan @extends serta menampilkan data produk menggunakan @foreach. Karena data berasal dari database, akses propertinya menggunakan $product->name.</p>
+                        </div>
+                        
+                        <div class="step-list-item justify-text small mb-5 ">
+                                <strong>Tampilkan Hasilnya</strong>
+                                <p class="mt-1 mb-0">Pertama pastikan server Laravel sudah berjalan, gunakan perintah</p>
+                                <pre class="language-bash">php artisan serve</pre> 
+                                <p class="mt-1 mb-0">Untuk mengecek apakah project Laravel sudah berjalan dengan baik atau belum, bisa dengan mengakses URL <strong>http://localhost:8000/products</strong> di browser atau nanti di terminal nanti akan muncul URL setelah mengetikkan perintah php artisan serve.</p>
+                                <img src="images/Screenshot 2026-05-21 215025.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                                <p class="mt-1 mb-0">Halaman menampilkan judul "Daftar Produk" beserta daftar produk dari database yaitu nama beserta harganya.</p>
+                        </div>
+
+                        
+
+
+                        
+
+                <h4 class="fw-bold mb-3 pt-4" style="font-size: 1.15rem; color: var(--primary-color);">LATIHAN - CRUD MAHASISWA</h4>
+                <p class="justify-text small mb-4">Buat migration, seeding, model, route, controller, view untuk CRUD data mahasiswa.</p>
+
+
+                        <div class="step-list-item justify-text small">
+                            <strong>Buat Model, Migration, Seeder, dan Controller Sekaligus</strong>
+                            <p class="mt-1 mb-0"> Laravel menyediakan shortcut pembuatan Model beserta Migration, Seeder, dan Controller sekaligus dalam satu perintah. Jalankan perintah berikut di terminal untuk membuat file model, migration, seeder, dan controller sekaligus.</p>
+                            <pre class="language-bash">php artisan make:model Mahasiswa -mcs </pre>
+                            <p class="mt-1 mb-0">Perintah tersebut akan membuat:</p>
+                            <ul>
+                                <li><strong>Model</strong>: app/Models/Mahasiswa.php</li>
+                                <li><strong>Migration</strong>: database/migrations/xxxx_xx_xx_xxxxxx_create_mahasiswas_table.php</li>
+                                <li><strong>Seeder</strong>: database/seeders/MahasiswaSeeder.php</li>
+                                <li><strong>Controller</strong>: app/Http/Controllers/MahasiswaController.php</li>
+                            </ul>
+                            <figcaption class="text-muted small text-center pt-3">File Model, Migration, Seeder, dan Controller berhasil dibuat</figcaption>
+                            <img src="images/Screenshot 2026-05-21 215820.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+
+                        
+                        <div class="step-list-item justify-text small">
+                            <strong>Isi File Migration</strong>
+                            <p class="mt-1 mb-0">Buka file migration yang telah dibuat pada folder <strong>database/migrations</strong>, lalu sesuaikan dengan gambar berikut.</p>
+                            <figcaption class="text-muted small text-center pt-3">Isi File Migration Mahasiswa</figcaption>
+                            <img src="images/Screenshot 2026-05-21 220136.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Terdiri dari id, nama, nim, email, jurusan, dan timestamps untuk menyimpan waktu create dan update data.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>Isi File Seeder</strong>
+                            <p class="mt-1 mb-0">Buka file <strong>MahasiswaSeeder.php</strong> yang telah dibuat pada folder <strong>database/seeders</strong>, lalu sesuaikan dengan gambar berikut.</p>
+                            <figcaption class="text-muted small text-center pt-3">Isi File Seeder Mahasiswa</figcaption>
+                            <img src="images/Screenshot 2026-05-21 220715.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Menambahkan data mahasiswa awal seperti nama, nim, email, dan jurusan.</p>
+                            <p class="mt-1 mb-0">Selanjutnya sama seperti langkah pada praktikum sebelumnya, daftarkan seeder pada file <strong>DatabaseSeeder.php</strong> dengan menambahkan syntax berikut</p>
+                            <pre class="language-php">$this->call(MahasiswaSeeder::class);</pre>
+                            <figcaption class="text-muted small text-center pt-3">Daftarkan Seeder pada DatabaseSeeder.php</figcaption>
+                            <img src="images/Screenshot 2026-05-21 220801.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-5 ">
+                            <strong>Jalankan Migration dan Seeder</strong>
+                            <p class="mt-1 mb-0">Jalankan perintah berikut di terminal untuk menjalankan migration dan seeding sekaligus.</p>
+                            <pre class="language-bash">php artisan migrate --seed</pre>
+                             <p class="mt-1 mb-0">Setelah menjalankan perintah tersebut maka data mahasiswa yang telah dibuat pada file seeder akan otomatis tersimpan pada database.</p>
+                            <figcaption class="text-muted small text-center pt-3">Jalankan Migration dan Seeder</figcaption>
+                            <img src="images/Screenshot 2026-05-21 224928.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+
+                           <div class="step-list-item justify-text small mb-5 ">
+                            <strong>Isi Model Mahasiswa</strong>
+                            <p class="mt-1 mb-0">Buka file <strong>Mahasiswa.php</strong> yang telah dibuat pada folder <strong>app/Models</strong>, lalu sesuaikan dengan gambar berikut.</p>
+                            <figcaption class="text-muted small text-center pt-3">Isi File Model Mahasiswa</figcaption>
+                            <img src="images/Screenshot 2026-05-27 163631.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Menambahkan properti $fillable yang berfungsi untuk menentukan field mana saja yang boleh diisi saat membuat atau memperbarui data mahasiswa yaitu: nama, nim, email, dan jurusan.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-5 ">
+                                <strong>Isi Controller Mahasiswa</strong>
+                                <p class="mt-1 mb-0">Buka file <strong>MahasiswaController.php</strong> yang telah dibuat pada folder <strong>app/Http/Controllers</strong>, lalu sesuaikan dengan gambar berikut.</p>
+                                <figcaption class="text-muted small text-center pt-3">Isi File Controller Mahasiswa</figcaption>
+                                <img src="images/Screenshot 2026-05-27 164102.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                                <p class="mt-1 mb-0">Menambahkan method-method CRUD: index() untuk menampilkan data, create() untuk form tambah, store() untuk menyimpan data baru, edit() untuk form edit, update() untuk mengubah data, dan destroy() untuk menghapus data.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-5 ">
+                                <strong>Atur Routing CRUD Mahasiswa</strong>
+                                <p class="mt-1 mb-0">Buka file <strong>web.php</strong> yang berada pada<strong> routes/ </strong> lalu tambahkan routing berikut untuk mengatur URL CRUD mahasiswa.</p>
+                                <pre class="language-bash">Route::resource('mahasiswa', MahasiswaController::class);</pre>
+                                <figcaption class="text-muted small text-center pt-3">Routing CRUD Mahasiswa berhasil ditambahkan</figcaption>
+                                <img src="images/Screenshot 2026-05-27 164138.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                                <p class="mt-1 mb-0">Routing tersebut akan  otomatis mendaftarkan semua route CRUD sekaligus.</p>
+                        </div>
+                        
+                        <div class="step-list-item justify-text small mb-5 ">
+                                <strong>Buat Blade Layout</strong>
+                                <p class="mt-1 mb-0">Buat file layout utama dengan nama <strong>mahasiswa.blade.php</strong> pada folder <strong>resources/views/layouts</strong> lalu sesuaikan dengan gambar berikut.</p>
+                                <figcaption class="text-muted small text-center pt-3">Isi File Layout mahasiswa.blade.php</figcaption>
+                                <img src="images/Screenshot 2026-05-27 164322.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                                <p class="mt-1 mb-0">Layout utama yang digunakan untuk semua view mahasiswa dengan menggunakan <strong>Bootstrap</strong> untuk styling.</p>
+                        </div>
+
+
+                        <div class="step-list-item justify-text small mb-5 ">
+                                <strong>Buat View CRUD Mahasiswa</strong>
+                                <p class="mt-1 mb-0"><strong>1.</strong> Buat file view untuk menampilkan data mahasiswa dengan nama <strong>index.blade.php</strong> pada folder <strong>resources/views/mahasiswa</strong> lalu sesuaikan dengan gambar berikut.</p>
+                                <figcaption class="text-muted small text-center pt-3">Isi File View index.blade.php</figcaption>
+                                <img src="images/Screenshot 2026-05-27 164312.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                                 <p class="mt-1 mb-0">Menampilkan data mahasiswa dalam bentuk tabel beserta tombol aksi untuk edit dan delete.</p>
+
+                                <p class="mt-4 mb-0"><strong>2.</strong> Buat file view untuk form tambah data mahasiswa dengan nama <strong>create.blade.php</strong> pada folder <strong>resources/views/mahasiswa</strong> lalu sesuaikan dengan gambar berikut.</p>
+                                <figcaption class="text-muted small text-center pt-3">Isi File View create.blade.php</figcaption>
+                                <img src="images/Screenshot 2026-05-27 164246.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                                 <p class="mt-1 mb-0">Form untuk menambahkan data mahasiswa baru.</p>
+
+                                <p class="mt-4 mb-0"><strong>3.</strong> Buat file view untuk form edit data mahasiswa dengan nama <strong>edit.blade.php</strong> pada folder <strong>resources/views/mahasiswa</strong> lalu sesuaikan dengan gambar berikut.</p>
+                                <figcaption class="text-muted small text-center pt-3">Isi File View edit.blade.php</figcaption>
+                                <img src="images/Screenshot 2026-05-27 164238.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                                 <p class="mt-1 mb-0">Form untuk mengedit data mahasiswa yang sudah ada.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-5 ">
+                                <strong>Tampilkan Hasil CRUD Mahasiswa</strong>
+                                <p class="mt-1 mb-0">Pastikan server Laravel sudah berjalan, lalu akses URL <strong>http://localhost:8000/mahasiswa</strong> di browser untuk  memastikan fitur CRUD berjalan dengan benar yaitu menampilkan data, menambah, mengedit, dan menghapus data mahasiswa.</p>
+                                <figcaption class="text-muted small text-center pt-3">Tampilan Halaman Daftar Mahasiswa</figcaption>
+                                <img src="images/Screenshot 2026-05-27 163933.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                                <p class="mt-1 mb-0">Halaman menampilkan daftar mahasiswa beserta tombol untuk menambah, mengedit, dan menghapus data mahasiswa.</p>
+
+                                <figcaption class="text-muted small text-center pt-3">Tampilan Halaman Form Tambah Mahasiswa</figcaption>
+                                <img src="images/Screenshot 2026-05-27 163950.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                                <p class="mt-1 mb-0">Halaman form untuk menambahkan data mahasiswa baru.</p>
+
+                                <figcaption class="text-muted small text-center pt-3">Berhasil Menambah Data Mahasiswa Baru</figcaption>
+                                <img src="images/Screenshot 2026-05-27 163955.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+
+
+                                <figcaption class="text-muted small text-center pt-3">Tampilan Halaman Form Edit Mahasiswa</figcaption>
+                                <img src="images/Screenshot 2026-05-27 164013.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);"> 
+
+
+                                <figcaption class="text-muted small text-center pt-3">Tampilan Alert saat Hapus Data Mahasiswa</figcaption>
+                                <img src="images/Screenshot 2026-05-27 172833.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+
+                        </div>
+
+
+
+                </section>
+
+                <section class="mt-5 pt-4 border-top border-dark">
+                    <h2>E. Kesimpulan</h2>
+                    <div class="justify-text small text-muted">
+                        <p>Berdasarkan praktikum yang telah dilakukan, dapat disimpulkan bahwa framework Laravel berhasil mendukung pengembangan aplikasi secara terstruktur melalui penerapan arsitektur MVC (Model-View-Controller). Migration dan Seeder mempermudah pengelolaan serta pengisian database secara konsisten tanpa perlu melakukan input manual melalui phpMyAdmin. Penggunaan Eloquent ORM mampu menyederhanakan proses interaksi dengan database menggunakan pendekatan berorientasi objek sehingga penulisan query menjadi lebih singkat, aman, dan mudah dipahami. Selain itu, Controller berfungsi sebagai penghubung antara Model dan View sehingga logika aplikasi dapat dipisahkan dengan rapi, sedangkan Blade Layout membantu mengurangi duplikasi kode melalui penggunaan template yang dapat digunakan kembali. Dengan dukungan Resource Controller dan Route, proses routing juga menjadi lebih efisien dan terstandarisasi. Seluruh komponen aplikasi berhasil terintegrasi dengan baik sehingga data dapat ditampilkan di browser sesuai kebutuhan.</p>
+                    </div>
+                </section>
+            </main>
+        </article>
+        <div class="d-flex justify-content-center flex-wrap gap-2 mt-5"><a href="https://github.com/Lordyblade/webpro-project-IbrahimMousa-2411532010-B/tree/main/webpro-app-project" class="btn btn-secondary rounded-pill px-4 fw-bold link-hover" target="_blank">
+    <i class="bi bi-github me-2"></i> Link Github Project
+  </a>
+</div>
+
+    </div>
+
+    
+    
+
+    <footer class="bg-white mt-auto shadow">
+        <div class="container text-center text-dark pt-5 ">
+          <div class="row text-center text-md-start">
+            
+            <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                <h5 class="mb-4 fw-normal text-secondary">About</h5>
+                <p class="fw-light text medium">"hustler, dreamer, and a doer. Always striving to learn, grow, and make a positive impact in the world."</p>
+                </p>
+            </div>
+            
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+                <h5 class="mb-4 fw-normal text-secondary">Quick Links</h5>
+                <p><a href="index.html" class="text-dark text-decoration-none link-hover">Home</a></p>
+                <p><a href="about.html" class="text-dark text-decoration-none link-hover">About</a></p>
+                <p><a href="portofolio.html" class="text-dark text-decoration-none link-hover">Portofolio</a></p>
+                <p><a href="kontak.html" class="text-dark text-decoration-none link-hover">Contact</a></p>
+                <p><a href="laprak.html" class="text-dark text-decoration-none link-hover">Laprak</a></p>
+            </div>
+
+            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+                <h5 class="mb-4 fw-normal text-secondary">Social Media</h5>
+                <a href="https://www.instagram.com/ibraahimousa/" class="link-hover p-1"><i class="bi bi-instagram text-dark link-hover"></i></a> 
+                <a href="https://www.linkedin.com/in/ibrahimousa27/" class="link-hover p-1"><i class="bi bi-linkedin text-dark link-hover"></i></a>
+                <a href="https://github.com/Lordyblade" class="link-hover p-1"><i class="bi bi-github text-dark link-hover"></i></a>
+                <a href="mailto:ciburakatoprak@gmail.com" class="link-hover p-1"><i class="bi bi-envelope text-dark link-hover"></i></a>
+                </div>
+            </div>
+                     
+         </div>
+         <div class="container">
+         <div class="row mt-4">
+         <div class="col-md-12">
+                <p class="text-center">&copy; 2025 Design by 
+                  <a href="https://www.instagram.com/ibraahimousa" class="text-warning text-decoration-none fw-bold">Ibrahim Mousa
+                  <i class="bi bi-lightning-charge text-warning"></i></a>. All Rights Reserved.</p> 
+            </div>
+          </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
