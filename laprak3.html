@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Praktikum 7: Migration, Seeding, etc</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/custom.css">
+    
+    <style>
+        :root {
+            --primary-color: #111827;
+            --text-color: #374151;
+            --muted-color: #6b7280;
+            --bg-color: #f3f4f6; 
+            --container-bg: #ffffff;
+            --border-color: #e5e7eb;
+            --border-dark: #d1d5db;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.75;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Container utama untuk membungkus seluruh dokumen */
+        .main-document-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: var(--container-bg);
+            padding: 60px 80px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border-radius: 8px;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 0; }
+            .main-document-wrapper { padding: 40px 20px; border-radius: 0; }
+        }
+
+        h1 { font-weight: 700; color: var(--primary-color); margin-bottom: 8px; letter-spacing: -0.02em; font-size: 2.2rem; }
+        h2 { font-weight: 600; font-size: 1.3rem; color: var(--primary-color); margin-top: 1px; margin-bottom: 25px; padding-bottom: 8px; border-bottom: 2px solid var(--primary-color); display: inline-block; }
+        h3 { font-weight: 600; font-size: 1.1rem; color: var(--primary-color); margin-top: 25px; }
+        
+        .justify-text { text-align: justify; text-justify: inter-word; }
+
+        /* --- PEMBATAS KOLOM --- */
+        .column-divider {
+            column-count: 2;
+            column-gap: 40px;
+            column-rule: 1px solid var(--border-dark); 
+        }
+
+        .col-bordered {
+            border-right: 1px solid var(--border-dark);
+        }
+
+        /* List Langkah-langkah  */
+        .step-list-item {
+            border-left: 3px solid var(--bs-secondary);
+            background-color: #f9fafb;
+            padding: 20px 25px;
+            border-radius: 0 6px 6px 0;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--bs-secondary);
+        }
+
+        @media (max-width: 768px) { 
+            .column-divider { column-count: 1; column-rule: none; } 
+            .col-bordered { border-right: none; border-bottom: 1px solid var(--border-dark); padding-bottom: 15px; margin-bottom: 15px; }
+        }
+
+        .metadata {
+            margin-bottom: 40px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        pre[class*="language-"] {
+            background: #ffffff !important;
+            border: 1px solid var(--border-color) !important;
+            padding: 1.2em !important;
+            border-radius: 6px !important;
+            margin-top: 15px !important;
+        }
+        .req-item {
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            color: var(--text-color);
+            background-color: var(--container-bg);
+            display: flex;
+            align-items: center;
+        }
+
+        .req-item span {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+    </style>
+</head>
+<body class="bg-ibraaa-gradient">
+
+    <nav class="navbar navbar-expand-md bg-white fixed-top ">
+      <div class="container">
+        <a class="navbar-brand fw-bold link-hover" href="index.html">IM</a>
+
+        <button 
+          class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="nav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link link-hover" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link link-hover" href="about.html">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link link-hover" href="portofolio.html">Portfolio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link link-hover" href="kontak.html">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link link-hover" href="laprak.html">Report</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mb-5 mt-5">
+        <article class="main-document-wrapper shadow">
+            <header class="metadata">
+                <div class="row align-items-center">
+                    <div class="col-md-7">
+                        <h6 class="text-uppercase text-muted mb-2" style="letter-spacing: 1.5px; font-size: 0.75rem; font-weight: 600;">Laporan Praktikum 8 - Pemrograman Web</h6>
+                        <h1>Laravel Relationships</h1>
+                    </div>
+                    <div class="col-md-5 text-md-end mt-3 mt-md-0 text-muted" style="font-size: 0.85rem;">
+                        <span class="d-block text-dark fw-semibold">Ibrahim Mousa Dhani</span>
+                        <span>2411532010</span><br>
+                        <span>IF - Universitas Andalas</span>
+                    </div>
+                </div>
+            </header>
+
+            <main>
+                <section>
+                    <h2>A. Pendahuluan</h2>
+                    <div class="justify-text medium">
+                       <p><strong>Laravel Relationships</strong> merupakan fitur pada Eloquent ORM yang digunakan untuk menghubungkan data antar tabel dalam database sehingga data yang saling berkaitan dapat dikelola dengan lebih mudah. Pada praktikum ini digunakan relationship antara tabel Student, Major, dan Subject.</p>
+
+                       <p><strong>One-to-Many Relationship</strong> adalah hubungan di mana satu data dapat memiliki banyak data terkait. Pada praktikum ini, satu jurusan (Major) dapat memiliki banyak mahasiswa (Student). Sebaliknya, <strong>Many-to-One Relationship</strong> merupakan kebalikan dari One-to-Many, yaitu banyak mahasiswa dapat berasal dari satu jurusan. Relationship ini diimplementasikan menggunakan method hasMany() pada model Major dan belongsTo() pada model Student.</p>
+
+                       <p>Selain itu, digunakan <strong>Many-to-Many Relationship</strong> antara mahasiswa dan mata kuliah. Seorang mahasiswa dapat mengambil banyak mata kuliah, dan satu mata kuliah dapat diambil oleh banyak mahasiswa. Relationship ini menggunakan tabel penghubung (pivot table) student_subject dan diimplementasikan dengan method belongsToMany().</p>
+
+                       <p>Implementasi relationship dalam Laravel didukung oleh penggunaan foreign key sebagai penghubung antar tabel serta Eloquent ORM untuk mempermudah pengelolaan dan pengambilan data yang saling berelasi.</p>
+                        
+                    </div>
+                </section>
+
+
+                <section class="mt-5">
+                    <h2>B. Tujuan Praktikum</h2>
+                    <div class="justify-text medium">
+                        <p class="mb-2">Setelah menyelesaikan praktikum ini, mahasiswa diharapkan mampu:</p>
+                        <ul class="ps-3 mb-0">
+                            <li class="mb-1">Memahami konsep relationship dalam Laravel.</li>
+                            <li class="mb-1">Mengimplementasikan One-to-Many dan Many-to-Many relationship.</li>
+                            <li class="mb-1">Membuat migration dengan foreign key.</li>
+                            <li class="mb-1">Menggunakan Eloquent relationship untuk query data.</li>
+                            <li class="mb-1">Menampilkan data dengan relationship di view.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="mt-5">
+                    <h2>C. Langkah-langkah Praktikum</h2>
+
+                    <div class="step-list-item justify-text small mb-4">
+                        <strong>Membuat Migration</strong>
+                        <p class="mt-2 mb-4">Buat 4 buah Migration untuk tabel <strong>majors</strong>, <strong>students</strong>, <strong>subjects</strong>, dan tabel pivot <strong>student_subject</strong>.</p>
+
+                        <strong>1. Migration Tabel Majors</strong>
+                        <p class="mt-1 mb-0">Jalankan perintah berikut di terminal untuk membuat file migration.</p>
+                        <pre class="language-bash">php artisan make:migration create_majors_table</pre>
+                        <figcaption class="text-muted small text-center pt-3">File Migration berhasil dibuat</figcaption>
+                        <img src="images/Screenshot 2026-05-30 160446.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        <p class="mt-1 mb-0">Setelah berhasil dibuat, masuk ke file migration tersebut dan sesuaikan dengan gambar berikut</p>
+                        <figcaption class="text-muted small text-center pt-3">Isi File Migration Majors</figcaption>
+                        <img src="images/Screenshot 2026-05-30 160843.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        <p class="mt-1 mb-4">Pada migration tabel majors terdapat field id, name, dan timestamps untuk menyimpan waktu create dan update data.</p>
+
+                        <strong>2. Migration Tabel Students</strong>
+                        <p class="mt-1 mb-0">Jalankan perintah berikut di terminal untuk membuat file migration.</p>
+                        <pre class="language-bash">php artisan make:migration create_students_table</pre>
+                        <figcaption class="text-muted small text-center pt-3">File Migration berhasil dibuat</figcaption>
+                        <img src="images/Screenshot 2026-05-30 160641.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        <p class="mt-1 mb-0">Setelah berhasil dibuat, masuk ke file migration tersebut dan sesuaikan dengan gambar berikut</p>
+                        <figcaption class="text-muted small text-center pt-3">Isi File Migration Students</figcaption>
+                        <img src="images/Screenshot 2026-05-30 160856.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        <p class="mt-1 mb-4">Pada migration tabel students terdapat field id, nim, name, address, major_id, dan timestamps.</p>
+
+                        <strong>3. Migration Tabel Subjects</strong>
+                        <p class="mt-1 mb-0">Jalankan perintah berikut di terminal untuk membuat file migration.</p>
+                        <pre class="language-bash">php artisan make:migration create_subjects_table</pre>
+                        <figcaption class="text-muted small text-center pt-3">File Migration berhasil dibuat</figcaption>
+                        <img src="images/Screenshot 2026-05-30 160652.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        <p class="mt-1 mb-0">Setelah berhasil dibuat, masuk ke file migration tersebut dan sesuaikan dengan gambar berikut</p>
+                        <figcaption class="text-muted small text-center pt-3">Isi File Migration Subjects</figcaption>
+                        <img src="images/Screenshot 2026-05-30 160937.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        <p class="mt-1 mb-4">Pada migration tabel subjects terdapat field id, name, sks, dan timestamps.</p>
+
+                        <strong>4. Migration Tabel Pivot student_subject</strong>
+                        <p class="mt-1 mb-0">Jalankan perintah berikut di terminal untuk membuat file migration.</p>
+                        <pre class="language-bash">php artisan make:migration create_student_subject_table</pre>
+                        <figcaption class="text-muted small text-center pt-3">File Migration berhasil dibuat</figcaption>
+                        <img src="images/Screenshot 2026-05-30 160702.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        <p class="mt-1 mb-0">Setelah berhasil dibuat, masuk ke file migration tersebut dan sesuaikan dengan gambar berikut</p>
+                        <figcaption class="text-muted small text-center pt-3">Isi File Migration student_subject</figcaption>
+                        <img src="images/Screenshot 2026-05-30 161004.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        <p class="mt-1 mb-4">Pada migration tabel pivot student_subject terdapat field id, student_id, subject_id, dan timestamps. Field student_id dan subject_id merupakan foreign key yang menghubungkan tabel students dan subjects.</p>
+
+                        <strong>5. Jalankan Migration</strong>
+                        <p class="mt-1 mb-0">Setelah semua file migration berhasil dibuat dan disesuaikan, jalankan perintah berikut di terminal untuk menjalankan semua migration dan membuat tabel pada database.</p>
+                        <pre class="language-bash">php artisan migrate</pre>
+                        <figcaption class="text-muted small text-center pt-3">Jalankan Migration untuk Membuat Tabel pada Database</figcaption>
+                        <img src="images/Screenshot 2026-05-30 161154.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        
+                    </div>
+
+                    <div class="mt-3">
+                        <div class="step-list-item justify-text small">
+                        <strong>Membuat Model dengan Relationship</strong>
+                        <p class="mt-1 mb-4">Selanjutnya buat 3 model yaitu Major, Student, dan Subject, dengan relationship yang sesuai.</p>
+
+                        <strong>1. Model Major</strong>
+                        <p class="mt-1 mb-0">Jalankan perintah berikut di terminal untuk membuat file model Major.</p>
+                        <pre class="language-bash">php artisan make:model Major</pre>
+                        <figcaption class="text-muted small text-center pt-3">File Model berhasil dibuat</figcaption>
+                        <img src="images/Screenshot 2026-05-30 162749.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        <p class="mt-1 mb-0">Setelah file model berhasil dibuat, buka file <strong>Major.php</strong> yang berada pada folder <strong>app/Models</strong> lalu sesuaikan dengan gambar berikut.</p>
+                        <figcaption class="text-muted small text-center pt-3">Isi File Model Major</figcaption>
+                        <img src="images/Screenshot 2026-05-30 161358.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        <p class="mt-1 mb-4">Menambahkan method students() yang mendefinisikan relationship One-to-Many dengan model Student menggunakan hasMany().</p>
+
+                        <strong>2. Model Student</strong>
+                        <p class="mt-1 mb-0">Jalankan perintah berikut di terminal untuk membuat file model Student.</p>
+                        <pre class="language-bash">php artisan make:model Student</pre>
+                        <figcaption class="text-muted small text-center pt-3">File Model berhasil dibuat</figcaption>
+                        <img src="images/Screenshot 2026-05-30 162801.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        <p class="mt-1 mb-0">Setelah file model berhasil dibuat, buka file <strong>Student.php</strong> yang berada pada folder <strong>app/Models</strong> lalu sesuaikan dengan gambar berikut.</p>
+                        <figcaption class="text-muted small text-center pt-3">Isi File Model Student</figcaption>
+                        <img src="images/Screenshot 2026-05-30 161418.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        <p class="mt-1 mb-4">Menambahkan method major() yang mendefinisikan relationship Many-to-One dengan model Major menggunakan belongsTo(), serta method subjects() yang mendefinisikan relationship Many-to-Many dengan model Subject menggunakan belongsToMany().</p>
+
+                        <strong>3. Model Subject</strong>
+                        <p class="mt-1 mb-0">Jalankan perintah berikut di terminal untuk membuat file model Subject.</p>
+                        <pre class="language-bash">php artisan make:model Subject</pre>
+                        <figcaption class="text-muted small text-center pt-3">File Model berhasil dibuat</figcaption>
+                        <img src="images/Screenshot 2026-05-30 162809.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        <p class="mt-1 mb-0">Setelah file model berhasil dibuat, buka file <strong>Subject.php</strong> yang berada pada folder <strong>app/Models</strong> lalu sesuaikan dengan gambar berikut.</p>
+                        <figcaption class="text-muted small text-center pt-3">Isi File Model Subject</figcaption>
+                        <img src="images/Screenshot 2026-05-30 161436.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        <p class="mt-1 mb-4">Menambahkan method students() yang mendefinisikan relationship Many-to-Many dengan model Student menggunakan belongsToMany().</p>
+                    </div>  
+
+                    <div class="mt-3">
+                        <div class="step-list-item justify-text small">
+                        <strong>Seeder untuk Data Sample</strong>
+                        <p class="mt-1 mb-4">Setelah model-model tersebut dibuat, buat 3 Seeder untuk mengisi data awal. Pada MajorSeeder, StudentSeeder, dan SubjectSeeder</p>
+
+                        <strong>1. MajorSeeder (Seeder untuk Data Major)</strong>
+                        <p class="mt-1 mb-0">Jalankan perintah berikut di terminal untuk membuat file seeder Major.</p>
+                        <pre class="language-bash">php artisan make:seeder MajorSeeder</pre>
+                        <figcaption class="text-muted small text-center pt-3">File Seeder berhasil dibuat</figcaption>
+                        <img src="images/Screenshot 2026-05-30 163159.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        <p class="mt-1 mb-0">Setelah file seeder berhasil dibuat, buka file <strong>MajorSeeder.php</strong> yang berada pada folder <strong>database/seeders</strong> lalu sesuaikan dengan gambar berikut.</p>
+                        <figcaption class="text-muted small text-center pt-3">Isi File Seeder Major</figcaption>
+                        <img src="images/Screenshot 2026-05-30 163429.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        <p class="mt-1 mb-4">Menambahkan data jurusan seperti Teknik Informatika, Sistem Informasi, dan Teknik Elektro menggunakan Major::create().</p>
+
+                        <strong>2. StudentSeeder (Seeder untuk Data Student)</strong>
+                        <p class="mt-1 mb-0">Jalankan perintah berikut di terminal untuk membuat file seeder Student.</p>
+                        <pre class="language-bash">php artisan make:seeder StudentSeeder</pre>
+                        <figcaption class="text-muted small text-center pt-3">File Seeder berhasil dibuat</figcaption>
+                        <img src="images/Screenshot 2026-05-30 163216.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        <p class="mt-1 mb-0">Setelah file seeder berhasil dibuat, buka file <strong>StudentSeeder.php</strong> yang berada pada folder <strong>database/seeders</strong> lalu sesuaikan dengan gambar berikut.</p>
+                        <figcaption class="text-muted small text-center pt-3">Isi File Seeder Student</figcaption>
+                        <img src="images/Screenshot 2026-05-30 164005.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        <p class="mt-1 mb-4">Menambahkan data mahasiswa beserta relasi dengan jurusan dan mata kuliah menggunakan Student::create(), Major::find(), dan Subject::find().</p>
+
+                        <strong>3. SubjectSeeder (Seeder untuk Data Subject)</strong>
+                        <p class="mt-1 mb-0">Jalankan perintah berikut di terminal untuk membuat file seeder Subject.</p>
+                        <pre class="language-bash">php artisan make:seeder SubjectSeeder</pre>
+                        <figcaption class="text-muted small text-center pt-3">File Seeder berhasil dibuat</figcaption>
+                        <img src="images/Screenshot 2026-05-30 163209.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        <p class="mt-1 mb-0">Setelah file seeder berhasil dibuat, buka file <strong>SubjectSeeder.php</strong> yang berada pada folder <strong>database/seeders</strong> lalu sesuaikan dengan gambar berikut.</p>
+                        <figcaption class="text-muted small text-center pt-3">Isi File Seeder Subject</figcaption>
+                        <img src="images/Screenshot 2026-05-30 163618.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        <p class="mt-1 mb-4">Menambahkan data mata kuliah seperti Pemrograman Web, Basis Data, dan Jaringan Komputer menggunakan Subject::create().</p>
+
+                        <strong>4. Update DatabaseSeeder</strong>
+                        <p class="mt-1 mb-0">Setelah semua seeder berhasil dibuat, buka file <strong>DatabaseSeeder.php</strong> yang berada pada folder <strong>database/seeders</strong> lalu daftarkan semua seeder yang telah dibuat dengan menambahkan syntax berikut.</p>
+                        <pre class="language-php">$this->call([
+                            StudentSeeder::class,
+                            MajorSeeder::class,
+                            SubjectSeeder::class
+                        ]);</pre>
+                        <figcaption class="text-muted small text-center pt-3">Daftarkan Seeder pada DatabaseSeeder.php</figcaption>
+                        <img src="images/Screenshot 2026-05-30 164147.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        <p class="mt-1 mb-0">Dengan mendaftarkan seeder pada DatabaseSeeder.php, maka saat menjalankan perintah db:seed semua seeder yang telah didaftarkan akan otomatis dijalankan.</p>
+
+                        <strong>5. Jalankan Seeder</strong>
+                        <p class="mt-1 mb-0">Setelah semua file seeder berhasil dibuat dan disesuaikan, jalankan perintah berikut di terminal untuk menjalankan semua seeder dan mengisi data pada tabel di database.</p>
+                        <pre class="language-bash">php artisan db:seed</pre>
+                        <figcaption class="text-muted small text-center pt-3">Jalankan Seeder untuk Mengisi Data pada Tabel di Database</figcaption>
+                        <img src="images/Screenshot 2026-05-30 164637.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+
+                    </div>  
+
+                    <div class="mt-3">
+                        <div class="step-list-item justify-text small">
+                        <strong>Membuat Controller</strong>
+                        <p class="mt-1 mb-4">Controller bertugas menerima request dari pengguna, berinteraksi dengan model untuk mengambil atau menyimpan data, lalu mengirimkan data tersebut ke view untuk ditampilkan. Resource Controller secara otomatis menyediakan 7 method standar CRUD.</p>
+
+                        <strong>1. StudentController</strong>
+                        <p class="mt-1 mb-0">Jalankan perintah berikut di terminal untuk membuat file controller Student.</p>
+                        <pre class="language-bash">php artisan make:controller StudentController</pre>
+                        <p class="mt-1 mb-0">Setelah file controller berhasil dibuat, buka file <strong>StudentController.php</strong> yang berada pada folder <strong>app/Http/Controllers</strong> lalu sesuaikan dengan gambar berikut.</p>
+                        <figcaption class="text-muted small text-center pt-3">Isi File Controller Student</figcaption>
+                        <img src="images/controllerpraktikum.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        <p class="mt-1 mb-0">Berisi 7 method lengkap yaitu:</p> 
+                        <ul>
+                            <li><strong>index()</strong> menggunakan Student::with(['major','subjects'])->get() untuk eager loading</li>
+                            <li><strong>show()</strong> menggunakan Student::with(['major','subjects'])->findOrFail($id) untuk menemukan data tertentu</li>
+                            <li><strong>create()</strong> menampilkan form untuk membuat data baru</li>
+                            <li><strong>store()</strong> menyimpan data baru</li>
+                            <li><strong>edit()</strong> menampilkan form untuk mengedit data yang sudah ada</li>
+                            <li><strong>update()</strong> memperbarui data yang sudah ada</li>
+                            <li><strong>destroy()</strong> untuk menghapus data</li>
+                        </ul>
+                    </div>
+
+                    <div class="mt-3">
+                        <div class="step-list-item justify-text small">
+                        <strong>Membuat Routes</strong>
+                         <p class="mt-1 mb-0">Buka file <strong>web.php</strong> yang berada pada folder <strong>routes</strong>, lalu tambahkan route resource untuk StudentController dengan syntax berikut.</p>
+                        <pre class="language-php">Route::resource('students', StudentController::class);</pre>
+                        <figcaption class="text-muted small text-center pt-3">Tambahkan Route Resource pada web.php</figcaption>
+                        <img src="images/Screenshot 2026-05-30 170638.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                         <p class="mt-1 mb-0">Dengan menambahkan route resource, maka secara otomatis akan tersedia route untuk semua method CRUD pada StudentController.</p>
+                    </div>
+
+                    <div class="mt-3">
+                        <div class="step-list-item justify-text small">
+                        <strong>Membuat Views</strong>
+                        <p class="mt-1 mb-3">Pertama buat layout utama yang menggunakan Bootstrap 5 dengan navbar, kemudian dibuat view untuk halaman daftar mahasiswa, form tambah, dan form edit.</p>
+
+                        <strong>1. Layout Utama</strong>
+                        <p class="mt-1 mb-0">Buat file <strong>app.blade.php</strong> pada folder <strong>resources/views/layouts</strong>, lalu sesuaikan dengan gambar berikut.</p>
+                        <figcaption class="text-muted small text-center pt-3">Isi File Layout Utama</figcaption>
+                        <img src="images/layout.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        <p class="mt-1 mb-3">Layout utama ini menggunakan Bootstrap 5 untuk styling dan memiliki navbar dengan link ke halaman daftar mahasiswa, form tambah, dan form edit.</p>
+
+                        <strong>2. View Daftar Mahasiswa (Index Students)</strong>
+                        <p class="mt-1 mb-0">Buat file <strong>index.blade.php</strong> pada folder <strong>resources/views/students</strong>, lalu sesuaikan dengan gambar berikut.</p>
+                        <figcaption class="text-muted small text-center pt-3">Isi File View Daftar Mahasiswa</figcaption>
+                        <img src="images/index.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        <p class="mt-1 mb-3">View ini menampilkan daftar mahasiswa beserta jurusan dan mata kuliah yang diambil, serta tombol untuk edit dan delete data.</p>
+
+                        <strong>3. View Form Tambah Mahasiswa (Create Student)</strong>
+                        <p class="mt-1 mb-0">Buat file <strong>create.blade.php</strong> pada folder <strong>resources/views/students</strong>, lalu sesuaikan dengan gambar berikut.</p>
+                        <figcaption class="text-muted small text-center pt-3">Isi File View Form Tambah Mahasiswa</figcaption>
+                        <img src="images/create.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        <p class="mt-1 mb-3">View ini menampilkan form untuk menambahkan data mahasiswa baru, dengan input untuk nama, nim, alamat, jurusan, dan mata kuliah yang diambil.</p>
+                        
+                        <strong>4. View Form Edit Mahasiswa (Edit Student)</strong>
+                        <p class="mt-1 mb-0">Buat file <strong>edit.blade.php</strong> pada folder <strong>resources/views/students</strong>, lalu sesuaikan dengan gambar berikut.</p>
+                        <figcaption class="text-muted small text-center pt-3">Isi File View Form Edit Mahasiswa</figcaption>
+                        <img src="images/editt.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        <p class="mt-1 mb-3">View ini menampilkan form untuk mengedit data mahasiswa yang sudah ada, dengan input yang sudah terisi data sebelumnya untuk memudahkan proses edit.</p>
+
+                        <strong>5. View Form Detail Mahasiswa (Detail Student)</strong>
+                        <p class="mt-1 mb-0">Buat file <strong>show.blade.php</strong> pada folder <strong>resources/views/students</strong>, lalu sesuaikan dengan gambar berikut.</p>
+                        <figcaption class="text-muted small text-center pt-3">Isi File View Form Detail Mahasiswa</figcaption>
+                        <img src="images/showw.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        <p class="mt-1 mb-0">View ini menampilkan detail informasi seorang mahasiswa beserta jurusan dan mata kuliah yang diambil, serta tombol untuk kembali ke daftar mahasiswa.</p>
+                    </div>
+
+                     <div class="step-list-item justify-text small mb-5 ">
+                        <strong>Tampilkan Hasil</strong>
+                        <p class="mt-1 mb-0">Pastikan server Laravel sudah berjalan, lalu akses URL <strong>http://localhost:8000/students</strong> di browser untuk  memastikan fitur CRUD berjalan dengan benar yaitu menampilkan, menambah, mengedit, dan menghapus data mahasiswa.</p>
+                        <figcaption class="text-muted small text-center pt-3">Tampilan Halaman Daftar Mahasiswa</figcaption>
+                        <img src="images/Screenshot 2026-06-03 140739.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        <p class="mt-1 mb-0">Halaman menampilkan daftar mahasiswa beserta tombol untuk menambah, mengedit, dan menghapus data mahasiswa.</p>
+
+                        <figcaption class="text-muted small text-center pt-3">Tampilan Halaman Form Tambah Mahasiswa</figcaption>
+                        <img src="images/Screenshot 2026-06-03 140816.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        <p class="mt-1 mb-0">Halaman form untuk menambahkan data mahasiswa baru.</p>
+
+                        <img src="images/Screenshot 2026-06-03 140828.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        <p class="mt-1 mb-0">Berhasil menambah data mahasiswa baru dengan nama <strong>Alex Marq</strong> Jurusan <strong>Teknik Informatika</strong>.</p>
+
+                        <figcaption class="text-muted small text-center pt-3">Tampilan Halaman Form Edit Mahasiswa</figcaption>
+                        <img src="images/Screenshot 2026-06-03 140937.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);"> 
+                        <p class="mt-1 mb-0">Disini saya mengubah alamat yang sebelumnya Padang, Sumatera Barat menjadi Payakumbuh, Sumatera Barat</p>
+
+                        <figcaption class="text-muted small text-center pt-3">Tampilan Halaman Detail Mahasiswa</figcaption>
+                        <img src="images/Screenshot 2026-06-03 140840.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+
+                        <figcaption class="text-muted small text-center pt-3">Tampilan Saat Delete Salah satu Data</figcaption>
+                        <img src="images/Screenshot 2026-06-03 140954.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+
+                    </div>                          
+
+                <h4 class="fw-bold mb-3 pt-4" style="font-size: 1.15rem; color: var(--primary-color);">Latihan 1 - Query dengan Relationship</h4>
+                <p class="justify-text small mb-4">Buat query untuk menampilkan semua mahasiswa beserta jurusan dan mata kuliahnya, jurusan yang memiliki mahasiswa terbanyak, mata kuliah yang diambil oleh mahasiswa tertentu, dan total SKS yang diambil setiap mahasiswa</p>
+
+
+                        <div class="step-list-item justify-text small">
+                            <strong>Tambahkan Method baru di Controller</strong>
+                            <p class="mt-1 mb-0">Buka file <strong>StudentController.php</strong> yang berada pada folder <strong>app/Http/Controllers</strong>, lalu tambahkan method baru dengan nama <strong>latihan()</strong> seperti gambar berikut.</p>
+                            <figcaption class="text-muted small text-center pt-3">Method Latihan di StudentController</figcaption>
+                            <img src="images/latihaanstudentcontroller.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0"><strong>Query pertama</strong> mengambil seluruh data mahasiswa beserta jurusan dan mata kuliah yang mereka ikuti. Dengan eager loading melalui with(['major','subjects']), data relasi langsung dimuat sehingga lebih efisien.</p>
+                            <p class="mt-1 mb-0"><strong>Query kedua</strong> mencari jurusan dengan jumlah mahasiswa terbanyak. withCount('students') menghitung jumlah mahasiswa per jurusan, lalu diurutkan menurun dengan orderBy, dan first() mengambil jurusan dengan jumlah terbesar.</p>
+                            <p class="mt-1 mb-0"><strong>Query ketiga</strong> menampilkan mata kuliah yang diambil oleh mahasiswa tertentu. Relasi mata kuliah dimuat dengan with('subjects'), sedangkan mahasiswa dipilih berdasarkan student_id dari request, atau default ke mahasiswa pertama jika tidak ada input.</p>
+                            <p class="mt-1 mb-0"><strong>Query keempat</strong> digunakan untuk menghitung total SKS tiap mahasiswa. Data mahasiswa beserta mata kuliahnya diambil dengan with('subjects')->get(), lalu jumlah SKS dapat dihitung di view dengan menjumlahkan nilai SKS dari setiap mata kuliah.</p>
+                        </div>
+
+                        
+                        <div class="step-list-item justify-text small">
+                            <strong>Tambahkan Route</strong>
+                            <p class="mt-1 mb-0">Buka file <strong>routes/web.php</strong> yang berada pada folder <strong>routes</strong>, lalu tambahkan route baru yaitu <strong>latihan</strong> seperti gambar berikut.</p>
+                            <figcaption class="text-muted small text-center pt-3">Route Latihan</figcaption>
+                            <img src="images/Screenshot 2026-06-03 141729.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Route ini akan mengarahkan ke method <strong>latihan()</strong> di controller <strong>StudentController</strong>.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>Buat View</strong>
+                            <p class="mt-1 mb-0">Buat file <strong>latihan.blade.php</strong> pada folder <strong>resources/views/students</strong> yang akan digunakan untuk menampilkan hasil query, lalu sesuaikan dengan gambar berikut.</p>
+                            <figcaption class="text-muted small text-center pt-3">View Latihan</figcaption>
+                            <img src="images/latihaan.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0"><strong>Query 1 : </strong>Menampilkan tabel yang memuat NIM, nama, jurusan (dari $student->major->name), dan daftar mata kuliah dalam bentuk badge (dari hasil perulangan $student->subjects)..</p>
+                            <p class="mt-1 mb-0"><strong>Query 2 : </strong>Menampilkan nama jurusan dan jumlah mahasiswanya menggunakan data tunggal $majorTerbanyak->name dan $majorTerbanyak->students_count.</p>
+                            <p class="mt-1 mb-0"><strong>Query 3 : </strong>Menampilkan daftar mata kuliah beserta SKS yang diambil oleh mahasiswa spesifik yang dipilih via dropdown, diekstrak menggunakan $selectedStudent->subjects yang dikirim dari controller.</p>
+                            <p class="mt-1 mb-0"><strong>Query 4 : </strong>Menampilkan tabel nama mahasiswa beserta akumulasi total SKS dari seluruh mata kuliah yang diambil menggunakan collection method $student->subjects->sum('sks').</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-5 ">
+                                <strong>Tampilkan Hasil Query</strong>
+                                <p class="mt-1 mb-0">Pastikan server Laravel sudah berjalan, lalu akses URL <strong>http://localhost:8000/latihan</strong> di browser untuk melihat hasil query.</p>
+                                <figcaption class="text-muted small text-center pt-3">Tampilan Query 1</figcaption>
+                                <img src="images/Screenshot 2026-06-03 141050.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                                <p class="mt-1 mb-0">Menampilkan daftar  data setiap mahasiswa mulai dari NIM, nama, jurusan, dan mata kuliah yang diikuti.</p>
+
+                                <figcaption class="text-muted small text-center pt-3">Tampilan Query 2</figcaption>
+                                <img src="images/Screenshot 2026-06-03 141056.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                                <p class="mt-1 mb-0">Menampilkan jurusan dengan jumlah mahasiswa terbanyak yaitu <strong>Teknik Informatika</strong> dengan jumlah mahasiswa 4 orang.</p>
+
+                                <figcaption class="text-muted small text-center pt-3">Tampilan Query 3</figcaption>
+                                <img src="images/Screenshot 2026-06-03 141108.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                                <p class="mt-1 mb-0">Menampilkan mata kuliah yang diambil oleh mahasiswa tertentu yang dipilih via dropdown, misalnya mahasiswa dengan nama <strong>Ibrahim Mousa Dhani </strong> mengambil mata kuliah <strong>Pemrograman Web, Database, Algoritma, dll</strong></p>
+
+                                <figcaption class="text-muted small text-center pt-3">Tampilan Query 4</figcaption>
+                                <img src="images/Screenshot 2026-06-03 141121.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                                <p class="mt-1 mb-0">Menampilkan Nama beserta akumulasi total SKS yang diambil setiap mahasiswa.</p>
+                        </div>
+
+
+
+                </section>
+
+                <section class="mt-5 pt-4 border-top border-dark">
+                    <h2>D. Kesimpulan</h2>
+                    <div class="justify-text small text-muted">
+                        <p>Berdasarkan praktikum yang telah dilakukan, dapat disimpulkan bahwa Laravel menyediakan fitur relationship yang memudahkan pengelolaan data yang saling berhubungan dalam database. Pada praktikum ini telah dipelajari cara mengimplementasikan relationship One-to-Many dan Many-to-Many menggunakan Eloquent ORM, termasuk penggunaan foreign key dan pivot table untuk membangun hubungan antar tabel. Selain itu, mahasiswa juga mempelajari cara memanfaatkan Eloquent Relationship dalam melakukan query data sehingga pengambilan data yang saling berelasi menjadi lebih mudah dan terstruktur. 
+                         Penggunaan eager loading juga diterapkan sebagai salah satu praktik terbaik untuk meningkatkan performa aplikasi dengan mengurangi jumlah query yang dijalankan ke database. Hasil relationship tersebut kemudian ditampilkan pada view untuk memberikan informasi yang lebih lengkap kepada pengguna. Dengan memahami konsep relationship, pengembang dapat membangun aplikasi berbasis database yang lebih efisien, terorganisir, dan mudah untuk dikembangkan maupun dipelihara di masa mendatang.</p>
+                    </div>
+                </section>
+            </main>
+        </article>
+        <div class="d-flex justify-content-center flex-wrap gap-2 mt-5"><a href="https://github.com/Lordyblade/webpro-project-IbrahimMousa-2411532010-B/tree/main/webpro-app-project" class="btn btn-secondary rounded-pill px-4 fw-bold link-hover" target="_blank">
+    <i class="bi bi-github me-2"></i> Link Github Project
+  </a>
+</div>
+
+    </div>
+    <footer class="bg-white mt-auto shadow">
+        <div class="container text-center text-dark pt-5 ">
+          <div class="row text-center text-md-start">
+            
+            <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                <h5 class="mb-4 fw-normal text-secondary">About</h5>
+                <p class="fw-light text medium">"hustler, dreamer, and a doer. Always striving to learn, grow, and make a positive impact in the world."</p>
+                </p>
+            </div>
+            
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+                <h5 class="mb-4 fw-normal text-secondary">Quick Links</h5>
+                <p><a href="index.html" class="text-dark text-decoration-none link-hover">Home</a></p>
+                <p><a href="about.html" class="text-dark text-decoration-none link-hover">About</a></p>
+                <p><a href="portofolio.html" class="text-dark text-decoration-none link-hover">Portofolio</a></p>
+                <p><a href="kontak.html" class="text-dark text-decoration-none link-hover">Contact</a></p>
+                <p><a href="laprak.html" class="text-dark text-decoration-none link-hover">Laprak</a></p>
+            </div>
+
+            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+                <h5 class="mb-4 fw-normal text-secondary">Social Media</h5>
+                <a href="https://www.instagram.com/ibraahimousa/" class="link-hover p-1"><i class="bi bi-instagram text-dark link-hover"></i></a> 
+                <a href="https://www.linkedin.com/in/ibrahimousa27/" class="link-hover p-1"><i class="bi bi-linkedin text-dark link-hover"></i></a>
+                <a href="https://github.com/Lordyblade" class="link-hover p-1"><i class="bi bi-github text-dark link-hover"></i></a>
+                <a href="mailto:ciburakatoprak@gmail.com" class="link-hover p-1"><i class="bi bi-envelope text-dark link-hover"></i></a>
+                </div>
+            </div>
+                     
+         </div>
+         <div class="container">
+         <div class="row mt-4">
+         <div class="col-md-12">
+                <p class="text-center">&copy; 2025 Design by 
+                  <a href="https://www.instagram.com/ibraahimousa" class="text-warning text-decoration-none fw-bold">Ibrahim Mousa
+                  <i class="bi bi-lightning-charge text-warning"></i></a>. All Rights Reserved.</p> 
+            </div>
+          </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
