@@ -212,259 +212,350 @@
                 <section class="mt-5">
                     <h2>D. Langkah-langkah Praktikum</h2>
 
-                    <div class="step-list-item justify-text small mb-4">
-                    <strong>1. Konfigurasi Database</strong>
-                    <p class="mt-2 mb-2">Buka file .env pada root project Laravel, kemudian ubah konfigurasi database sesuai dengan pengaturan MySQL yang digunakan.</p>
-                    <figcaption class="text-muted small text-center pt-3">File .env</figcaption>
-                             <img src="images/Screenshot 2026-05-21 210212.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                           
+                    <div>
+                    <h4 class="fw-bold mb-3 pt-3" style="font-size: 1.15rem; color: var(--primary-color);">A. Basic Form TextField</h4>
                    </div>
-                        <div class="mt-3">
+        
                         <div class="step-list-item justify-text small">
-                            <strong>Buat Migration Tabel Products</strong>
-                            <p class="mt-1 mb-0">Jalankan perintah berikut di terminal untuk membuat file migration.</p>
-                             <pre class="language-bash">php artisan make:migration create_products_table</pre>
-                            <figcaption class="text-muted small text-center pt-3">File Migration berhasil dibuat</figcaption>
-                             <img src="images/Screenshot 2026-05-21 104629.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                             <p class="mt-1 mb-0">Selanjutnya buka file migration yang telah dibuat yang berada pada folder <strong>database/migrations</strong>, lalu pada method up() sesuaikan dengan gambar berikut.</p>
-                             <figcaption class="text-muted small text-center pt-3">Isi File Migration Products</figcaption>
-                             <img src="images/kk.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                             <p class="mt-1 mb-0">terdiri dari id, name, price, description, dan timestamps untuk menyimpan waktu create dan update data.</p>
-                        </div>
-
-                        <div class="mt-3">
-                        <div class="step-list-item justify-text small">
-                            <strong>Jalankan Migration</strong>
-                            <p class="mt-1 mb-0">Jalankan perintah berikut di terminal untuk menjalankan migration.</p>
-                            <pre class="language-bash">php artisan migrate</pre>
-                            <figcaption class="text-muted small text-center pt-3">Migration berhasil dijalankan</figcaption>
-                            <img src="images/Screenshot 2026-05-21 210511.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <strong>1. Membuat File Form TextFields</strong>
+                            <p class="mt-1 mb-0">Langkah pertama adalah membuat file Dart baru di dalam folder lib dengan nama form-textfield. File ini digunakan untuk membuat tampilan basic form sederhana menggunakan widget TextField sebagai input dan ElevatedButton sebagai tombol untuk menjalankan suatu aksi.</p>
                         </div>
 
                         <div class="step-list-item justify-text small">
-                            <strong>Buat File Seeder Product</strong>
-                            <p class="mt-1 mb-0">Jalankan perintah berikut di terminal untuk membuat file seeder untuk memasukkan data uji coba awal ke dalam tabel produk.</p>
-                            <pre class="language-bash">php artisan make:seeder ProductSeeder</pre>
-                            <figcaption class="text-muted small text-center pt-3">File Seeder berhasil dibuat</figcaption>
-                            <img src="images/Screenshot 2026-05-21 210616.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                             <p class="mt-1 mb-0">Lalu  buka file ProductSeeder.php di folder <strong>database/seeders</strong>, kemudian isi dengan data produk awal seperti Laptop dan Mouse seperti gambar berikut.</p>
-                            <figcaption class="text-muted small text-center pt-3">Isi File Seeder Product</figcaption>
-                            <img src="images/qq.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                            <p class="mt-1 mb-0">Selanjutnya daftarkan seeder pada file <strong>DatabaseSeeder.php</strong> dengan menambahkan syntax berikut</p>
-                            <pre class="language-php">$this->call(ProductSeeder::class);</pre>
-                            <figcaption class="text-muted small text-center pt-3">Daftarkan Seeder pada DatabaseSeeder.php</figcaption>
-                            <img src="images/Screenshot 2026-05-21 211115.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-
+                            <strong>2. Membuat Tampilan Basic Form</strong>
+                            <p class="mt-1 mb-0">Setelah file dibuat, tampilan basic form dibuat menggunakan widget TextField untuk menerima input dari pengguna dan ElevatedButton sebagai tombol yang nantinya digunakan untuk menjalankan suatu aksi ketika ditekan. Berikut kode program nya</p>
+                            <figcaption class="text-muted small text-center pt-3">Tampilan Basic Form</figcaption>
+                            <img src="images/A/111.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Kode diawali dengan import 'package:flutter/material.dart'; yang digunakan untuk mengimpor berbagai komponen Material Design yang disediakan Flutter. Fungsi main() merupakan titik awal eksekusi aplikasi dan runApp(const MyApp()) digunakan untuk menjalankan widget utama aplikasi. Class MyApp menggunakan StatelessWidget karena bagian tersebut belum membutuhkan perubahan state. Di dalam method build(), MaterialApp digunakan sebagai struktur utama aplikasi, sedangkan Scaffold menyediakan struktur dasar halaman berupa AppBar dan body. Bagian AppBar menampilkan judul Basic Form, sementara body memanggil widget MyForm.</p>
+                            <p class="mt-1 mb-0">Class MyForm dibuat menggunakan StatefulWidget, kemudian state-nya dikelola oleh class _MyFormState. Penggunaan StatefulWidget memungkinkan halaman dikembangkan lebih lanjut dengan state yang dapat berubah ketika pengguna memberikan input. Pada method build(), widget Padding digunakan untuk memberikan jarak pada isi halaman sebesar 20 pixel. Selanjutnya Column digunakan untuk menyusun komponen secara vertikal.</p>
+                            <p class="mt-1 mb-0">Widget Text digunakan untuk memberikan keterangan "Masukkan nama anda :", sedangkan SizedBox memberikan jarak vertikal antara komponen. Widget TextField merupakan bagian utama yang digunakan untuk menerima input teks dari pengguna. Properti InputDecoration digunakan untuk memberikan tampilan pada input, yaitu labelText sebagai label, hintText sebagai contoh input, border untuk memberikan garis pembatas, dan prefixIcon untuk memberikan ikon orang di sebelah kiri field.</p>
+                            <p class="mt-1 mb-0">Widget ElevatedButton digunakan sebagai tombol aksi. Pada tahap awal, properti onPressed masih kosong sehingga tombol belum menjalankan proses tertentu. Properti style digunakan untuk mengatur warna tombol, sedangkan child berisi teks "Tampilkan Nama" sesuai kode pada modul. Setelah kode disimpan dan dijalankan, aplikasi akan menampilkan sebuah form sederhana yang terdiri dari label, kolom input nama, dan tombol.</p>
                         </div>
-
-                         <div class="step-list-item justify-text small mb-5 ">
-                            <strong>Jalankan Seeder</strong>
-                            <p class="mt-1 mb-0">Seeder dijalankan agar data products otomatis tersimpan pada database. Bisa menggunakan 2 cara yaitu dengan mengetikkan perintah </p>
-                            <pre class="language-bash">php artisan db:seed</pre>
-                            <p class="mt-1 mb-0">atau dengan menjalankan perintah berikut yang akan otomatis menjalankan migration dan seeding sekaligus.</p>
-                            <pre class="language-bash">php artisan migrate --seed</pre>
-                             <p class="mt-1 mb-0">Setelah menjalankan perintah tersebut maka data produk yang telah dibuat pada file seeder akan otomatis tersimpan pada database, untuk mengecek apakah data sudah tersimpan atau belum bisa dengan mengakses phpMyAdmin lalu cek pada tabel products.</p>
-                            <figcaption class="text-muted small text-center pt-3">Jalankan Seeder</figcaption>
-                            <img src="images/Screenshot 2026-05-21 211530.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                        </div>
-
-                        <div class="step-list-item justify-text small mb-5 ">
-                            <strong>Buat File Model Product</strong>
-                            <p class="mt-1 mb-0">Model adalah kelas yang digunakan untuk berinteraksi dengan tabel di database menggunakan Eloquent ORM. Jalankan perintah berikut di terminal untuk membuat file model Product.</p>
-                            <pre class="language-bash">php artisan make:model Product</pre>
-                            <figcaption class="text-muted small text-center pt-3">File Model berhasil dibuat</figcaption>
-                            <img src="images/Screenshot 2026-05-21 212222.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                            <p class="mt-1 mb-0">Setelah file model berhasil dibuat, buka file <strong>Product.php</strong> yang berada pada folder <strong>app/Models</strong> lalu sesuaikan dengan gambar berikut.</p>
-                            <figcaption class="text-muted small text-center pt-3">Isi File Model Product</figcaption>
-                            <img src="images/Screenshot 2026-05-21 214648.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                            <p class="mt-1 mb-0">Menambahkan properti $fillable yang berfungsi untuk menentukan field mana saja yang boleh diisi saat membuat atau memperbarui data produk.</p>
-                        </div>
-
-                         <div class="step-list-item justify-text small mb-5 ">
-                            <strong>Buat Controller</strong>
-                            <p class="mt-1 mb-0">Controller adalah kelas yang digunakan untuk menangani request dan meresponsnya. Jalankan perintah berikut di terminal untuk membuat file controller Product.</p>
-                            <pre class="language-bash">php artisan make:controller ProductController</pre>
-                            <figcaption class="text-muted small text-center pt-3">File Controller berhasil dibuat</figcaption>
-                            <img src="images/Screenshot 2026-05-21 212350.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                            <p class="mt-1 mb-0">Setelah file controller berhasil dibuat, buka file <strong>ProductController.php</strong> yang berada pada folder <strong>app/Http/Controllers</strong> lalu sesuaikan dengan gambar berikut.</p>
-                            <figcaption class="text-muted small text-center pt-3">Isi File Controller Product</figcaption>
-                            <img src="images/Screenshot 2026-05-21 214701.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                            <p class="mt-1 mb-0">Menambahkan method index() yang mengambil semua data produk menggunakan Product::all() dan mengirimkannya ke view.</p>
-                        </div>
-
-                        <div class="step-list-item justify-text small mb-5 ">
-                            <strong>Atur Routing</strong>
-                            <p class="mt-1 mb-0">Routing digunakan untuk menentukan URL mana yang akan mengeksekusi fungsi tertentu pada controller. Buka file <strong>web.php</strong> yang berada pada<strong> routes/ </strong> lalu tambahkan routing berikut.</p>
-                            <pre class="language-bash">Route::get('/products', [ProductController::class, 'index']);</pre>
-                            <figcaption class="text-muted small text-center pt-3">Routing berhasil ditambahkan</figcaption>
-                            <img src="images/Screenshot 2026-05-21 214626.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                             <p class="mt-1 mb-0">Routing tersebut akan mengarahkan URL http://localhost:8000/products untuk mengeksekusi method index() pada ProductController yang akan menampilkan semua data produk.</p>
-                        </div>
-
-                        <div class="step-list-item justify-text small mb-5 ">
-                            <strong>Buat View dengan Blade Layout</strong>
-                            <p class="mt-1 mb-0">View adalah file yang digunakan untuk menampilkan data kepada pengguna. Blade Layout memungkinkan kerangka HTML yang sama digunakan ulang di banyak halaman tanpa penulisan ulang. </p>
-                            <p class="mt-1 mb-0">Pertama buat file layout utama dengan nama <strong>app.blade.php</strong> pada folder <strong>resources/views/layouts</strong> lalu sesuaikan dengan gambar berikut.</p>
-                            <figcaption class="text-muted small text-center pt-3">Isi File Layout app.blade.php</figcaption>
-                            <img src="images/Screenshot 2026-05-21 214546.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                            <p class="mt-1 mb-0">Selanjutnya buat file view untuk menampilkan data produk dengan nama <strong>products.blade.php</strong> pada folder <strong>resources/views/products</strong> lalu sesuaikan dengan gambar berikut.</p>
-                            <figcaption class="text-muted small text-center pt-3">Isi File View products.blade.php</figcaption>
-                            <img src="images/Screenshot 2026-05-21 214552.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                             <p class="mt-1 mb-0">Menggunakan layout dengan @extends serta menampilkan data produk menggunakan @foreach. Karena data berasal dari database, akses propertinya menggunakan $product->name.</p>
-                        </div>
-                        
-                        <div class="step-list-item justify-text small mb-5 ">
-                                <strong>Tampilkan Hasilnya</strong>
-                                <p class="mt-1 mb-0">Pertama pastikan server Laravel sudah berjalan, gunakan perintah</p>
-                                <pre class="language-bash">php artisan serve</pre> 
-                                <p class="mt-1 mb-0">Untuk mengecek apakah project Laravel sudah berjalan dengan baik atau belum, bisa dengan mengakses URL <strong>http://localhost:8000/products</strong> di browser atau nanti di terminal nanti akan muncul URL setelah mengetikkan perintah php artisan serve.</p>
-                                <img src="images/Screenshot 2026-05-21 215025.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                                <p class="mt-1 mb-0">Halaman menampilkan judul "Daftar Produk" beserta daftar produk dari database yaitu nama beserta harganya.</p>
-                        </div>
-
-                        
-
-
-                        
-
-                <h4 class="fw-bold mb-3 pt-4" style="font-size: 1.15rem; color: var(--primary-color);">LATIHAN - CRUD MAHASISWA</h4>
-                <p class="justify-text small mb-4">Buat migration, seeding, model, route, controller, view untuk CRUD data mahasiswa.</p>
-
 
                         <div class="step-list-item justify-text small">
-                            <strong>Buat Model, Migration, Seeder, dan Controller Sekaligus</strong>
-                            <p class="mt-1 mb-0"> Laravel menyediakan shortcut pembuatan Model beserta Migration, Seeder, dan Controller sekaligus dalam satu perintah. Jalankan perintah berikut di terminal untuk membuat file model, migration, seeder, dan controller sekaligus.</p>
-                            <pre class="language-bash">php artisan make:model Mahasiswa -mcs </pre>
-                            <p class="mt-1 mb-0">Perintah tersebut akan membuat:</p>
-                            <ul>
-                                <li><strong>Model</strong>: app/Models/Mahasiswa.php</li>
-                                <li><strong>Migration</strong>: database/migrations/xxxx_xx_xx_xxxxxx_create_mahasiswas_table.php</li>
-                                <li><strong>Seeder</strong>: database/seeders/MahasiswaSeeder.php</li>
-                                <li><strong>Controller</strong>: app/Http/Controllers/MahasiswaController.php</li>
-                            </ul>
-                            <figcaption class="text-muted small text-center pt-3">File Model, Migration, Seeder, dan Controller berhasil dibuat</figcaption>
-                            <img src="images/Screenshot 2026-05-21 215820.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <strong>3. Menambahkan TextEditingController</strong>
+                            <p class="mt-1 mb-0">Setelah tampilan dasar berhasil dibuat, langkah berikutnya adalah menambahkan TextEditingController pada class _MyFormState. Controller digunakan untuk mengambil dan mengelola teks yang dimasukkan oleh pengguna.</p>
+                            <figcaption class="text-muted small text-center pt-3">TextEditingController</figcaption>
+                            <img src="images/A/222.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">TextEditingController digunakan untuk mengontrol isi dari TextField. Dengan adanya controller, program dapat mengambil nilai teks yang dimasukkan pengguna. Variabel _textEditingController nantinya dihubungkan dengan widget TextField.</p>
+                            <p class="mt-1 mb-0">Method dispose() digunakan untuk membersihkan controller ketika widget sudah tidak digunakan. Pemanggilan _textEditingController.dispose() bertujuan untuk melepaskan resource yang digunakan oleh controller, kemudian super.dispose() menjalankan proses pembersihan dari parent class.</p>
                         </div>
 
+                        <div class="step-list-item justify-text small mb-5 ">
+                            <strong>4. Menambahkan Properti pada TextField</strong>
+                            <p class="mt-1 mb-0">Setelah controller dibuat, TextField kemudian dihubungkan dengan controller dan ditambahkan beberapa properti untuk mengatur jenis input serta event ketika pengguna mengetik.</p>
+                            <figcaption class="text-muted small text-center pt-3">Properti TextField</figcaption>
+                            <img src="images/A/333.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Properti controller menghubungkan TextField dengan _textEditingController, sehingga isi input dapat diakses oleh program. Properti keyboardType menentukan jenis keyboard yang digunakan ketika pengguna memberikan input, dalam hal ini menggunakan TextInputType.text karena input berupa teks.</p>
+                            <p class="mt-1 mb-0">Properti onChanged merupakan event listener yang dijalankan ketika isi TextField mengalami perubahan. Parameter text berisi teks yang sedang dimasukkan pengguna. Pada kode tersebut, nilai tersebut dicetak menggunakan print() sehingga perubahan input dapat dilihat melalui console ketika aplikasi dijalankan.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-5 ">
+                            <strong>5. Menambahkan Aksi pada ElevatedButton</strong>
+                            <p class="mt-1 mb-0">Selanjutnya, aksi pada ElevatedButton diubah agar dapat mengambil nilai yang dimasukkan pada TextField dan menampilkannya menggunakan SnackBar.</p>
+                            <figcaption class="text-muted small text-center pt-3">Aksi ElevatedButton</figcaption>
+                            <img src="images/A/444.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Ketika tombol ditekan, program mengambil nilai dari _textEditingController.text dan menyimpannya ke dalam variabel inputText. Nilai tersebut kemudian digunakan pada widget Text di dalam SnackBar.</p>
+                            <p class="mt-1 mb-0">ScaffoldMessenger.of(context).showSnackBar() digunakan untuk menampilkan pesan sementara di bagian bawah layar. Dengan demikian, nama yang sebelumnya dimasukkan pengguna pada TextField dapat ditampilkan setelah tombol ditekan.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-5 ">
+                            <strong>6. Menjalankan Program</strong>
+                            <p class="mt-1 mb-0">Setelah seluruh kode selesai ditambahkan, program disimpan kemudian dijalankan menggunakan perangkat atau emulator Flutter. Pengguna dapat memasukkan nama ke dalam TextField, kemudian menekan tombol Tampilkan Nama. Program akan mengambil input tersebut melalui TextEditingController dan menampilkannya dalam bentuk SnackBar.</p>
+                            <figcaption class="text-muted small text-center pt-3">Contoh Outputnya</figcaption>
+                            <img src="images/A/OA.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <figcaption class="text-center pt-3">Kode Lengkap</figcaption>
+                            <img src="images/A/sadoe.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+                    
+
+                    <div class="mt-4">
+                    <h4 class="fw-bold mb-3 pt-3" style="font-size: 1.15rem; color: var(--primary-color);">B. Basic Form TextFormField</h4>
+                   </div>
                         
                         <div class="step-list-item justify-text small">
-                            <strong>Isi File Migration</strong>
-                            <p class="mt-1 mb-0">Buka file migration yang telah dibuat pada folder <strong>database/migrations</strong>, lalu sesuaikan dengan gambar berikut.</p>
-                            <figcaption class="text-muted small text-center pt-3">Isi File Migration Mahasiswa</figcaption>
-                            <img src="images/Screenshot 2026-05-21 220136.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                            <p class="mt-1 mb-0">Terdiri dari id, nama, nim, email, jurusan, dan timestamps untuk menyimpan waktu create dan update data.</p>
+                            <strong>1. Membuat File TextFormField</strong>
+                            <p class="mt-1 mb-0">Sama seperti bagian A, langkah awalnya adalah membuat file Dart baru di dalam folder lib, tetapi sekarang dengan nama form-textformfield.dart. File ini digunakan untuk membuat form yang menggunakan dua buah TextFormField, yaitu untuk nama dan email, serta sebuah ElevatedButton untuk melakukan proses submit.</p>
                         </div>
 
                         <div class="step-list-item justify-text small">
-                            <strong>Isi File Seeder</strong>
-                            <p class="mt-1 mb-0">Buka file <strong>MahasiswaSeeder.php</strong> yang telah dibuat pada folder <strong>database/seeders</strong>, lalu sesuaikan dengan gambar berikut.</p>
-                            <figcaption class="text-muted small text-center pt-3">Isi File Seeder Mahasiswa</figcaption>
-                            <img src="images/Screenshot 2026-05-21 220715.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                            <p class="mt-1 mb-0">Menambahkan data mahasiswa awal seperti nama, nim, email, dan jurusan.</p>
-                            <p class="mt-1 mb-0">Selanjutnya sama seperti langkah pada praktikum sebelumnya, daftarkan seeder pada file <strong>DatabaseSeeder.php</strong> dengan menambahkan syntax berikut</p>
-                            <pre class="language-php">$this->call(MahasiswaSeeder::class);</pre>
-                            <figcaption class="text-muted small text-center pt-3">Daftarkan Seeder pada DatabaseSeeder.php</figcaption>
-                            <img src="images/Screenshot 2026-05-21 220801.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <strong>2. Membuat Tampilan Form</strong>
+                            <p class="mt-1 mb-0">Kode awal untuk membuat tampilan form adalah sebagai berikut.</p>
+                            <figcaption class="text-muted small text-center pt-3">Tampilan Basic Form 2 TextFormField dan 1 ElevatedButton</figcaption>
+                            <img src="images/B/1111.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Bagian awal kode memiliki struktur yang sama dengan contoh TextField, yaitu mengimpor library Material, menjalankan MyApp, dan membuat MaterialApp sebagai root aplikasi. Scaffold digunakan sebagai struktur dasar halaman dengan AppBar yang memiliki judul Basic Form TextFormField. Body dari halaman memanggil widget MyFormText.</p>
+                            <p class="mt-1 mb-0">Class MyFormText menggunakan StatefulWidget, kemudian state-nya dikelola oleh _MyFormTextState. Pada method build(), widget Column digunakan untuk menyusun seluruh komponen form secara vertikal. Dua buah TextFormField digunakan untuk menerima input nama dan email. Masing-masing memiliki InputDecoration dengan labelText dan OutlineInputBorder.</p>
+                            <p class="mt-1 mb-0">Widget SizedBox digunakan untuk memberikan jarak antar-field. Pada bagian akhir terdapat ElevatedButton yang memiliki lebar penuh melalui width: double.infinity. Pada tahap ini onPressed masih kosong sehingga tombol belum melakukan proses validasi atau pengiriman data.</p>
                         </div>
 
-                        <div class="step-list-item justify-text small mb-5 ">
-                            <strong>Jalankan Migration dan Seeder</strong>
-                            <p class="mt-1 mb-0">Jalankan perintah berikut di terminal untuk menjalankan migration dan seeding sekaligus.</p>
-                            <pre class="language-bash">php artisan migrate --seed</pre>
-                             <p class="mt-1 mb-0">Setelah menjalankan perintah tersebut maka data mahasiswa yang telah dibuat pada file seeder akan otomatis tersimpan pada database.</p>
-                            <figcaption class="text-muted small text-center pt-3">Jalankan Migration dan Seeder</figcaption>
-                            <img src="images/Screenshot 2026-05-21 224928.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        <div class="step-list-item justify-text small">
+                            <strong>3. Menambahkan GlobalKey dan Controller</strong>
+                            <p class="mt-1 mb-0">Setelah tampilan awal selesai, _MyFormTextState ditambahkan beberapa variabel berikut.</p>
+                            <figcaption class="text-muted small text-center pt-3">GlobalKey dan TextEditingController</figcaption>
+                            <img src="images/B/2222.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Variabel _formKey dibuat menggunakan GlobalKey<FormState>(). Key tersebut digunakan untuk mengidentifikasi Form dan mengakses FormState, terutama ketika program perlu menjalankan proses validasi menggunakan method validate().</p>
+                            <p class="mt-1 mb-0">Variabel _nameController dan _emailController digunakan sebagai controller untuk masing-masing TextFormField. Dengan controller tersebut, program dapat mengambil nilai nama dan email yang dimasukkan pengguna.</p>
+                            <p class="mt-1 mb-0">Method dispose() digunakan untuk membersihkan kedua controller ketika widget tidak lagi digunakan. Sementara itu, _submitForm() merupakan method yang dipanggil ketika pengguna menekan tombol submit. Pada method tersebut, _formKey.currentState!.validate() digunakan untuk menjalankan validasi seluruh field yang terdapat di dalam Form.</p>
+                            <p class="mt-1 mb-0">Jika seluruh validasi berhasil, nilai nama dan email diambil menggunakan .text, kemudian ditampilkan melalui SnackBar dengan pesan "Validasi [nama], [email] Berhasil".</p>
                         </div>
 
-                           <div class="step-list-item justify-text small mb-5 ">
-                            <strong>Isi Model Mahasiswa</strong>
-                            <p class="mt-1 mb-0">Buka file <strong>Mahasiswa.php</strong> yang telah dibuat pada folder <strong>app/Models</strong>, lalu sesuaikan dengan gambar berikut.</p>
-                            <figcaption class="text-muted small text-center pt-3">Isi File Model Mahasiswa</figcaption>
-                            <img src="images/Screenshot 2026-05-27 163631.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                            <p class="mt-1 mb-0">Menambahkan properti $fillable yang berfungsi untuk menentukan field mana saja yang boleh diisi saat membuat atau memperbarui data mahasiswa yaitu: nama, nim, email, dan jurusan.</p>
+                        <div class="step-list-item justify-text small">
+                            <strong>4. Membungkus Tampilan Menggunakan Form</strong>
+                            <p class="mt-1 mb-0">Pada tahap berikutnya, seluruh widget input dibungkus menggunakan widget Form dan diberikan properti key: _formKey. Hal ini diperlukan agar FormState dapat diakses menggunakan _formKey.</p>
+                            <p class="mt-1 mb-0">Dengan adanya Form, seluruh TextFormField di dalamnya dapat dikelola sebagai satu kesatuan, terutama ketika proses validasi dijalankan melalui _formKey.currentState!.validate().</p>
                         </div>
 
-                        <div class="step-list-item justify-text small mb-5 ">
-                                <strong>Isi Controller Mahasiswa</strong>
-                                <p class="mt-1 mb-0">Buka file <strong>MahasiswaController.php</strong> yang telah dibuat pada folder <strong>app/Http/Controllers</strong>, lalu sesuaikan dengan gambar berikut.</p>
-                                <figcaption class="text-muted small text-center pt-3">Isi File Controller Mahasiswa</figcaption>
-                                <img src="images/Screenshot 2026-05-27 164102.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                                <p class="mt-1 mb-0">Menambahkan method-method CRUD: index() untuk menampilkan data, create() untuk form tambah, store() untuk menyimpan data baru, edit() untuk form edit, update() untuk mengubah data, dan destroy() untuk menghapus data.</p>
+                        <div class="step-list-item justify-text small">
+                            <strong>5. Menambahkan Validasi pada TextFormField Nama</strong>
+                            <p class="mt-1 mb-0">Kode TextFormField untuk input nama diubah menjadi:</p>
+                            <figcaption class="text-muted small text-center pt-3">Validasi TextFormField Nama</figcaption>
+                            <img src="images/B/3333.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Properti controller menghubungkan field dengan _nameController sehingga nilai input nama dapat diambil oleh program. Properti validator digunakan untuk menentukan aturan validasi. Parameter value berisi nilai yang dimasukkan pengguna.</p>
+                            <p class="mt-1 mb-0">Kondisi value == null || value.isEmpty digunakan untuk memeriksa apakah input kosong. Apabila input kosong, validator mengembalikan pesan "Masukkan nama anda". Jika input telah terisi, validator mengembalikan null, yang menunjukkan bahwa tidak terdapat kesalahan pada field tersebut.</p>
                         </div>
 
-                        <div class="step-list-item justify-text small mb-5 ">
-                                <strong>Atur Routing CRUD Mahasiswa</strong>
-                                <p class="mt-1 mb-0">Buka file <strong>web.php</strong> yang berada pada<strong> routes/ </strong> lalu tambahkan routing berikut untuk mengatur URL CRUD mahasiswa.</p>
-                                <pre class="language-bash">Route::resource('mahasiswa', MahasiswaController::class);</pre>
-                                <figcaption class="text-muted small text-center pt-3">Routing CRUD Mahasiswa berhasil ditambahkan</figcaption>
-                                <img src="images/Screenshot 2026-05-27 164138.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                                <p class="mt-1 mb-0">Routing tersebut akan  otomatis mendaftarkan semua route CRUD sekaligus.</p>
+                        <div class="step-list-item justify-text small">
+                            <strong>6. Menambahkan Validasi pada TextFormField Email</strong>
+                            <p class="mt-1 mb-0">Kode TextFormField untuk input email diubah menjadi seperti gambar berikut:</p>
+                            <figcaption class="text-muted small text-center pt-3">Validasi TextFormField Email</figcaption>
+                            <img src="images/B/4444.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Pada field email, controller yang digunakan adalah _emailController. Validator pertama-tama memeriksa apakah email kosong. Jika kosong, program menampilkan pesan "Masukkan email anda". Selanjutnya, method contains('@') digunakan untuk memeriksa keberadaan karakter @ pada input email. Jika karakter tersebut tidak ditemukan, validator mengembalikan pesan "Email tidak valid".</p>
+                            <p class="mt-1 mb-0">Jika kedua pemeriksaan berhasil dilewati, validator mengembalikan null, sehingga input email dianggap valid oleh form.</p>
                         </div>
                         
-                        <div class="step-list-item justify-text small mb-5 ">
-                                <strong>Buat Blade Layout</strong>
-                                <p class="mt-1 mb-0">Buat file layout utama dengan nama <strong>mahasiswa.blade.php</strong> pada folder <strong>resources/views/layouts</strong> lalu sesuaikan dengan gambar berikut.</p>
-                                <figcaption class="text-muted small text-center pt-3">Isi File Layout mahasiswa.blade.php</figcaption>
-                                <img src="images/Screenshot 2026-05-27 164322.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                                <p class="mt-1 mb-0">Layout utama yang digunakan untuk semua view mahasiswa dengan menggunakan <strong>Bootstrap</strong> untuk styling.</p>
+                        <div class="step-list-item justify-text small">
+                            <strong>7. Menghubungkan Submit dengan Method _submitForm</strong>
+                            <p class="mt-1 mb-0">Selanjutnya, ElevatedButton dihubungkan dengan method _submitForm().</p>
+                            <figcaption class="text-muted small text-center pt-3">Menghubungkan Submit dengan Method _submitForm</figcaption>
+                            <img src="images/B/5555.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Properti onPressed sekarang tidak lagi kosong, tetapi berisi _submitForm. Artinya, ketika tombol Submit ditekan, Flutter akan menjalankan method tersebut. Method _submitForm() kemudian menjalankan validasi terhadap seluruh field melalui _formKey.currentState!.validate().</p>
                         </div>
 
+                        <div class="step-list-item justify-text small">
+                            <strong>8. Menjalankan Program</strong>
+                            <p class="mt-1 mb-0">Setelah seluruh kode selesai dibuat, program disimpan dan dijalankan. Pengguna dapat mencoba beberapa kondisi, seperti membiarkan nama kosong, membiarkan email kosong, atau memasukkan email tanpa karakter @. Flutter akan menampilkan pesan kesalahan sesuai validator yang telah dibuat.</p>
+                            <figcaption class="text-muted small text-center pt-3">Tampilan Saat Dibiarkan Kosong</figcaption>
+                            <img src="images/B/OB1.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Jika nama dan email telah diisi dengan benar dan email memiliki karakter @, validasi akan berhasil dan SnackBar akan menampilkan nama serta email yang dimasukkan pengguna. Kode lengkap dari form tersebut menggunakan Form, GlobalKey<FormState>, dua controller, dua TextFormField, validator, dan ElevatedButton yang memanggil _submitForm().</p>
+                            <figcaption class="text-muted small text-center pt-3">Tampilan Aplikasi Setelah Validasi</figcaption>
+                            <img src="images/B/OB2.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            </div>
 
-                        <div class="step-list-item justify-text small mb-5 ">
-                                <strong>Buat View CRUD Mahasiswa</strong>
-                                <p class="mt-1 mb-0"><strong>1.</strong> Buat file view untuk menampilkan data mahasiswa dengan nama <strong>index.blade.php</strong> pada folder <strong>resources/views/mahasiswa</strong> lalu sesuaikan dengan gambar berikut.</p>
-                                <figcaption class="text-muted small text-center pt-3">Isi File View index.blade.php</figcaption>
-                                <img src="images/Screenshot 2026-05-27 164312.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                                 <p class="mt-1 mb-0">Menampilkan data mahasiswa dalam bentuk tabel beserta tombol aksi untuk edit dan delete.</p>
+                        <div class="step-list-item justify-text small">
+                            <figcaption class="text-center pt-3">Kode Lengkap</figcaption>
+                            <img src="images/B/sadoe.B.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+                        
+                        
+                        
 
-                                <p class="mt-4 mb-0"><strong>2.</strong> Buat file view untuk form tambah data mahasiswa dengan nama <strong>create.blade.php</strong> pada folder <strong>resources/views/mahasiswa</strong> lalu sesuaikan dengan gambar berikut.</p>
-                                <figcaption class="text-muted small text-center pt-3">Isi File View create.blade.php</figcaption>
-                                <img src="images/Screenshot 2026-05-27 164246.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                                 <p class="mt-1 mb-0">Form untuk menambahkan data mahasiswa baru.</p>
+                <h4 class="fw-bold mb-3 pt-5" style="font-size: 1.15rem; color: var(--primary-color);">Latihan - Kalkulator</h4>
+                <p class="justify-text small mb-4">Berdasarkan instruksi modul, aplikasi kalkulator harus dapat menjalankan operasi kali, bagi, tambah, dan kurang (KABATAKU). Aplikasi menggunakan dua widget input untuk menerima nilai pertama dan nilai kedua, ElevatedButton untuk menjalankan operasi, serta widget Text untuk menampilkan hasil operasi.</p>
 
-                                <p class="mt-4 mb-0"><strong>3.</strong> Buat file view untuk form edit data mahasiswa dengan nama <strong>edit.blade.php</strong> pada folder <strong>resources/views/mahasiswa</strong> lalu sesuaikan dengan gambar berikut.</p>
-                                <figcaption class="text-muted small text-center pt-3">Isi File View edit.blade.php</figcaption>
-                                <img src="images/Screenshot 2026-05-27 164238.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                                 <p class="mt-1 mb-0">Form untuk mengedit data mahasiswa yang sudah ada.</p>
+                        <div class="step-list-item justify-text small">
+                            <strong>Import dan Menjalankan Aplikasi</strong>
+                            <img src="images/LA/aaa.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Kode import digunakan untuk mengimpor library Material Flutter. Fungsi main() merupakan titik awal aplikasi. Di dalamnya terdapat runApp(const MyApp()) yang menjalankan widget MyApp sebagai aplikasi utama.</p>
                         </div>
 
-                        <div class="step-list-item justify-text small mb-5 ">
-                                <strong>Tampilkan Hasil CRUD Mahasiswa</strong>
-                                <p class="mt-1 mb-0">Pastikan server Laravel sudah berjalan, lalu akses URL <strong>http://localhost:8000/mahasiswa</strong> di browser untuk  memastikan fitur CRUD berjalan dengan benar yaitu menampilkan data, menambah, mengedit, dan menghapus data mahasiswa.</p>
-                                <figcaption class="text-muted small text-center pt-3">Tampilan Halaman Daftar Mahasiswa</figcaption>
-                                <img src="images/Screenshot 2026-05-27 163933.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                                <p class="mt-1 mb-0">Halaman menampilkan daftar mahasiswa beserta tombol untuk menambah, mengedit, dan menghapus data mahasiswa.</p>
-
-                                <figcaption class="text-muted small text-center pt-3">Tampilan Halaman Form Tambah Mahasiswa</figcaption>
-                                <img src="images/Screenshot 2026-05-27 163950.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                                <p class="mt-1 mb-0">Halaman form untuk menambahkan data mahasiswa baru.</p>
-
-                                <figcaption class="text-muted small text-center pt-3">Berhasil Menambah Data Mahasiswa Baru</figcaption>
-                                <img src="images/Screenshot 2026-05-27 163955.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-
-
-                                <figcaption class="text-muted small text-center pt-3">Tampilan Halaman Form Edit Mahasiswa</figcaption>
-                                <img src="images/Screenshot 2026-05-27 164013.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);"> 
-
-
-                                <figcaption class="text-muted small text-center pt-3">Tampilan Alert saat Hapus Data Mahasiswa</figcaption>
-                                <img src="images/Screenshot 2026-05-27 172833.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-
+                        
+                        <div class="step-list-item justify-text small">
+                            <strong>Membuat Widget Utama</strong>
+                            <img src="images/LA/bbb.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Class MyApp menggunakan StatelessWidget karena bagian ini hanya berfungsi sebagai pembungkus utama aplikasi. MaterialApp digunakan sebagai root aplikasi Flutter. Properti debugShowCheckedModeBanner: false digunakan untuk menghilangkan tulisan debug pada pojok aplikasi. Properti home diarahkan ke CalculatorPage, yaitu halaman utama kalkulator.</p>
                         </div>
 
+                        <div class="step-list-item justify-text small">
+                            <strong>Membuat Halaman Kalkulator sebagai StatefulWidget</strong>
+                            <img src="images/LA/ccc.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">CalculatorPage menggunakan StatefulWidget karena hasil kalkulator akan berubah berdasarkan input dan operasi yang dipilih pengguna. State dari widget tersebut dikelola oleh _CalculatorPageState.</p>
+                        </div>
+                        
+                        <div class="step-list-item justify-text small">
+                            <strong>Membuat Controller dan Variabel Hasil</strong>
+                            <img src="images/LA/ddd.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Dua TextEditingController digunakan untuk mengambil nilai dari dua input angka. angka1 digunakan untuk input pertama, sedangkan angka2 digunakan untuk input kedua.</p>
+                            <p class="mt-1 mb-0">Variabel hasil bertipe double digunakan untuk menyimpan hasil perhitungan. Nilai awalnya adalah 0. Karena hasil akan berubah ketika operasi dilakukan, perubahan tersebut akan dikelola menggunakan setState().</p>
+                        </div>
 
+                        <div class="step-list-item justify-text small">
+                            <strong>Membuat Operasi Penjumlahan</strong>
+                            <img src="images/LA/eee.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Method tambah() digunakan untuk melakukan operasi penjumlahan. Nilai dari kedua TextField awalnya berbentuk String sehingga perlu dikonversi menjadi angka menggunakan double.parse(). Setelah kedua angka dijumlahkan, hasilnya disimpan ke variabel hasil.</p>
+                            <p class="mt-1 mb-0">setState() digunakan agar Flutter mengetahui bahwa nilai state telah berubah dan tampilan yang menggunakan nilai hasil perlu diperbarui.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>Membuat Operasi Pengurangan</strong>
+                            <img src="images/LA/fff.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Method kurang() memiliki mekanisme yang sama dengan penjumlahan, tetapi operator yang digunakan adalah -. Nilai dari input pertama dikurangi dengan nilai input kedua, kemudian hasilnya disimpan ke variabel hasil.</p>
+                        </div>
+                        
+                        <div class="step-list-item justify-text small">
+                            <strong>Membuat Operasi Perkalian</strong>
+                            <img src="images/LA/ggg.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Method kali() digunakan untuk melakukan operasi perkalian. Nilai kedua input dikonversi menjadi double, kemudian dikalikan menggunakan operator *. Hasil perhitungan disimpan ke variabel hasil.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>Membuat Operasi Pembagian</strong>
+                            <img src="images/LA/hhh.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Method bagi() digunakan untuk melakukan operasi pembagian. Nilai kedua input dikonversi menjadi double, kemudian dibagi menggunakan operator /. Hasil perhitungan disimpan ke variabel hasil.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>Membersihkan Controller</strong>
+                            <img src="images/LA/iii.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Method dispose() digunakan untuk membersihkan kedua TextEditingController ketika halaman tidak lagi digunakan. Hal ini dilakukan agar resource yang digunakan controller dapat dilepaskan dengan benar.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>Membuat Tampilan Input Kalkulator</strong>
+                            <img src="images/LA/jjj.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">TextField pertama digunakan untuk menerima angka pertama. Controller angka1 digunakan untuk mengambil nilainya. Properti keyboardType: TextInputType.number membuat input menggunakan jenis keyboard angka. InputDecoration memberikan label dan border pada field.</p>
+                            <p class="mt-1 mb-0">Input kedua dibuat dengan struktur yang sama:</p>
+                            <img src="images/LA/kkk.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Field tersebut menggunakan controller angka2 dan digunakan untuk menerima angka kedua.</p>
+                        
+                        </div>
+                        
+
+                        <div class="step-list-item justify-text small">
+                            <strong>Membuat Tombol Operasi</strong>
+                            <img src="images/LA/lll.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Row digunakan untuk menyusun empat tombol operasi secara horizontal. Tombol pertama memanggil method tambah(), tombol kedua memanggil kurang(), tombol ketiga memanggil kali(), dan tombol keempat memanggil bagi().</p>
+                            <p class="mt-1 mb-0">Dengan demikian, ElevatedButton berfungsi sebagai event listener yang menjalankan operasi sesuai tombol yang ditekan pengguna.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>Menampilkan Hasil</strong>
+                            <img src="images/LA/mmm.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Widget Text digunakan untuk menampilkan hasil perhitungan. Nilai $hasil merupakan string interpolation yang mengambil nilai dari variabel hasil. Ketika operasi dilakukan dan setState() dipanggil, widget Text akan diperbarui sehingga menampilkan hasil terbaru.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <figcaption class="text-center pt-3">Kode Lengkap</figcaption>
+                            <img src="images/LA/sadoeLA.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>Outputnya</strong>
+                            <img src="images/LA/OLA1.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Disini saya menjalanakan nya menggunakan Android Studio dan melakukan pengujian yaitu dengan memasukkan dua angka pada masing-masing field, kemudian menekan tombol operasi. Sebagai contoh, jika angka pertama adalah 10 dan angka kedua adalah 5, tombol + menghasilkan 15, tombol - menghasilkan 5, tombol × menghasilkan 50, dan tombol ÷ menghasilkan 2.</p>
+                            <img src="images/LA/OLA2.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <img src="images/LA/OLA3.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <img src="images/LA/OLA4.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <img src="images/LA/OLA5.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                             <p class="mt-1 mb-0">Dengan demikian, aplikasi telah memenuhi ketentuan latihan karena memiliki dua input, tombol ElevatedButton untuk menjalankan operasi, dan widget Text untuk menampilkan hasil.</p>
+                        </div>
+                        
+
+                <h4 class="fw-bold mb-3 pt-5" style="font-size: 1.15rem; color: var(--primary-color);">Latihan - Form Pendaftaran Pengguna</h4>
+                <p class="justify-text small mb-4">Latihan kelas B meminta mahasiswa membuat implementasi Basic Form Flutter berupa form pendaftaran pengguna. Form terdiri dari empat input, yaitu nama, email, password, dan confirm password, serta satu tombol submit. Modul juga menentukan bahwa aplikasi dibuat menggunakan dua file Dart, yaitu main.dart dan user_registration_form.dart. Validasi yang diwajibkan adalah email harus menggunakan format yang memiliki karakter @, sedangkan password dan confirm password harus memiliki nilai yang sama. Tombol submit harus memanggil method _submitForm().</p>
+
+                        <h3 class="fw-bold mb-3 pt-1">File main.dart</h3>
+
+                        <div class="step-list-item justify-text small mb-4">
+                            <strong>1. Import dan Menjalankan Aplikasi</strong>
+                            <img src="images/LB/aa.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Baris pertama mengimpor library Material Flutter. Baris kedua mengimpor file user_registration_form.dart, karena widget UserRegistrationForm dibuat pada file tersebut. Fungsi main() menjadi titik awal aplikasi dan menjalankan MyApp.</p>
+
+                            <strong>2. Membuat MyApp</strong>
+                            <img src="images/LB/bb.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-4">Class MyApp menggunakan StatelessWidget sebagai root aplikasi. MaterialApp digunakan untuk membangun struktur aplikasi Flutter. Properti home diarahkan langsung ke UserRegistrationForm, sehingga ketika aplikasi dijalankan, halaman form registrasi akan ditampilkan sebagai halaman utama.</p>  
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <figcaption class="text-center pt-3">Kode Lengkap</figcaption>
+                            <img src="images/LB/sadoeLB1.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>    
+                        
+                        <h3 class="fw-bold mb-3 pt-4">File user_registration_form.dart</h3>
+
+                        <div class="step-list-item justify-text small mb-4">
+
+                            <strong>1. Membuat StatefulWidget</strong>
+                            <img src="images/LB/11.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">File ini kembali mengimpor library Material Flutter karena menggunakan berbagai widget Flutter. UserRegistrationForm dibuat menggunakan StatefulWidget sesuai dengan ketentuan latihan. Penggunaan StatefulWidget diperlukan karena form memiliki state berupa input pengguna dan proses validasi yang dapat berubah selama aplikasi digunakan.</p>
+
+                            <strong>2. Membuat Form Key dan Controller</strong>
+                            <img src="images/LB/22.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-4">_formKey digunakan untuk mengakses state dari Form, khususnya ketika proses validasi dilakukan. Empat TextEditingController dibuat untuk masing-masing input.</p>
+                            <p class="mt-1 mb-4">_nama digunakan untuk mengambil input nama, _email untuk mengambil email, _password untuk mengambil password, dan _confirmPassword untuk mengambil konfirmasi password.</p>
+
+                            <strong>3. Membersihkan Controller</strong>
+                            <img src="images/LB/33.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-4">Method dispose() digunakan untuk membersihkan seluruh controller ketika widget sudah tidak digunakan. Setiap controller dipanggil dispose() agar resource yang digunakan dapat dilepaskan dengan benar.</p>  
+
+                            <strong>4. Membuat Method _submitForm</strong>
+                            <img src="images/LB/44.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-4">Method _submitForm() merupakan method yang dipanggil ketika pengguna menekan tombol Submit. Pertama, _formKey.currentState!.validate() menjalankan seluruh validator pada TextFormField.</p>
+                            <p class="mt-1 mb-4">Jika semua input memenuhi aturan validasi, kondisi if bernilai benar dan program menampilkan SnackBar dengan pesan "Registrasi Berhasil". Jika terdapat input yang tidak valid, proses tidak dilanjutkan dan pesan kesalahan dari validator akan ditampilkan pada field yang bersangkutan.</p>
+                            
+                            <strong>5. Membuat Scaffold dan AppBar</strong>
+                            <img src="images/LB/55.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-4">Scaffold digunakan sebagai struktur dasar halaman aplikasi. AppBar ditempatkan pada bagian atas halaman dan memiliki judul Form Registrasi.</p>  
+
+                            <strong>6. Membuat Form</strong>
+                            <img src="images/LB/66.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-4">Padding digunakan untuk memberikan jarak 20 pixel antara isi form dengan batas halaman. Widget Form digunakan sebagai wadah seluruh input sehingga validasi dapat dikelola secara terpusat. Properti key: _formKey menghubungkan Form dengan GlobalKey<FormState>.</p>  
+                            <p class="mt-1 mb-4">ListView digunakan untuk menempatkan seluruh input secara vertikal dan memungkinkan halaman dapat digulir apabila kontennya tidak muat pada layar.</p>
+
+                            <strong>7. Input Nama</strong>
+                            <img src="images/LB/77.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-4">TextFormField pertama digunakan untuk menerima nama pengguna. Controller _nama digunakan untuk mengambil nilai input. Validator memastikan bahwa field tidak kosong. Jika pengguna tidak mengisi nama, program menampilkan pesan "Nama harus diisi". Jika nama sudah diisi, validator mengembalikan null yang berarti input valid.</p>  
+
+                            <strong>8. Input Email</strong>
+                            <img src="images/LB/88.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-4">Field email menggunakan _email sebagai controller. Validator pertama memeriksa apakah email kosong. Jika kosong, muncul pesan "Email harus diisi".</p>  
+                            <p class="mt-1 mb-4">Selanjutnya digunakan value.contains("@") untuk memeriksa apakah input memiliki karakter @. Apabila karakter tersebut tidak ditemukan, program menampilkan "Format email tidak valid". Jika kedua kondisi tersebut terpenuhi, validator mengembalikan `null dan email dianggap valid.</p>
+
+                            <strong>9. Input Password</strong>
+                            <img src="images/LB/99.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-4">Field password menggunakan controller _password. Properti obscureText: true digunakan agar karakter password tidak ditampilkan secara langsung pada layar. Validator memastikan password tidak boleh kosong. Jika kosong, program menampilkan pesan "Password harus diisi".</p>  
+
+                            <strong>10. Input Confirm Password</strong>
+                            <img src="images/LB/10.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-4">Field Confirm Password digunakan untuk memasukkan kembali password. Controller yang digunakan adalah _confirmPassword, sedangkan obscureText: true digunakan agar password tetap tersembunyi.</p>
+                            <p class="mt-1 mb-4">Validator pertama memeriksa apakah confirm password kosong. Setelah itu, nilai confirm password dibandingkan dengan _password.text. Apabila keduanya berbeda, program menampilkan pesan "Password tidak sama". Jika keduanya sama, validator mengembalikan null dan input dianggap valid.</p>   
+
+                            <strong>11. Membuat Tombol Submit</strong>
+                            <img src="images/LB/100.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-4">SizedBox digunakan untuk membuat tombol memiliki lebar penuh dengan double.infinity. ElevatedButton digunakan sebagai tombol untuk mengirimkan form. Properti onPressed dihubungkan dengan _submitForm, sehingga ketika tombol ditekan, Flutter menjalankan proses validasi terhadap seluruh input.</p>  
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <figcaption class="text-center pt-3">Kode Lengkap</figcaption>
+                            <img src="images/LB/sadoeLB2.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-4">
+                            <strong>Outputnya</strong>
+                            <p class="mt-1 mb-0">Setelah seluruh kode selesai dibuat, program disimpan dan dijalankan (file main.dart). Disini saya menjalankan aplikasi menggunakan Android Studio.</p>
+                            <p class="mt-1 mb-4">Pengujian dilakukan dengan mencoba beberapa kondisi. Jika nama tidak diisi, akan muncul pesan "Nama harus diisi". Jika email kosong, akan muncul pesan "Email harus diisi", sedangkan email tanpa karakter @ akan menghasilkan pesan "Format email tidak valid". Password yang kosong akan menghasilkan pesan "Password harus diisi".</p> 
+                            <img src="images/LB/OLB1.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Pada bagian confirm password, program akan memeriksa apakah nilai yang dimasukkan sama dengan password sebelumnya. Jika berbeda, akan muncul pesan "Password tidak sama". Jika seluruh input telah memenuhi ketentuan, proses validasi berhasil dan aplikasi menampilkan SnackBar dengan pesan "Registrasi Berhasil".</p>
+                            <img src="images/LB/OLB2.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-4">Jika seluruh input telah memenuhi ketentuan, proses validasi berhasil dan aplikasi menampilkan SnackBar dengan pesan "Registrasi Berhasil".</p>
+                            <img src="images/LB/OLB3.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-4">Dengan implementasi tersebut, latihan ini telah memenuhi ketentuan modul, yaitu menggunakan dua file Dart, MaterialApp, UserRegistrationForm sebagai halaman utama, StatefulWidget, empat TextFormField, validasi email menggunakan karakter @, validasi kesamaan password dan confirm password, serta method _submitForm() yang dipanggil melalui tombol Submit.</p> 
+                        </div>
+                        
 
                 </section>
 
                 <section class="mt-5 pt-4 border-top border-dark">
                     <h2>E. Kesimpulan</h2>
                     <div class="justify-text small text-muted">
-                        <p>Berdasarkan praktikum yang telah dilakukan, dapat disimpulkan bahwa framework Laravel berhasil mendukung pengembangan aplikasi secara terstruktur melalui penerapan arsitektur MVC (Model-View-Controller). Migration dan Seeder mempermudah pengelolaan serta pengisian database secara konsisten tanpa perlu melakukan input manual melalui phpMyAdmin. Penggunaan Eloquent ORM mampu menyederhanakan proses interaksi dengan database menggunakan pendekatan berorientasi objek sehingga penulisan query menjadi lebih singkat, aman, dan mudah dipahami. Selain itu, Controller berfungsi sebagai penghubung antara Model dan View sehingga logika aplikasi dapat dipisahkan dengan rapi, sedangkan Blade Layout membantu mengurangi duplikasi kode melalui penggunaan template yang dapat digunakan kembali. Dengan dukungan Resource Controller dan Route, proses routing juga menjadi lebih efisien dan terstandarisasi. Seluruh komponen aplikasi berhasil terintegrasi dengan baik sehingga data dapat ditampilkan di browser sesuai kebutuhan.</p>
+                        <p>Berdasarkan praktikum yang telah dilaksanakan, dapat disimpulkan bahwa framework Flutter menyediakan berbagai widget dan komponen yang dapat digunakan untuk membangun antarmuka aplikasi secara terstruktur, interaktif, dan fungsional. Praktikum ini memberikan pemahaman mengenai penggunaan berbagai komponen input dan form, seperti TextField, TextFormField, TextEditingController, Form, dan GlobalKey<FormState>, serta komponen pendukung lainnya dalam mengelola dan memvalidasi data masukan pengguna. Melalui tahapan praktik dan latihan yang diberikan, mahasiswa dapat memahami bagaimana setiap widget digunakan, bagaimana data masukan pengguna dikelola dan divalidasi, serta bagaimana berbagai komponen tersebut dapat dikombinasikan untuk membangun aplikasi sesuai dengan kebutuhan fungsional. Secara keseluruhan, praktikum ini memberikan dasar yang sistematis dalam memahami pengembangan antarmuka aplikasi menggunakan Flutter, khususnya dalam penerapan widget, pengelolaan input, validasi data, dan interaksi pengguna.</p>
                     </div>
                 </section>
             </main>
         </article>
-        <div class="d-flex justify-content-center flex-wrap gap-2 mt-5"><a href="https://github.com/Lordyblade/webpro-project-IbrahimMousa-2411532010-B/tree/main/webpro-app-project" class="btn btn-secondary rounded-pill px-4 fw-bold link-hover" target="_blank">
+        <div class="d-flex justify-content-center flex-wrap gap-2 mt-5"><a href="https://github.com/Lordyblade/AppMobile2026_B_2411532010_IbrahimMousaDhani" class="btn btn-secondary rounded-pill px-4 fw-bold link-hover" target="_blank">
     <i class="bi bi-github me-2"></i> Link Github Project
   </a>
 </div>
