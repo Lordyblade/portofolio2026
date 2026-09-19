@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Praktikum 2: Pengenalan Widget dan Layouting</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/custom.css">
+    
+    <style>
+        :root {
+            --primary-color: #111827;
+            --text-color: #374151;
+            --muted-color: #6b7280;
+            --bg-color: #f3f4f6; 
+            --container-bg: #ffffff;
+            --border-color: #e5e7eb;
+            --border-dark: #d1d5db;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.75;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Container utama untuk membungkus seluruh dokumen */
+        .main-document-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: var(--container-bg);
+            padding: 60px 80px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border-radius: 8px;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 0; }
+            .main-document-wrapper { padding: 40px 20px; border-radius: 0; }
+        }
+
+        h1 { font-weight: 700; color: var(--primary-color); margin-bottom: 8px; letter-spacing: -0.02em; font-size: 2.2rem; }
+        h2 { font-weight: 600; font-size: 1.3rem; color: var(--primary-color); margin-top: 1px; margin-bottom: 25px; padding-bottom: 8px; border-bottom: 2px solid var(--primary-color); display: inline-block; }
+        h3 { font-weight: 600; font-size: 1.1rem; color: var(--primary-color); margin-top: 25px; }
+        
+        .justify-text { text-align: justify; text-justify: inter-word; }
+
+        /* --- PEMBATAS KOLOM --- */
+        .column-divider {
+            column-count: 2;
+            column-gap: 40px;
+            column-rule: 1px solid var(--border-dark); 
+        }
+
+        .col-bordered {
+            border-right: 1px solid var(--border-dark);
+        }
+
+        /* List Langkah-langkah  */
+        .step-list-item {
+            border-left: 3px solid var(--bs-secondary);
+            background-color: #f9fafb;
+            padding: 20px 25px;
+            border-radius: 0 6px 6px 0;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--bs-secondary);
+        }
+
+        @media (max-width: 768px) { 
+            .column-divider { column-count: 1; column-rule: none; } 
+            .col-bordered { border-right: none; border-bottom: 1px solid var(--border-dark); padding-bottom: 15px; margin-bottom: 15px; }
+        }
+
+        .metadata {
+            margin-bottom: 40px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        pre[class*="language-"] {
+            background: #ffffff !important;
+            border: 1px solid var(--border-color) !important;
+            padding: 1.2em !important;
+            border-radius: 6px !important;
+            margin-top: 15px !important;
+        }
+        .req-item {
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            color: var(--text-color);
+            background-color: var(--container-bg);
+            display: flex;
+            align-items: center;
+        }
+
+        .req-item span {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+    </style>
+</head>
+<body class="bg-ibraaa-gradient">
+
+    <nav class="navbar navbar-expand-md bg-white fixed-top ">
+      <div class="container">
+        <a class="navbar-brand fw-bold link-hover" href="index.html">IM</a>
+
+        <button 
+          class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="nav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link link-hover" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link link-hover" href="about.html">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link link-hover" href="portofolio.html">Portfolio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link link-hover" href="kontak.html">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link link-hover" href="laprak.html">Report</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mb-5 mt-5">
+        <article class="main-document-wrapper shadow">
+            <header class="metadata">
+                <div class="row align-items-center">
+                    <div class="col-md-7">
+                        <h6 class="text-uppercase text-muted mb-2" style="letter-spacing: 1.5px; font-size: 0.75rem; font-weight: 600;">Laporan Praktikum 2 - Aplikasi Mobile</h6>
+                        <h1>Pengenalan Widget dan Layouting</h1>
+                    </div>
+                    <div class="col-md-5 text-md-end mt-3 mt-md-0 text-muted" style="font-size: 0.85rem;">
+                        <span class="d-block text-dark fw-semibold">Ibrahim Mousa Dhani</span>
+                        <span>2411532010</span><br>
+                        <span>IF - Universitas Andalas</span>
+                    </div>
+                </div>
+            </header>
+
+            <main>
+                <section>
+                    <h2>A. Pendahuluan</h2>
+                    <div class="column justify-text small">
+                       <p><strong>Pengenalan Widget</strong><br>
+                       Untuk merancang aplikasi yang fungsional, widget diklasifikasikan menjadi dua jenis utama berdasarkan sifat datanya, yaitu Stateless Widget dan Stateful Widget. Stateless Widget adalah komponen statis yang tampilannya tidak pernah berubah setelah pertama kali dibangun (dirender) di layar. Karena tidak memiliki data internal yang berubah (State), widget ini bekerja lebih ringan dan cepat. Penggunaannya sangat cocok untuk elemen-elemen tetap seperti label teks, ikon, atau gambar statis. Di sisi lain, Stateful Widget merupakan komponen dinamis yang tampilannya dapat berubah-ubah sebagai respons terhadap interaksi pengguna atau adanya pembaruan data. Widget ini mampu menyimpan objek data internal dan akan memperbarui antarmuka pengguna secara otomatis ketika fungsi setState() dipanggil. Komponen seperti form input, checkbox, dan elemen animasi umumnya diimplementasikan menggunakan Stateful Widget.</p>
+                        
+                       <p><strong>Layouting dan Styling</strong><br>
+                       Setelah memahami sifat komponen dasar, penyusunan widget di dalam layar memerlukan pemahaman tentang layouting dan styling. Flutter menyediakan berbagai widget tata letak, seperti Row yang merupakan widget untuk menyusun elemen secara menyamping (dari kiri ke kanan), serta Column yang merupakan widget untuk menyusun elemen secara menurun (dari atas ke bawah). Untuk membungkus komponen-komponen tersebut, digunakan Container, yaitu widget berbentuk kotak yang memungkinkan pengembang untuk mengatur margin, padding, dan batas (pembatas kotak). </p>
+
+                       <p><strong>List Tile</strong><br>
+                       Selanjutnya, untuk mempermudah pembuatan elemen antarmuka berupa baris daftar, Flutter menyediakan widget bawaan dari Material Design yang disebut ListTile. ListTile secara instan menyusun elemen daftar dengan rapi dan terbagi menjadi tiga bagian utama: Leading yang berada di sisi paling kiri (biasanya diisi ikon atau avatar), Title yang merupakan area untuk teks judul utama, serta Trailing yang menempati posisi paling kanan dan sering dimanfaatkan untuk menampilkan angka nominal atau tombol aksi. Keseluruhan komponen layouting dan pengenalan state inilah yang menjadi fondasi dasar dalam merancang aplikasi interaktif menggunakan Flutter.</p>
+
+                </section>
+
+
+                <section class="mt-5">
+                    <h2>B. Tujuan Praktikum</h2>
+                    <div class="justify-text small text-muted">
+                        <p class="mb-2">Adapun tujuan dari pelaksanaan praktikum ini adalah sebagai berikut:: </p>
+                        <ul class="ps-3 mb-0">
+                            <li class="mb-1">Memahami kerangka dasar dalam pembuatan aplikasi Flutter, meliputi penggunaan MaterialApp dan Scaffold.</li>
+                            <li class="mb-1">Membedakan konsep serta penggunaan antara komponen Stateless Widget dan Stateful Widget.</li>
+                            <li class="mb-1">Menerapkan fungsi setState() untuk menghasilkan antarmuka pengguna (UI) yang interaktif.</li>
+                            <li class="mb-1">Menerapkan penggunaan widget Row untuk menyusun deretan tombol aksi secara menyamping.</li>
+                            <li class="mb-1">Menerapkan penggunaan widget Column untuk menyusun antarmuka berupa daftar transaksi secara menurun.</li>
+                            <li class="mb-1">Mengatur dan menerapkan padding, margin, serta pewarnaan pada widget Container.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="mt-5">
+                    <h2>C. Alat</h2>
+                    <div class="justify-text small text-muted">
+                        <p class="mb-2">Perangkat dan dependensi yang digunakan selama praktikum:</p>
+                        <ul class="ps-3 mb-0">
+                            <li class="mb-1">Flutter SDK</li>
+                            <li class="mb-1">Code Editor : VS Code atau Android Studio. </li>
+                            <li class="mb-1">Emulator / Device</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="mt-5">
+                    <h2>D. Langkah-langkah Praktikum</h2>
+
+                    <div>
+                    <h4 class="fw-bold mb-3 pt-3" style="font-size: 1.15rem; color: var(--primary-color);">Modul 1</h4>
+                   </div>
+        
+                        <div class="step-list-item justify-text small">
+                            <strong>1. Membuat Project Flutter</strong>
+                            <p class="mt-1 mb-0">Praktikum diawali dengan membuat project baru menggunakan Flutter. Project dapat dibuat melalui VS Code atau Android Studio dengan memastikan Flutter SDK telah terpasang dan perangkat emulator atau device tersedia. Setelah project berhasil dibuat, file utama aplikasi yang digunakan dalam praktikum berada pada lib/main.dart. File tersebut menjadi titik awal untuk menjalankan aplikasi Flutter. Struktur dasar project Flutter digunakan untuk memisahkan kode aplikasi, konfigurasi, serta resource yang dibutuhkan. Pada praktikum ini, seluruh implementasi widget dibuat pada file main.dart agar konsep StatelessWidget, StatefulWidget, dan setState() dapat dipelajari secara langsung.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>2. Mengimpor Library Flutter</strong>
+                            <p class="mt-1 mb-0">Langkah pertama pada kode adalah mengimpor library material.dart.</p>
+                            <figcaption class="text-muted small text-center pt-3">Mengimpor Library</figcaption>
+                            <img src="images/ss prak2/M1/1.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Kode tersebut digunakan untuk mengakses berbagai komponen dan fungsi Flutter berbasis Material Design. Dengan mengimpor material.dart, program dapat menggunakan widget seperti MaterialApp, Scaffold, AppBar, Text, Card, Column, Row, IconButton, dan CircleAvatar yang digunakan dalam praktikum.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>3. Menjalankan Aplikasi</strong>
+                            <p class="mt-1 mb-0">Setelah library diimpor, aplikasi dijalankan melalui fungsi main().</p>
+                            <figcaption class="text-muted small text-center pt-3">Menjalankan Aplikasi</figcaption>
+                            <img src="images/ss prak2/M1/2.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Fungsi main() merupakan titik awal eksekusi program Flutter. Di dalamnya terdapat runApp() yang berfungsi menjalankan widget utama aplikasi. Pada kode tersebut, MyApp() digunakan sebagai widget utama dan dibuat dengan const karena widget tersebut tidak memiliki perubahan state secara langsung.</p>
+                            <p class="mt-1 mb-0">Method dispose() digunakan untuk membersihkan controller ketika widget sudah tidak digunakan. Pemanggilan _textEditingController.dispose() bertujuan untuk melepaskan resource yang digunakan oleh controller, kemudian super.dispose() menjalankan proses pembersihan dari parent class.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-5 ">
+                            <strong>4. Membuat Widget Utama dengan StatelessWidget</strong>
+                            <figcaption class="text-muted small text-center pt-3">Membuat Widget Utama</figcaption>
+                            <img src="images/ss prak2/M1/3.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">MyApp merupakan widget yang bersifat statis sehingga menggunakan StatelessWidget. Method build() digunakan untuk menentukan tampilan yang akan dibangun oleh Flutter. MaterialApp berfungsi sebagai struktur dasar aplikasi berbasis Material Design. Properti debugShowCheckedModeBanner: false digunakan untuk menghilangkan tulisan DEBUG pada pojok aplikasi, sedangkan title memberikan nama aplikasi. Bagian theme menentukan tema utama aplikasi, sementara home menentukan halaman pertama yang ditampilkan, yaitu DashboardScreen.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-5 ">
+                            <strong>5. Membuat Halaman Utama dengan Scaffold</strong>
+                            <p class="mt-1 mb-0">Setelah widget utama dibuat, halaman utama aplikasi didefinisikan menggunakan Scaffold.</p>
+                            <figcaption class="text-muted small text-center pt-3">Membuat Halaman Utama</figcaption>
+                            <img src="images/ss prak2/M1/4.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">DashboardScreen juga menggunakan StatelessWidget karena halaman tersebut tidak menyimpan perubahan state secara langsung. Scaffold menyediakan struktur dasar halaman, seperti AppBar dan body. Pada bagian AppBar, ditampilkan judul "Praktikum 1: Widgets" dengan warna biru.</p>
+                            <p class="mt-1 mb-0">Bagian body menggunakan Padding untuk memberikan jarak antara isi aplikasi dengan tepi layar. Di dalamnya terdapat Column yang menyusun widget secara vertikal. GreetingWidget() digunakan untuk menampilkan sapaan pengguna, sedangkan SizedBox memberikan jarak vertikal sebesar 20 pixel sebelum BalanceCardWidget() ditampilkan.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-5 ">
+                            <strong>6. Membuat GreetingWidget sebagai StatelessWidget</strong>
+                            <p class="mt-1 mb-0">Setelah widget utama dibuat, halaman utama aplikasi didefinisikan menggunakan Scaffold.</p>
+                            <figcaption class="text-muted small text-center pt-3">GreetingWidget</figcaption>
+                            <img src="images/ss prak2/M1/5.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">GreetingWidget digunakan untuk menampilkan informasi sapaan yang bersifat statis. Row digunakan untuk menyusun elemen secara horizontal, yaitu avatar dan teks. CircleAvatar digunakan sebagai ikon profil, sedangkan SizedBox memberikan jarak antara avatar dan teks.</p>
+                            <p class="mt-1 mb-0">Teks sapaan disusun menggunakan Column agar dua teks dapat ditampilkan secara vertikal. Teks pertama menampilkan "Halo, Budi" dengan ukuran lebih besar dan tebal, sedangkan teks kedua menampilkan "Selamat datang kembali!" dengan ukuran lebih kecil dan warna abu-abu. Karena informasi tersebut tidak berubah selama aplikasi berjalan, widget ini sesuai dibuat menggunakan StatelessWidget.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-5 ">
+                            <strong>7. Membuat BalanceCardWidget sebagai StatefulWidget</strong>
+                            <p class="mt-1 mb-0">Berbeda dengan widget sapaan, kartu saldo harus dapat merespons interaksi pengguna ketika ikon mata ditekan. Oleh karena itu, kartu saldo dibuat menggunakan StatefulWidget.</p>
+                            <figcaption class="text-muted small text-center pt-3">BalanceCardWidget</figcaption>
+                            <img src="images/ss prak2/M1/6.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">BalanceCardWidget menggunakan StatefulWidget karena tampilannya dapat berubah berdasarkan kondisi tertentu. Method createState() digunakan untuk membuat objek state yang akan mengatur perubahan pada widget tersebut. Pada praktikum ini, perubahan terjadi ketika pengguna menekan tombol mata untuk menampilkan atau menyembunyikan nominal saldo.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-5 ">
+                            <strong>8. Membuat dan Menyimpan State</strong>
+                            <p class="mt-1 mb-0">State dari kartu saldo didefinisikan pada _BalanceCardWidgetState.</p>
+                            <figcaption class="text-muted small text-center pt-3">Membuat dan Menyimpan State</figcaption>
+                            <img src="images/ss prak2/M1/7.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Variabel _isBalanceVisible digunakan untuk menyimpan kondisi apakah saldo sedang ditampilkan atau disembunyikan. Tipe datanya adalah bool, sehingga hanya memiliki dua kemungkinan nilai, yaitu true dan false.</p>
+                            <p class="mt-1 mb-0">Nilai awalnya adalah true, sehingga ketika aplikasi pertama kali dijalankan, nominal saldo akan terlihat. Variabel ini merupakan state karena nilainya dapat berubah akibat interaksi pengguna.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-5 ">
+                            <strong>9. Membuat Fungsi untuk Mengubah State</strong>
+                            <p class="mt-1 mb-0">Perubahan nilai state dilakukan melalui fungsi _toggleVisibility().</p>
+                            <figcaption class="text-muted small text-center pt-3">Membuat Fungsi untuk Mengubah State</figcaption>
+                            <img src="images/ss prak2/M1/8.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Fungsi tersebut menggunakan setState() untuk memberi tahu Flutter bahwa terdapat perubahan data yang memengaruhi tampilan. Operator ! digunakan untuk membalik nilai boolean. Jika _isBalanceVisible bernilai true, nilainya akan berubah menjadi false, begitu juga sebaliknya.</p>
+                            <p class="mt-1 mb-0">Dengan adanya setState(), Flutter akan membangun kembali bagian UI yang berkaitan dengan state tersebut sehingga tampilan saldo dapat berubah secara langsung setelah tombol ditekan.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-5 ">
+                            <strong>10. Membuat Tampilan Kartu Saldo</strong>
+                            <p class="mt-1 mb-0">Tampilan kartu saldo dibuat menggunakan Card.</p>
+                            <figcaption class="text-muted small text-center pt-3">Membuat Tampilan Kartu Saldo dengan Card</figcaption>
+                            <img src="images/ss prak2/M1/9.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Card digunakan sebagai wadah informasi saldo. Properti elevation memberikan efek bayangan sehingga kartu terlihat lebih menonjol. RoundedRectangleBorder dengan BorderRadius.circular(16) digunakan untuk membuat sudut kartu menjadi melengkung. Warna awal kartu adalah Colors.blueAccent.</p>
+                            <p class="mt-1 mb-0">Padding memberikan ruang di bagian dalam kartu agar isi tidak terlalu dekat dengan batas kartu. Kemudian Column digunakan untuk menyusun elemen kartu secara vertikal.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-5 ">
+                            <strong>11. Membuat Baris Judul dan Tombol Mata</strong>
+                            <figcaption class="text-muted small text-center pt-3">Membuat Baris Judul dengan Row dan Tombol Mata</figcaption>
+                            <img src="images/ss prak2/M1/10.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Row digunakan agar teks "Saldo Utama" dan tombol mata berada pada satu baris. MainAxisAlignment.spaceBetween membuat kedua elemen berada di sisi yang berlawanan. IconButton digunakan sebagai tombol yang dapat ditekan pengguna.</p>
+                            <p class="mt-1 mb-0">Icon yang digunakan bergantung pada nilai _isBalanceVisible. Jika bernilai true, icon yang ditampilkan adalah Icons.visibility, sedangkan jika bernilai false, icon berubah menjadi Icons.visibility_off. Ketika tombol ditekan, fungsi _toggleVisibility dijalankan untuk mengubah state.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-5 ">
+                            <strong>12. Menampilkan Nominal Saldo</strong>
+                            <p class="mt-1 mb-0">Nominal saldo ditampilkan menggunakan widget Text.</p>
+                            <figcaption class="text-muted small text-center pt-3">Menampilkan Nominal Saldo dengan Text</figcaption>
+                            <img src="images/ss prak2/M1/11.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">SizedBox memberikan jarak antara bagian judul kartu dan nominal saldo. Selanjutnya, Text menampilkan nominal saldo berdasarkan nilai _isBalanceVisible.</p>
+                            <p class="mt-1 mb-0">ada bagian ini digunakan ternary operator untuk membuat kondisi sederhana. Jika _isBalanceVisible bernilai true, aplikasi menampilkan Rp 5.000.000. Jika bernilai false, aplikasi menampilkan **Rp ***********. Dengan demikian, pengguna dapat menyembunyikan atau menampilkan nominal saldo menggunakan tombol mata.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-5 ">
+                            <strong>13. Menjalankan Program</strong>
+                            <p class="mt-1 mb-0">Setelah seluruh kode ditulis, aplikasi dijalankan menggunakan browser. Ketika aplikasi berhasil dijalankan, halaman utama menampilkan AppBar, sapaan pengguna, dan kartu saldo.</p>
+                            <figcaption class="text-muted small text-center pt-3">Contoh Outputnya</figcaption>
+                            <img src="images/ss prak2/M1/Hasil1.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Pada kondisi awal, nominal saldo ditampilkan karena _isBalanceVisible memiliki nilai true. Ketika ikon mata ditekan, _toggleVisibility() akan dipanggil. Fungsi tersebut mengubah nilai state dan Flutter melakukan render ulang sehingga nominal berubah menjadi bentuk tersensor. Ketika tombol ditekan kembali, saldo akan ditampilkan lagi.</p>
+                            <p class="mt-1 mb-0">Hasil tersebut menunjukkan penerapan StatelessWidget pada komponen yang bersifat statis dan StatefulWidget pada komponen yang membutuhkan perubahan tampilan.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <figcaption class="text-center pt-3">Kode Lengkap</figcaption>
+                            <img src="images/ss prak2/M1/All1.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+                    
+
+                    <div class="mt-4">
+                    <h4 class="fw-bold mb-3 pt-3" style="font-size: 1.15rem; color: var(--primary-color);">Modul 2</h4>
+                    <p class="mt-1 mb-0">Melanjutkan dari Modul 1, dan masih di file main.dart</p>
+                   </div>
+                        
+                        <div class="step-list-item justify-text small">
+                            <strong>1. Menyiapkan Project dan File main.dart</strong>
+                            <p class="mt-1 mb-0">Modul 2 merupakan lanjutan dari Modul 1. Project Flutter yang telah dibuat pada Modul I tetap digunakan, kemudian kode pada lib/main.dart diperbarui untuk menambahkan komponen layout dan styling baru. Pada modul ini, komponen dari Modul I seperti GreetingWidget dan BalanceCardWidget tetap digunakan, kemudian ditambahkan widget tombol aksi dan daftar transaksi.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>2. Membuat Halaman Utama dengan Scaffold</strong>
+                            <p class="mt-1 mb-0">Dikarenakan file yang digunakan masih sama dengan modul 1 yaitu main.dart, kita fokus ke perubahan yang dilakukan. Langsung saja lompat ke membuat halaman utama menggunakan widget Scaffold.</p>
+                            <p class="mt-1 mb-0">Pada Modul II, halaman utama diperbarui dengan menambahkan SingleChildScrollView.</p>
+                            <figcaption class="text-muted small text-center pt-3">Membuat Halaman Utama</figcaption>
+                            <img src="images/ss prak2/M2/11.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Scaffold digunakan sebagai struktur utama halaman. Pada AppBar, judul diubah menjadi "Praktikum 2: Layouting". Bagian body menggunakan SingleChildScrollView agar seluruh isi halaman dapat digulir ketika jumlah konten melebihi tinggi layar. Hal ini penting karena Modul II menambahkan tombol aksi dan beberapa transaksi sehingga konten menjadi lebih panjang dibandingkan Modul I.</p>
+                            <p class="mt-1 mb-0">Di dalam SingleChildScrollView terdapat Padding dengan nilai 16.0 untuk memberikan jarak dari tepi layar. Selanjutnya digunakan Column untuk menyusun seluruh komponen secara vertikal. Komponen yang digunakan adalah GreetingWidget dan BalanceCardWidget dari Modul I, kemudian ActionButtonsWidget dan RecentTransactionsWidget sebagai komponen baru dari Modul II. Modul secara khusus menginstruksikan agar komponen Modul I dan Modul II digabungkan dan dibungkus dengan SingleChildScrollView untuk mencegah overflow ketika daftar transaksi bertambah panjang.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>3. Menggunakan Kembali GreetingWidget</strong>
+                            <p class="mt-1 mb-0">Widget sapaan dari Modul I tetap digunakan pada Modul II.</p>
+                            <figcaption class="text-muted small text-center pt-3">GreetingWidget</figcaption>
+                            <img src="images/ss prak2/M2/22.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">GreetingWidget masih menggunakan StatelessWidget karena isi sapaan bersifat statis. Row digunakan untuk menyusun ikon profil dan teks secara horizontal, sedangkan Column digunakan untuk menumpuk teks sapaan dan teks sambutan secara vertikal. Widget ini menjadi salah satu komponen yang digunakan kembali dari Modul I pada dashboard Modul II.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>4. Menggunakan Kembali BalanceCardWidget</strong>
+                            <p class="mt-1 mb-0">Widget kartu saldo dari Modul I juga tetap digunakan pada Modul II.</p>
+                            <figcaption class="text-muted small text-center pt-3">BalanceCardWidget</figcaption>
+                            <img src="images/ss prak2/M2/33.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">BalanceCardWidget tetap menggunakan StatefulWidget karena nominal saldo dapat berubah antara kondisi terlihat dan tersensor. Variabel _isBalanceVisible menyimpan kondisi saldo, sedangkan _toggleVisibility() menggunakan setState() untuk mengubah kondisi tersebut. Dengan demikian, fitur interaktif dari Modul I tetap dapat digunakan pada dashboard Modul II. Struktur kartu menggunakan Card, Padding, Column, dan Row untuk mengatur tampilan elemen di dalam kartu.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>5. Membuat Widget Tombol Aksi dengan Row</strong>
+                            <p class="mt-1 mb-0">Komponen baru pertama pada Modul II adalah ActionButtonsWidget.</p>
+                            <figcaption class="text-muted small text-center pt-3">ActionButtonsWidget</figcaption>
+                            <img src="images/ss prak2/M2/44.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">ActionButtonsWidget menggunakan Row untuk menyusun tiga tombol secara horizontal, yaitu Pemasukan, Pengeluaran, dan Transfer. Properti mainAxisAlignment diatur menggunakan spaceEvenly sehingga ruang kosong di antara dan di sekitar tombol dibagi secara merata.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>6. Membuat Fungsi Pembantu _buildActionButton</strong>
+                            <p class="mt-1 mb-0">Agar kode tidak perlu ditulis berulang kali untuk setiap tombol, digunakan fungsi pembantu _buildActionButton().</p>
+                            <figcaption class="text-muted small text-center pt-3">_buildActionButton()</figcaption>
+                            <img src="images/ss prak2/M2/55.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Fungsi _buildActionButton() menerima tiga parameter, yaitu icon untuk menentukan ikon, label untuk menentukan teks tombol, dan color untuk menentukan warna. Fungsi ini menghasilkan Column yang berisi Container dan teks label.Fungsi _buildActionButton() menerima tiga parameter, yaitu icon untuk menentukan ikon, label untuk menentukan teks tombol, dan color untuk menentukan warna. Fungsi ini menghasilkan Column yang berisi Container dan teks label.</p>
+                            <p class="mt-1 mb-0">Container digunakan untuk membungkus ikon sekaligus mengatur tampilan latar belakangnya. Properti padding memberikan ruang di sekitar ikon, sedangkan BoxDecoration digunakan untuk memberikan warna latar belakang transparan dan sudut yang melengkung. color.withOpacity(0.2) membuat warna background menjadi lebih transparan dibandingkan warna ikon.</p>
+                        </div>
+                        
+                        <div class="step-list-item justify-text small">
+                            <strong>7. Membuat Widget Daftar Transaksi</strong>
+                            <p class="mt-1 mb-0">Komponen baru berikutnya adalah RecentTransactionsWidget.</p>
+                            <figcaption class="text-muted small text-center pt-3">RecentTransactionsWidget</figcaption>
+                            <img src="images/ss prak2/M2/66.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Widget ini menggunakan Column karena transaksi disusun secara vertikal. Bagian awal widget menampilkan judul "Transaksi Terakhir", kemudian diberikan jarak menggunakan SizedBox.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>8. Membuat Card untuk Daftar Transaksi</strong>
+                            <p class="mt-1 mb-0">Daftar transaksi dibungkus menggunakan Card.</p>
+                            <figcaption class="text-muted small text-center pt-3">Card untuk Daftar Transaksi</figcaption>
+                            <img src="images/ss prak2/M2/77.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Card digunakan sebagai wadah agar seluruh daftar transaksi terlihat seperti satu kelompok. elevation: 2 memberikan efek bayangan, sedangkan RoundedRectangleBorder membuat sudut kartu menjadi melengkung. Di dalam Card terdapat Column yang digunakan untuk menempatkan beberapa ListTile secara vertikal.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>9. Membuat Transaksi Pertama dengan ListTile</strong>
+                            <p class="mt-1 mb-0">Transaksi pertama adalah Makan Siang.</p>
+                            <figcaption class="text-muted small text-center pt-3">Transaksi Pertama</figcaption>
+                            <img src="images/ss prak2/M2/88.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">ListTile digunakan untuk membuat satu baris transaksi dengan struktur yang rapi. Bagian leading berisi ikon yang ditempatkan di sebelah kiri, title berisi nama transaksi, subtitle berisi tanggal transaksi, sedangkan trailing berisi nominal transaksi di sebelah kanan. Lalu ditambahkan Garis Pemisah antara transaksi pertama dan transaksi berikutnya.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>10. Membuat Transaksi Kedua</strong>
+                            <p class="mt-1 mb-0">Transaksi kedua adalah Gaji Bulanan.</p>
+                            <figcaption class="text-muted small text-center pt-3">Transaksi Kedua</figcaption>
+                            <img src="images/ss prak2/M2/99.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Struktur transaksi kedua sama dengan transaksi pertama, tetapi digunakan untuk merepresentasikan pemasukan. Ikon menggunakan Icons.attach_money, sedangkan nominal diawali tanda +. Hal tersebut membuat jenis transaksi dapat dibedakan secara visual.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>11. Membuat Transaksi Ketiga</strong>
+                            <p class="mt-1 mb-0">Transaksi ketiga adalah Isi Bensin.</p>
+                            <figcaption class="text-muted small text-center pt-3">Transaksi Ketiga</figcaption>
+                            <img src="images/ss prak2/M2/100.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Transaksi ketiga juga menggunakan ListTile. Ikon Icons.directions_car digunakan untuk menggambarkan transaksi pengisian bahan bakar. Nominal menggunakan tanda minus karena termasuk transaksi pengeluaran.</p>
+                        </div>
+
+
+                        <div class="step-list-item justify-text small">
+                            <strong>12. Menjalankan Program</strong>
+                            <p class="mt-1 mb-0">Setelah seluruh widget selesai dibuat, aplikasi dijalankan menggunakan emulator atau device. Dashboard akan menampilkan komponen dari Modul I dan Modul II secara berurutan, yaitu sapaan pengguna, kartu saldo, tombol aksi, dan daftar transaksi.</p>
+                            <figcaption class="text-muted small text-center pt-3">Tampilan Akhir</figcaption>
+                            <img src="images/ss prak2/M2/HASIL2.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Pada bagian tombol aksi, tiga tombol ditampilkan secara horizontal menggunakan Row. Selanjutnya daftar transaksi ditampilkan secara vertikal menggunakan Column dan beberapa ListTile. Karena seluruh konten dibungkus SingleChildScrollView, halaman dapat digulir apabila konten tidak seluruhnya muat pada layar. Hasil akhir praktikum berupa mockup dashboard yang menggabungkan konsep layouting dan styling dari Modul II dengan komponen Modul I.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <figcaption class="text-center pt-3">Kode Lengkap</figcaption>
+                            <img src="images/ss prak2/M2/ALL2.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+                        
+                        
+                        
+
+                <h4 class="fw-bold mb-3 pt-5" style="font-size: 1.15rem; color: var(--primary-color);">Latihan - Modul 1</h4>
+                <p class="justify-text small mb-4">Ada dua latihan, yaitu mengubah warna BalanceCard dari biru menjadi hijau emerald menggunakan Colors.teal, serta menambahkan teks "No. Rekening: 1234-5678" di bawah nominal saldo.</p>
+                <p class="justify-text small mb-4"><strong>Latihan 1: Styling</strong> Mengubah warna BalanceCard dari biru menjadi hijau emerald menggunakan Colors.teal.</p>
+                          
+                        <div class="step-list-item justify-text small">
+                            <strong class="mt-1">Kode sebelum perubahan</strong>
+                            <p class="mt-1 mb-0">Pada kode awal, warna kartu saldo ditentukan oleh: <strong>color: Colors.blueAccent,</strong></p>
+                            <img src="images/ss prak2/M1/LM1/11.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-1">Kode tersebut membuat latar belakang BalanceCardWidget menggunakan warna biru blueAccent.</p>
+
+                            <strong class="mt-1">Kode setelah perubahan</strong>
+                            <p class="mt-1 mb-0">Sesuai instruksi latihan, warna kartu saldo ditentukan oleh: <strong>color: Colors.teal,</strong></p>
+                            <img src="images/ss prak2/M1/LM1/22.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-4">Kode tersebut membuat latar belakang BalanceCardWidget menggunakan warna hijau emerald.</p>
+
+                            <p><strong class="mt-1">Hasil perubahan</strong></p>
+                            <p class="mt-1 mb-0">Setelah kode diubah, aplikasi dijalankan dan tampilan kartu saldo berubah dari biru menjadi hijau emerald.</p>
+                            <img src="images/ss prak2/M1/LM1/33.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+                
+                 <p class="justify-text small mb-4"><strong>Latihan 2: Modifikasi UI</strong> Menambahkan teks "No. Rekening: 1234-5678" di bawah nominal saldo.</p>
+                        
+                        <div class="step-list-item justify-text small">
+                            <p class="mt-1 mb-1">Pada latihan kedua, ditambahkan teks statis "No. Rekening: 1234-5678" di bagian bawah nominal saldo. Karena teks tersebut bersifat statis, tidak diperlukan state baru untuk menampilkannya.</p>
+                            <strong class="mt-1">Kode sebelum perubahan</strong>
+                            <p class="mt-1 mb-0">Bagian akhir kartu pada kode awal adalah:</p>
+                            <img src="images/ss prak2/M1/LM1/44.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-1">Kode tersebut hanya menampilkan nominal saldo berdasarkan kondisi _isBalanceVisible.</p>
+
+                            <strong class="mt-1">Menambahkan teks nomor rekening</strong>
+                            <p class="mt-1 mb-0">Menambahkan widget Text, lalu agar nomor rekening tidak terlalu dekat dengan nominal saldo, ditambahkan SizedBox.</p>
+                            <img src="images/ss prak2/M1/LM1/55.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Kode tersebut menghasilkan teks statis "No. Rekening: 1234-5678". Kata kunci const digunakan karena isi teks dan tampilannya tidak berubah selama aplikasi berjalan. Ukuran font dibuat lebih kecil dibandingkan nominal saldo agar hierarki informasi tetap jelas, sedangkan Colors.white70 digunakan agar teks terlihat lebih ringan.</p> 
+                            <p class="mt-1 mb-4">Lalu SizedBox ditambahkan untuk memberikan jarak antara teks nomor rekening dan nominal saldo.</p>
+
+                            <p><strong class="mt-1">Hasil perubahan</strong></p>
+                            <p class="mt-1 mb-0">Setelah modifikasi, kartu saldo akan menampilkan nominal saldo dan nomor rekening pada bagian bawahnya. Nominal saldo tetap dapat ditampilkan atau disembunyikan menggunakan tombol mata, sedangkan nomor rekening akan tetap terlihat karena merupakan informasi statis.</p>
+                            <img src="images/ss prak2/M1/LM1/66.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+
+
+                <h4 class="fw-bold mb-3 pt-5" style="font-size: 1.15rem; color: var(--primary-color);">Latihan - Modul 2</h4>
+                <p class="justify-text small mb-4"><strong>Latihan 1: Styling</strong> Pada widget Daftar Transaksi (ListTile), ubah warna trailing text pengeluaran menjadi merah dan text pemasukan menjadi hijau. </p>
+                          
+                        <div class="step-list-item justify-text small">
+                            <strong class="mt-1">Untuk Bagian Pengeluaran</strong>
+                            <p class="mt-1 mb-0">Untuk transaksi pengeluaran seperti Makan Siang, kode trailing menggunakan warna merah.</p>
+                            <img src="images/ss prak2/M2/LM2/111.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Properti trailing digunakan untuk menampilkan nominal pada sisi kanan ListTile. Karena transaksi merupakan pengeluaran, nominal diberi tanda minus dan warna merah. fontWeight: FontWeight.bold digunakan agar nominal lebih mudah terlihat.</p>
+                            <p class="mt-1 mb-0">Hal yang sama diterapkan pada transaksi Isi Bensin:</p>
+                            <img src="images/ss prak2/M2/LM2/222.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+
+                            <strong class="mt-1">Untuk Bagian Pemasukan</strong>
+                            <p class="mt-1 mb-0">Untuk transaksi pemasukan seperti Gaji Bulanan, warna nominal menggunakan hijau.</p>
+                            <img src="images/ss prak2/M2/LM2/333.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-4">Tanda + menunjukkan bahwa transaksi tersebut merupakan pemasukan. Warna hijau digunakan untuk membedakannya dari transaksi pengeluaran yang menggunakan warna merah.</p>
+
+                            <p><strong class="mt-1">Hasil perubahan</strong></p>
+                            <p class="mt-1 mb-0">Dengan dilakukan pengaturan tersebut, transaksi pengeluaran akan memiliki nominal berwarna merah, sedangkan transaksi pemasukan memiliki nominal berwarna hijau.</p>
+                            <img src="images/ss prak2/M2/LM2/444.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+                
+                 <p class="justify-text small mb-4"><strong>Latihan 2: Tambah Data</strong> Menambahkan 2 transaksi fiktif baru ke dalam daftar "Transaksi Terakhir" di bawah kode yang sudah ada.</p>
+                        
+                        <div class="step-list-item justify-text small">
+                            <p class="mt-1 mb-0">Latihan kedua meminta penambahan dua transaksi fiktif baru ke dalam daftar "Transaksi Terakhir" di bawah transaksi yang sudah tersedia.</p>
+                            <p class="mt-1 mb-0">Transaksi baru pertama adalah "Top Up Game" dengan nominal pengeluaran Rp 300.000, sedangkan transaksi baru kedua adalah "Bonus Lembur" dengan nominal pemasukan Rp 750.000.</p>
+                            <p class="mt-1 mb-0">Kedua transaksi baru ditempatkan setelah ListTile transaksi ketiga dan masih berada di dalam Column pada Card.</p>
+                            <strong class="mt-1">Menambahkan Transaksi Fiktif Pertama</strong>
+                            <p class="mt-1 mb-0">Kode berikut digunakan untuk menambahkan transaksi Top Up Game:</p>
+                            <img src="images/ss prak2/M2/LM2/555.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Transaksi ini menggunakan ikon Icons.sport_esport untuk menggambarkan aktivitas gaming. Karena merupakan pengeluaran, nominal diawali tanda minus dan menggunakan warna merah. Divider ditambahkan sebelum transaksi agar terdapat garis pemisah dengan transaksi sebelumnya.</p>
+
+                            <strong class="mt-1">Menambahkan Transaksi Fiktif Kedua</strong>
+                            <p class="mt-1 mb-0">Transaksi berikutnya adalah Bonus Lembur.</p>
+                            <img src="images/ss prak2/M2/LM2/666.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-4">Transaksi ini menggunakan ikon Icons.attach_money sebagai representasi bonus. Karena merupakan pemasukan, nominal menggunakan tanda + dan warna hijau.</p> 
+
+                            <p><strong class="mt-1">Hasil perubahan</strong></p>
+                            <p class="mt-1 mb-0">Setelah modifikasi, kartu saldo akan menampilkan nominal saldo dan nomor rekening pada bagian bawahnya. Nominal saldo tetap dapat ditampilkan atau disembunyikan menggunakan tombol mata, sedangkan nomor rekening akan tetap terlihat karena merupakan informasi statis.</p>
+                            <img src="images/ss prak2/M2/LM2/777.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+                        
+                </section>
+
+                <section class="mt-5 pt-4 border-top border-dark">
+                    <h2>E. Kesimpulan</h2>
+                    <div class="justify-text small text-muted">
+                        <p>Berdasarkan praktikum yang telah dilaksanakan, dapat disimpulkan bahwa pembangunan antarmuka aplikasi menggunakan kerangka kerja Flutter sangat bergantung pada pemahaman tentang jenis komponen (widget) dan dasar manajemen state. Penggunaan Stateless Widget sangat tepat dan efisien untuk membangun elemen antarmuka yang bersifat statis atau tidak mengalami perubahan data setelah dirender, seperti pada pembuatan komponen sapaan pengguna. Sebaliknya, penerapan Stateful Widget terbukti sangat esensial untuk menciptakan komponen yang dinamis dan interaktif. Melalui pemanfaatan fungsi setState(), aplikasi mampu merekam perubahan data internal dan merender ulang sebagian tampilan antarmuka secara instan sebagai respons terhadap interaksi pengguna, yang dipraktikkan langsung pada fitur sembunyikan dan tampilkan nominal di kartu saldo.</p>
+                        <p>Selain penguasaan state, pengaturan tata letak (layouting) dan visual (styling) menjadi fondasi penting dalam membangun desain antarmuka yang rapi dan terstruktur. Penggunaan widget Row sangat efektif untuk menata elemen secara menyamping seperti pada deretan tombol aksi, sedangkan kombinasi Column dan ListTile mempermudah penyusunan elemen bersusun yang memanjang ke bawah seperti pada daftar riwayat transaksi. Integrasi seluruh komponen dari kedua modul tersebut beserta penambahan elemen hasil penugasan latihan yang dibungkus secara menyeluruh ke dalam widget SingleChildScrollView, memastikan aplikasi memiliki kapabilitas scroll vertikal. Hal ini menjamin antarmuka layar terhindar dari masalah konten terpotong (overflow), sehingga menghasilkan aplikasi pencatat keuangan yang fungsional dan estetis.</p>
+                    </div>
+                </section>
+            </main>
+        </article>
+        <div class="d-flex justify-content-center flex-wrap gap-2 mt-5"><a href="https://github.com/Lordyblade/AppMobile2026_B_2411532010_IbrahimMousaDhani/tree/main/praktikum2" class="btn btn-secondary rounded-pill px-4 fw-bold link-hover" target="_blank">
+    <i class="bi bi-github me-2"></i> Link Github Project
+  </a>
+</div>
+
+    </div>
+
+    
+    
+
+    <footer class="bg-white mt-auto shadow">
+        <div class="container text-center text-dark pt-5 ">
+          <div class="row text-center text-md-start">
+            
+            <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                <h5 class="mb-4 fw-normal text-secondary">About</h5>
+                <p class="fw-light text medium">"hustler, dreamer, and a doer. Always striving to learn, grow, and make a positive impact in the world."</p>
+                </p>
+            </div>
+            
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+                <h5 class="mb-4 fw-normal text-secondary">Quick Links</h5>
+                <p><a href="index.html" class="text-dark text-decoration-none link-hover">Home</a></p>
+                <p><a href="about.html" class="text-dark text-decoration-none link-hover">About</a></p>
+                <p><a href="portofolio.html" class="text-dark text-decoration-none link-hover">Portofolio</a></p>
+                <p><a href="kontak.html" class="text-dark text-decoration-none link-hover">Contact</a></p>
+                <p><a href="laprak.html" class="text-dark text-decoration-none link-hover">Laprak</a></p>
+            </div>
+
+            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+                <h5 class="mb-4 fw-normal text-secondary">Social Media</h5>
+                <a href="https://www.instagram.com/ibraahimousa/" class="link-hover p-1"><i class="bi bi-instagram text-dark link-hover"></i></a> 
+                <a href="https://www.linkedin.com/in/ibrahimousa27/" class="link-hover p-1"><i class="bi bi-linkedin text-dark link-hover"></i></a>
+                <a href="https://github.com/Lordyblade" class="link-hover p-1"><i class="bi bi-github text-dark link-hover"></i></a>
+                <a href="mailto:ciburakatoprak@gmail.com" class="link-hover p-1"><i class="bi bi-envelope text-dark link-hover"></i></a>
+                </div>
+            </div>
+                     
+         </div>
+         <div class="container">
+         <div class="row mt-4">
+         <div class="col-md-12">
+                <p class="text-center">&copy; 2025 Design by 
+                  <a href="https://www.instagram.com/ibraahimousa" class="text-warning text-decoration-none fw-bold">Ibrahim Mousa
+                  <i class="bi bi-lightning-charge text-warning"></i></a>. All Rights Reserved.</p> 
+            </div>
+          </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
