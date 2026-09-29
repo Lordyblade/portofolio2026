@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laporan Praktikum 4: Input Widgets & Forms Menangkap Data, Dropdown, dan Validasi</title>
+    <title>Laporan Praktikum 4: Navigasi & Passing Data: Navigator, Konsep Stack, dan Constructor</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
@@ -147,7 +147,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-7">
                         <h6 class="text-uppercase text-muted mb-2" style="letter-spacing: 1.5px; font-size: 0.75rem; font-weight: 600;">Laporan Praktikum 4 - Aplikasi Mobile</h6>
-                        <h1>Input Widgets & Forms Menangkap Data, Dropdown, dan Validasi  (Studi Kasus)</h1>
+                        <h1>Navigasi & Passing Data: Navigator, Konsep Stack, dan Constructor</h1>
                     </div>
                     <div class="col-md-5 text-md-end mt-3 mt-md-0 text-muted" style="font-size: 0.85rem;">
                         <span class="d-block text-dark fw-semibold">Ibrahim Mousa Dhani</span>
@@ -161,23 +161,31 @@
                 <section>
                     <h2>A. Pendahuluan</h2>
                     <div class="column justify-text small">
-                       <p>Pengelolaan formulir pada Flutter berpusat pada widget Form dan kunci pengendali GlobalKey<FormState>. Widget Form berfungsi sebagai wadah utama yang membungkus seluruh elemen input agar dapat dikelola dan divalidasi secara bersamaan. Untuk mengakses status dan memicu eksekusi fungsi validasi pada seluruh kolom input secara serentak, digunakan GlobalKey sebagai pengidentifikasi unik dari formulir tersebut.</p>
-                        
-                       <p>Dalam mengambil masukan berupa teks, digunakan widget TextFormField yang terintegrasi langsung dengan formulir dan dihubungkan ke TextEditingController. Pengendali ini bertugas membaca dan merekam setiap teks yang diketikkan oleh pengguna. Selain kolom teks, pengisian data pilihan juga dapat memanfaatkan DropdownButtonFormField untuk menyajikan opsi masukan terbatas dari daftar data statis.</p>
+                        <p><strong>Konsep Tumpukan (Stack) di Flutter</strong><br>
+                        Dalam pengembangan aplikasi menggunakan Flutter, terdapat Navigator yang merupakan sebuah widget pengelola rute (halaman). Widget ini bekerja dengan menerapkan konsep tumpukan (stack), yang diibaratkan seperti tumpukan kartu. Pengelolaan halaman dalam konsep tumpukan ini terbagi menjadi dua aksi utama:</p>
+                        <ul>
+                            <li><strong>Push</strong>: Merupakan proses untuk meletakkan halaman baru di posisi tumpukan yang paling atas.</li>
+                            <li><strong>Pop</strong>: Merupakan proses untuk menghapus atau menutup halaman teratas pada tumpukan agar pengguna dapat kembali ke halaman sebelumnya.</li>
+                        </ul>
 
-                       <p>Untuk menjaga integritas data, setiap kolom input dilengkapi dengan fungsi validator. Fungsi ini bertugas mengevaluasi masukan pengguna, di mana nilai balik berupa null menandakan bahwa data telah valid dan memenuhi kriteria. Sebaliknya, jika data tidak sesuai atau dibiarkan kosong, fungsi akan mengembalikan nilai berupa pesan kesalahan (string) yang otomatis ditampilkan di bawah kolom input.</p>
+                        <p><strong>Constructor dan Passing Data</strong><br>
+                        Dalam membuat aplikasi, sering kali dibutuhkan pengiriman data antar halaman. Untuk mengirim data dari Halaman A ke Halaman B, maka Halaman B diwajibkan untuk menyiapkan variabel dan juga Constructor. Berikut adalah komponen utama yang digunakan:</p>
+                        <ul>
+                            <li><strong>Variabel Final</strong>: Digunakan sebagai tempat penampung data, seperti contohnya variabel title.</li>
+                            <li><strong>Required</strong>: Merupakan sebuah penanda pada Constructor yang menegaskan bahwa data tersebut bersifat wajib diisi saat proses berpindah layar terjadi.</li>
+                        </ul>
 
-                </section>
+                       </section>
 
 
                 <section class="mt-5">
                     <h2>B. Tujuan Praktikum</h2>
                     <div class="justify-text small text-muted">
-                        <p class="mb-2">Adapun tujuan dari pelaksanaan praktikum ini adalah sebagai berikut:: </p>
+                        <p class="mb-2">Adapun tujuan dari pelaksanaan praktikum ini adalah sebagai berikut:</p>
                         <ul class="ps-3 mb-0">
-                            <li class="mb-1">Menangkap teks dari pengguna via controller.</li>
-                            <li class="mb-1">Menerapkan widget dropdown statis. </li>
-                            <li class="mb-1">Validasi Input untuk Mencegah data kosong atau format salah. </li>
+                            <li class="mb-1">Menerapkan Navigator.push untuk berpindah ke layar baru.</li>
+                            <li class="mb-1">Menggunakan Navigator.pop untuk menutup layar setelah aksi selesai.</li>
+                            <li class="mb-1">Mengirim data (String, int) antar layar melalui Constructor.</li>
                     </div>
                 </section>
 
@@ -195,148 +203,285 @@
 
                 <section class="mt-5">
                     <h2>D. Langkah-langkah Praktikum</h2>
+                    <p class="justify-text small mb-4">Praktikum diawali dengan menyiapkan beberapa file pada folder lib. Berdasarkan modul, program dibagi menjadi empat file, yaitu main.dart, dashboard_screen.dart, add_transaction_screen.dart, dan transaction_detail_screen.dart. Pembagian ini dilakukan agar setiap bagian aplikasi memiliki fungsi yang jelas dan kode lebih terorganisasi.</p>
+
+                    <div>
+                    <h4 class="fw-bold mb-3 pt-3" style="font-size: 1.15rem; color: var(--primary-color);">a. Membuat File main.dart</h4>
+                    </div>
+                    <p class="justify-text small mb-4">File main.dart merupakan file utama yang digunakan untuk menjalankan aplikasi. Pada file ini ditentukan widget utama, tema aplikasi, serta halaman pertama yang ditampilkan.</p>
+        
+                        <div class="step-list-item justify-text small">
+                            <strong>1. Import Library</strong>
+                            <figcaption class="text-muted small text-center pt-3">Import Library</figcaption>
+                            <img src="images/ss prak4/1.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Baris pertama digunakan untuk mengimpor library Material dari Flutter sehingga komponen seperti MaterialApp, Scaffold, Text, dan widget lainnya dapat digunakan. Baris kedua mengimpor dashboard_screen.dart karena DashboardScreen akan digunakan sebagai halaman awal aplikasi.</p>
+                        </div>
 
                         <div class="step-list-item justify-text small">
-                            <strong>1. Membuat Project Flutter</strong>
-                            <p class="mt-1 mb-0">Praktikum diawali dengan membuat project baru dengan nama praktikum3 menggunakan Flutter.</p>
+                            <strong>2. Menjalankan Aplikasi</strong>
+                            <figcaption class="text-muted small text-center pt-3">Menjalankan Aplikasi</figcaption>
+                            <img src="images/ss prak4/2.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Fungsi main() merupakan titik awal eksekusi aplikasi Flutter. Perintah runApp() digunakan untuk menjalankan widget utama aplikasi, yaitu MyApp. Penggunaan const menunjukkan bahwa objek tersebut dapat dibuat sebagai konstanta.</p>
                         </div>
 
                         <div class="step-list-item justify-text small">
-                            <strong>2.Membuat File add_transaction_screen.dart di dalam folder lib</strong>
-                            <p class="mt-1 mb-0">Langkah pertama adalah membuat file baru bernama add_transaction_screen.dart. File ini digunakan untuk membuat halaman formulir pencatatan transaksi yang berisi input judul transaksi, nominal saldo, kategori, serta tombol untuk menyimpan data.</p>
-                            <p class="mt-1 mb-0">Kode dasar untuk membuat halaman adalah sebagai berikut.</p>
-                            <figcaption class="text-muted small text-center pt-3">Struktur Dasar Halaman</figcaption>
-                            <img src="images/ss prak3/1.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                            <p class="mt-1 mb-0">Kode diatas mengimpor library material.dart yang menyediakan berbagai widget antarmuka Flutter. AddTransactionScreen dibuat sebagai StatefulWidget karena isi form dapat mengalami perubahan. Method createState() digunakan untuk menghubungkan widget dengan class _AddTransactionScreenState yang menangani seluruh state dan proses pada halaman form.</p>
+                            <strong>3. Membuat Widget Utama</strong>
+                            <figcaption class="text-muted small text-center pt-3">Membuat Widget Utama</figcaption>
+                            <img src="images/ss prak4/3.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">MyApp dibuat sebagai StatelessWidget karena tidak memiliki data yang berubah selama aplikasi berjalan. Method build() digunakan untuk menentukan tampilan dan konfigurasi aplikasi.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-5 ">
+                            <strong>4. Mengatur MaterialApp</strong>
+                            <figcaption class="text-muted small text-center pt-3">Mengatur MaterialApp</figcaption>
+                            <img src="images/ss prak4/4.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">MaterialApp digunakan sebagai konfigurasi utama aplikasi Flutter. debugShowCheckedModeBanner: false digunakan untuk menghilangkan tanda debug. Properti title menentukan nama aplikasi, sedangkan theme mengatur warna utama aplikasi menjadi merah. Properti home menentukan DashboardScreen sebagai halaman pertama yang ditampilkan.</p>
                         </div>
 
                         <div class="step-list-item justify-text small">
-                            <strong>3. Menyiapkan State, GlobalKey, dan Controller</strong>
-                            <p class="mt-1 mb-0">Selanjutnya dibuat class _AddTransactionScreenState yang berfungsi mengatur kondisi halaman. Pada bagian ini dibuat sebuah GlobalKey<FormState> untuk mengakses dan menjalankan validasi form. Dua buah TextEditingController digunakan untuk mengambil isi dari input judul transaksi dan nominal. Selain itu, dibuat variabel _selectedCategory untuk menyimpan kategori yang sedang dipilih serta list _categories sebagai daftar pilihan kategori.</p>
-                            <figcaption class="text-muted small text-center pt-3">Menyiapkan State dan Controller</figcaption>
-                            <img src="images/ss prak3/2.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                            <p class="mt-1 mb-0">_formKey digunakan untuk mengontrol Form, khususnya ketika proses validasi dijalankan. TextEditingController memungkinkan program mengambil teks yang diketik pengguna tanpa harus mengambil nilai secara manual dari widget. Sementara itu, _selectedCategory memiliki nilai awal Makanan, sehingga ketika form pertama kali dibuka kategori tersebut langsung menjadi pilihan aktif. List _categories berisi seluruh pilihan kategori yang nantinya ditampilkan dalam dropdown.</p>
+                            <figcaption class="text-center pt-3">Kode Lengkap</figcaption>
+                            <img src="images/ss prak4/sadoe1.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+
+
+                    <div>
+                    <h4 class="fw-bold mb-3 pt-3" style="font-size: 1.15rem; color: var(--primary-color);">b. Membuat Halaman Dashboard</h4>
+                    </div>
+                    <p class="justify-text small mb-4">File dashboard_screen.dart digunakan sebagai halaman utama aplikasi. Halaman ini menampilkan saldo, daftar transaksi, tombol untuk menambah transaksi, serta navigasi menuju halaman detail transaksi.</p>
+
+
+                        <div class="step-list-item justify-text small mb-5 ">
+                            <strong>1. Mengimpor File yang Dibutuhkan</strong>
+                            <figcaption class="text-muted small text-center pt-3">Import File</figcaption>
+                            <img src="images/ss prak4/5.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Library Material digunakan untuk menyediakan widget Flutter. File add_transaction_screen.dart digunakan agar dashboard dapat berpindah ke halaman tambah transaksi, sedangkan transaction_detail_screen.dart digunakan untuk membuka halaman detail.</p>
                         </div>
 
                         <div class="step-list-item justify-text small mb-5 ">
-                            <strong>4. Membersihkan Controller dengan dispose()</strong>
-                            <p class="mt-1 mb-0">Setelah controller digunakan, controller perlu dibersihkan ketika halaman sudah tidak digunakan. Flutter menyediakan method dispose() untuk melakukan proses tersebut.</p>
-                            <figcaption class="text-muted small text-center pt-3">Membuat dispose()</figcaption>
-                            <img src="images/ss prak3/3.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                            <p class="mt-1 mb-0">Method dispose() dipanggil ketika widget sudah dihapus dari widget tree. Pemanggilan dispose() pada masing-masing controller bertujuan melepaskan resource yang digunakan sehingga tidak terjadi penggunaan memori yang tidak diperlukan. Modul juga menjelaskan bahwa controller perlu dibersihkan ketika halaman ditutup untuk mencegah memory leak.</p>
+                            <strong>2. Membuat DashboardScreen</strong>
+                            <figcaption class="text-muted small text-center pt-3">DashboardScreen</figcaption>
+                            <img src="images/ss prak4/6.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">DashboardScreen menggunakan StatelessWidget karena tampilan dashboard pada source code modul tidak memiliki state yang berubah secara langsung. Method build() digunakan untuk membentuk seluruh tampilan dashboard.</p>
                         </div>
 
                         <div class="step-list-item justify-text small mb-5 ">
-                            <strong>5. Membuat Struktur Halaman dengan Scaffold</strong>
-                            <p class="mt-1 mb-0">Setelah state siap, langkah berikutnya adalah membuat tampilan utama menggunakan Scaffold.</p>
-                            <figcaption class="text-muted small text-center pt-3">Struktur Dasar Halaman</figcaption>
-                            <img src="images/ss prak3/4.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                            <p class="mt-1 mb-0">Scaffold digunakan sebagai struktur utama halaman Flutter. Pada bagian AppBar, ditampilkan judul “Catat Transaksi Baru” dengan warna latar ungu dan teks putih. Bagian body menggunakan SingleChildScrollView agar form tetap dapat digulir ketika keyboard muncul dan ukuran layar menjadi terbatas. Selanjutnya seluruh input dibungkus dengan widget Form dan dihubungkan dengan _formKey, sehingga setiap field di dalamnya dapat divalidasi secara bersamaan.</p>
+                            <strong>3. Membuat Struktur Dasar Halaman</strong>
+                            <figcaption class="text-muted small text-center pt-3">Scaffold</figcaption>
+                            <img src="images/ss prak4/7.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Scaffold digunakan sebagai struktur dasar halaman Flutter. AppBar menampilkan judul Dashboard Keuangan dan menggunakan warna merah sebagai warna latar dengan teks berwarna putih.</p>
                         </div>
 
                         <div class="step-list-item justify-text small mb-5 ">
-                            <strong>6. Membuat Input Judul Transaksi</strong>
-                            <p class="mt-1 mb-0">Input pertama digunakan untuk memasukkan judul transaksi.</p>
-                            <figcaption class="text-muted small text-center pt-3">Input Judul Transaksi</figcaption>
-                            <img src="images/ss prak3/5.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                            <p class="mt-1 mb-0">Widget TextFormField digunakan karena selain menerima teks, widget ini juga memiliki fasilitas validasi melalui property validator. Controller _titleController digunakan untuk mengambil nilai yang dimasukkan pengguna. InputDecoration memberikan tampilan berupa label, garis tepi, dan ikon. Pada bagian validator, program memeriksa apakah nilai yang dimasukkan kosong. Jika kosong, validator mengembalikan pesan error sehingga Flutter menampilkan pesan tersebut pada form. Jika data sudah benar, validator mengembalikan null yang berarti tidak terdapat kesalahan.</p>
+                            <strong>4. Membuat Tombol Tambah Transaksi</strong>
+                            <figcaption class="text-muted small text-center pt-3">Aksi ElevatedButton</figcaption>
+                            <img src="images/ss prak4/8.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">FloatingActionButton digunakan sebagai tombol untuk menambahkan transaksi. Ketika tombol ditekan, Navigator.push() digunakan untuk berpindah dari dashboard ke AddTransactionScreen. MaterialPageRoute menentukan halaman tujuan yang akan dibuka. Bagian ini merupakan penerapan navigasi push, yaitu menambahkan halaman baru ke dalam stack navigasi.</p>
                         </div>
 
                         <div class="step-list-item justify-text small mb-5 ">
-                            <strong>7. Membuat Input Nominal</strong>
-                            <p class="mt-1 mb-0">Input kedua digunakan untuk memasukkan jumlah nominal transaksi.</p>
+                            <strong>5. Membuat Isi Dashboard</strong>
+                            <figcaption class="text-muted small text-center pt-3">Body Dashboard</figcaption>
+                            <img src="images/ss prak4/9.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Bagian body menggunakan SingleChildScrollView agar isi halaman dapat digulir. Column digunakan untuk menyusun komponen secara vertikal. Di dalamnya terdapat sapaan pengguna, kartu saldo, judul transaksi terakhir, dan daftar transaksi.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-5 ">
+                            <strong>6. Membuat Kartu Saldo</strong>
+                            <figcaption class="text-muted small text-center pt-3">Balance Card</figcaption>
+                            <img src="images/ss prak4/10.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Fungsi _buildBalanceCard() dibuat untuk memisahkan bagian kartu saldo dari kode utama dashboard. Card digunakan sebagai wadah tampilan, sedangkan Padding memberikan jarak antara isi dan batas kartu. Di dalamnya ditampilkan label Saldo Utama dan nominal saldo sebesar Rp 5.000.000.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-5 ">
+                            <strong>7. Membuat Daftar Transaksi</strong>
+                            <figcaption class="text-muted small text-center pt-3">Transaction List</figcaption>
+                            <img src="images/ss prak4/11.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Fungsi _buildTransactionList() digunakan untuk menampilkan daftar transaksi. Parameter BuildContext context diperlukan karena bagian ini akan digunakan untuk proses navigasi.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-5 ">
+                            <strong>8. Membuat Transaksi Pertama </strong>
+                            <figcaption class="text-muted small text-center pt-3">Transaction Item</figcaption>
+                            <img src="images/ss prak4/12.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">ListTile digunakan untuk menampilkan satu data transaksi secara ringkas. leading menampilkan ikon makanan, title menampilkan nama transaksi, subtitle menampilkan informasi waktu, sedangkan trailing menampilkan nominal transaksi.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-5 ">
+                            <strong>9. Navigasi dan Passing Data</strong>
+                            <figcaption class="text-muted small text-center pt-3">Navigasi ke Detail Transaksi</figcaption>
+                            <img src="images/ss prak4/13.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Ketika transaksi ditekan, Navigator.push() digunakan untuk membuka TransactionDetailScreen. Pada saat halaman dibuat, data transaksi dikirim melalui constructor berupa title, amount, category, dan date. Dengan demikian, halaman detail dapat menerima data dari halaman dashboard. Mekanisme ini merupakan penerapan passing data melalui constructor.</p>
+                            <p class="mt-1 mb-0">Transaksi kedua menggunakan mekanisme yang sama, tetapi data yang dikirim disesuaikan dengan transaksi Gaji Bulanan.</p>
+                            <img src="images/ss prak4/14.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <figcaption class="text-center pt-3">Kode Lengkap</figcaption>
+                            <img src="images/ss prak4/sadoe2.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+
+                    <div>
+                    <h4 class="fw-bold mb-3 pt-3" style="font-size: 1.15rem; color: var(--primary-color);">c. Membuat Halaman Tambah Transaksi</h4>
+                    </div>
+                    <p class="justify-text small mb-4">File add_transaction_screen.dart digunakan untuk membuat formulir pencatatan transaksi. Halaman ini menggunakan StatefulWidget karena terdapat data input yang dapat berubah ketika pengguna mengisi formulir.</p>
+
+                        <div class="step-list-item justify-text small mb-5 ">
+                            <strong>1. Membuat Widget</strong>
+                            <figcaption class="text-muted small text-center pt-3">AddTransactionScreen Widget</figcaption>
+                            <img src="images/ss prak4/15.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">AddTransactionScreen menggunakan StatefulWidget karena halaman memiliki input yang nilainya dapat berubah. createState() digunakan untuk membuat objek state yang mengelola kondisi halaman tersebut.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-5 ">
+                            <strong>2. Menyiapkan Form dan Controller</strong>
+                            <figcaption class="text-muted small text-center pt-3">Form dan Controller</figcaption>
+                            <img src="images/ss prak4/16.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">_formKey digunakan untuk mengidentifikasi dan melakukan validasi terhadap Form. Sementara itu, _titleController dan _amountController digunakan untuk mengontrol nilai yang dimasukkan pengguna pada field judul dan nominal.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-5 ">
+                            <strong>3. Membuat Struktur Form</strong>
+                            <figcaption class="text-muted small text-center pt-3">Struktur Form</figcaption>
+                            <img src="images/ss prak4/17.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Padding memberikan jarak antara isi formulir dengan tepi layar. Widget Form digunakan untuk mengelompokkan field input dan melakukan validasi. _formKey dipasang pada properti key agar form dapat diperiksa ketika tombol Simpan ditekan.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-5 ">
+                            <strong>4. Input Judul</strong>
+                            <figcaption class="text-muted small text-center pt-3">Input Judul</figcaption>
+                            <img src="images/ss prak4/18.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">TextFormField digunakan untuk menerima judul transaksi. TextEditingController menyimpan nilai yang dimasukkan pengguna. Bagian validator digunakan untuk memastikan field tidak kosong. Jika kosong, pesan “Tidak boleh kosong” akan ditampilkan.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-5 ">
+                            <strong>5. Input Nominal</strong>
                             <figcaption class="text-muted small text-center pt-3">Input Nominal</figcaption>
-                            <img src="images/ss prak3/6.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                            <p class="mt-1 mb-0">Pada input nominal digunakan TextInputType.number sehingga keyboard yang ditampilkan lebih sesuai untuk memasukkan angka. Selain memeriksa apakah input kosong, validator juga menggunakan int.tryParse() untuk memastikan bahwa nilai yang diberikan benar-benar dapat dikonversi menjadi bilangan bulat. Jika proses konversi gagal, pengguna akan mendapatkan pesan bahwa nominal harus berupa angka yang valid. Dengan demikian, validasi tidak hanya memastikan data terisi, tetapi juga memastikan format data sesuai dengan kebutuhan.</p>
+                            <img src="images/ss prak4/19.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Field nominal memiliki fungsi yang sama dengan field judul, tetapi keyboardType: TextInputType.number digunakan agar keyboard angka ditampilkan ketika pengguna mengisi nominal. Validasi tetap dilakukan untuk memastikan input tidak kosong.</p>
                         </div>
 
                         <div class="step-list-item justify-text small mb-5 ">
-                            <strong>8. Membuat Dropdown Kategori</strong>
-                            <p class="mt-1 mb-0">Selanjutnya dibuat dropdown untuk memilih kategori transaksi.</p>
-                            <figcaption class="text-muted small text-center pt-3">Dropdown Kategori</figcaption>
-                            <img src="images/ss prak3/7.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                            <p class="mt-1 mb-0">DropdownButtonFormField digunakan untuk membuat pilihan kategori yang terintegrasi dengan form. Nilai awal dropdown diambil dari _selectedCategory, sedangkan items dibuat berdasarkan isi list _categories. Method map() digunakan untuk mengubah setiap data kategori menjadi DropdownMenuItem. Ketika pengguna memilih kategori lain, method onChanged dijalankan dan setState() digunakan agar nilai _selectedCategory diperbarui pada tampilan. Ada empat kategori, yaitu Makanan, Transportasi, Hiburan, dan Lainnya.</p>
-                        </div>
-
-                        <div class="step-list-item justify-text small mb-5 ">
-                            <strong>9. Menambahkan Tombol Simpan</strong>
-                            <p class="mt-1 mb-0">Bagian terakhir dari form adalah tombol untuk menyimpan transaksi sekaligus menjalankan validasi.</p>
+                            <strong>6. Tombol Simpan</strong>
                             <figcaption class="text-muted small text-center pt-3">Tombol Simpan</figcaption>
-                            <img src="images/ss prak3/8.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                            <p class="mt-1 mb-0">ElevatedButton digunakan sebagai tombol utama untuk menyimpan data. Pada onPressed, method _formKey.currentState!.validate() menjalankan seluruh fungsi validator yang terdapat di dalam Form. Jika seluruh input valid, program akan menampilkan SnackBar sebagai notifikasi bahwa transaksi berhasil disimpan. Data judul dan nominal diambil dari masing-masing controller dan ditampilkan di dalam pesan. Jika terdapat input yang tidak valid, proses penyimpanan tidak dilanjutkan dan pesan error akan ditampilkan pada field yang bermasalah.</p>
+                            <img src="images/ss prak4/20.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Ketika tombol Simpan ditekan, validate() akan memeriksa seluruh input dalam form. Jika seluruh input valid, aplikasi menampilkan SnackBar sebagai pemberitahuan bahwa transaksi berhasil disimpan. Setelah itu, Navigator.pop(context) digunakan untuk menutup halaman formulir dan kembali ke dashboard. Bagian ini merupakan penerapan navigasi pop.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <figcaption class="text-center pt-3">Kode Lengkap</figcaption>
+                            <img src="images/ss prak4/sadoe3.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+
+
+                    <div>
+                    <h4 class="fw-bold mb-3 pt-3" style="font-size: 1.15rem; color: var(--primary-color);">d. Membuat Halaman Detail Transaksi</h4>
+                    </div>
+                    <p class="justify-text small mb-4">File transaction_detail_screen.dart digunakan untuk menampilkan data transaksi secara lebih lengkap. Halaman ini menerima data dari dashboard melalui constructor.</p>
+
+                        <div class="step-list-item justify-text small mb-5 ">
+                            <strong>1. Deklarasi Variabel</strong>
+                            <figcaption class="text-muted small text-center pt-3">Deklarasi class TransactionDetailScreen</figcaption>
+                            <img src="images/ss prak4/21.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Keempat variabel tersebut digunakan sebagai tempat menyimpan data transaksi yang dikirim dari halaman dashboard. Variabel menggunakan final karena nilainya ditentukan ketika objek halaman dibuat dan tidak diubah selama halaman ditampilkan.</p>
                         </div>
 
                         <div class="step-list-item justify-text small mb-5 ">
-                            <strong>10. Menghubungkan Halaman dengan main.dart</strong>
-                            <p class="mt-1 mb-0">Setelah halaman form selesai dibuat, langkah berikutnya adalah menghubungkan halaman tersebut dengan file utama main.dart agar dapat diakses pengguna.</p>
-                            <figcaption class="text-muted small text-center pt-3">Isi file main.dart</figcaption>
-                            <img src="images/ss prak3/9.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                            <p class="mt-1 mb-0">Pada bagian awal, file add_transaction_screen.dart diimpor agar class AddTransactionScreen dapat digunakan. runApp() menjalankan aplikasi melalui class MyApp. MaterialApp digunakan sebagai konfigurasi utama aplikasi, termasuk judul dan tema warna. Sementara itu, property home diarahkan ke AddTransactionScreen, sehingga halaman formulir transaksi langsung ditampilkan ketika aplikasi dijalankan.</p>
+                            <strong>2. Membuat Constructor</strong>
+                            <figcaption class="text-muted small text-center pt-3">Constructor TransactionDetailScreen</figcaption>
+                            <img src="images/ss prak4/22.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Constructor digunakan untuk menerima data dari halaman sebelumnya. Keyword required menunjukkan bahwa seluruh data tersebut harus diberikan ketika TransactionDetailScreen dibuat. Dengan demikian, halaman detail tidak dapat dibuat tanpa memberikan informasi transaksi yang diperlukan.</p>
                         </div>
 
                         <div class="step-list-item justify-text small mb-5 ">
-                            <strong>13. Menjalankan Program</strong>
-                            <p class="mt-1 mb-0">Setelah seluruh kode dibuat, aplikasi dijalankan melalui emulator atau device. Pengujian dilakukan dengan mencoba mengisi judul transaksi, nominal, dan memilih kategori. Kemudian tombol Simpan Transaksi ditekan untuk melihat apakah validasi berjalan sesuai dengan yang diharapkan. Jika seluruh data sesuai, aplikasi menampilkan SnackBar yang menunjukkan data transaksi yang berhasil diproses.</p>
-                            <img src="images/ss prak3/10.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                            <p class="mt-1 mb-0">Pengujian juga dilakukan dengan sengaja membiarkan judul atau nominal kosong. Pada kondisi tersebut, validator akan menampilkan pesan kesalahan dan proses penyimpanan tidak dijalankan.</p>
-                            <img src="images/ss prak3/11.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                            <p class="mt-1 mb-0">Selain itu, pengujian juga dilakukan dengan memasukkan nilai nominal yang bukan angka. Validator akan menampilkan pesan kesalahan bahwa nominal harus berupa angka yang valid.</p>
-                            <img src="images/ss prak3/12.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                            <p class="mt-1 mb-0">Dengan demikian, seluruh mekanisme input, validasi, dan penyimpanan data dapat berjalan sesuai dengan yang diharapkan.</p>
+                            <strong>3. Menampilkan Data Transaksi</strong>
+                            <figcaption class="text-muted small text-center pt-3">Implementasi build() untuk menampilkan halaman detail transaksi</figcaption>
+                            <img src="images/ss prak4/23.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Data title dan amount yang diterima melalui constructor ditampilkan menggunakan widget Text. Nilai tersebut akan menyesuaikan transaksi yang dipilih pada halaman dashboard.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-5 ">
+                            <strong>4. Menampilkan Detail Tambahan</strong>
+                            <figcaption class="text-muted small text-center pt-3">Menampilkan detail tambahan transaksi</figcaption>
+                            <img src="images/ss prak4/24.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Bagian ini digunakan untuk menampilkan kategori, tanggal, dan status transaksi. Nilai category dan date berasal dari data yang dikirim oleh dashboard.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-5 ">
+                            <strong>5. Membuat Widget Pembantu</strong>
+                            <figcaption class="text-muted small text-center pt-3">Fungsi _buildDetailRow()</figcaption>
+                            <img src="images/ss prak4/25.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Fungsi _buildDetailRow() digunakan untuk membuat baris informasi dengan format yang sama. Parameter label digunakan untuk nama informasi, sedangkan value digunakan untuk nilainya. Penggunaan fungsi ini membuat kode lebih ringkas dan terstruktur.</p>
                         </div>
 
                         <div class="step-list-item justify-text small">
-                            <figcaption class="text-center pt-3">Kode Lengkap File add_transaction_screen.dart</figcaption>
-                            <img src="images/ss prak3/13.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-center pt-3">Kode Lengkap</figcaption>
+                            <img src="images/ss prak4/sadoe4.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
                         </div>
+
+                        <div class="step-list-item justify-text small mb-5 ">
+                            <strong>6. Menjalankan Program</strong>
+                            <p class="mt-1 mb-0">Setelah seluruh file dibuat, aplikasi dijalankan melalui emulator atau perangkat Flutter. Berikut adalah tampilan awal menampilkan dashboard dengan saldo dan daftar transaksi</p>
+                            <figcaption class="text-muted small text-center pt-3">Contoh Outputnya</figcaption>
+                            <img src="images/ss prak4/26.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-5 mb-0">Ketika tombol tambah transaksi ditekan, aplikasi akan berpindah ke halaman Catat Transaksi.</p>
+                            <img src="images/ss prak4/27.png" alt="Thumbnail Java" class="img-fluid mt-4 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-5 mb-0">Setelah mengisi judul dan nominal, tombol Simpan ditekan. Aplikasi menampilkan SnackBar sebagai pemberitahuan bahwa transaksi berhasil disimpan, kemudian kembali ke halaman dashboard.</p>
+                            <img src="images/ss prak4/28.png" alt="Thumbnail Java" class="img-fluid mt-4 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-5 mb-0">Pada halaman dashboard, ketika pengguna mengklik salah satu transaksi, aplikasi akan membuka halaman Detail Transaksi.</p>
+                            <img src="images/ss prak4/29.png" alt="Thumbnail Java" class="img-fluid mt-4 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+    
+
+                <h4 class="fw-bold mb-3 pt-5" style="font-size: 1.15rem; color: var(--primary-color);">Latihan - Menambahkan Input Tanggal Transaksi Pada Halaman Catat Transaksi</h4>
+                <p class="justify-text small mb-4">Pada latihan ini dilakukan penambahan satu input baru pada halaman Catat Transaksi untuk mengisi tanggal transaksi. Berdasarkan instruksi modul, input tanggal diletakkan sebelum tombol Simpan. Pengisian tanggal dapat dilakukan menggunakan TextFormField dengan format DD/MM/YYYY, atau menggunakan showDatePicker. Selain itu, input tanggal harus memiliki validasi sehingga tidak boleh dibiarkan kosong.</p>
+                <p class="justify-text small mb-4">Pada implementasi ini digunakan TextFormField yang terhubung dengan showDatePicker. Dengan cara tersebut, pengguna dapat memilih tanggal melalui kalender, kemudian tanggal yang dipilih ditampilkan pada field dalam format DD/MM/YYYY</p>
 
                         <div class="step-list-item justify-text small">
-                            <figcaption class="text-center pt-3">Kode Lengkap File main.dart</figcaption>
-                            <img src="images/ss prak3/14.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <strong>Menambahkan Controller Tanggal</strong>
+                            <img src="images/ss prak4/30.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">_dateController digunakan untuk mengatur dan menyimpan nilai tanggal yang dipilih oleh pengguna. Nilai tersebut nantinya ditampilkan pada TextFormField tanggal sehingga field dapat menunjukkan tanggal yang telah dipilih.</p>
                         </div>
-                          
 
-                <h4 class="fw-bold mb-3 pt-5" style="font-size: 1.15rem; color: var(--primary-color);">LATIHAN - Menambahkan Input Tanggal Transaksi</h4>
-                <p class="justify-text small mb-4">Pada latihan, ditambahkan satu input baru sebelum tombol Simpan untuk memasukkan Tanggal Transaksi. Modul menyediakan dua pendekatan, yaitu menggunakan TextFormField biasa dengan format DD/MM/YYYY atau menggunakan tombol yang menjalankan fungsi showDatePicker. Selain itu, input tanggal wajib memiliki validasi agar tidak boleh kosong.</p>
-                <p class="justify-text small mb-4">Pada implementasi berikut digunakan pendekatan TextFormField yang dilengkapi showDatePicker. Cara ini membuat pengguna tidak perlu mengetik tanggal secara manual karena tanggal dapat dipilih melalui kalender.</p>
-                          
-                        <div class="step-list-item justify-text small">
-                            <strong class="mt-1">Menambahkan Controller Tanggal</strong>
-                            <p class="mt-1 mb-0">Pertama, pada file add_transaction_screen.dart tambahkan controller baru pada class _AddTransactionScreenState.</p>
-                            <img src="images/ss prak3/15.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                            <p class="mt-1 mb-4">Controller _dateController digunakan untuk menyimpan tanggal yang dipilih pengguna. Nilai tanggal yang dipilih melalui showDatePicker nantinya diubah menjadi format teks DD/MM/YYYY dan dimasukkan ke controller tersebut.</p>
-
-                            <strong class="mt-1">Menambahkan dispose() untuk Controller Tanggal</strong>
-                            <p class="mt-1 mb-0">Karena telah menambahkan controller baru, controller tersebut juga harus dibersihkan ketika halaman ditutup.</p>
-                            <img src="images/ss prak3/16.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                            <p class="mt-1 mb-4">Baris _dateController.dispose() berfungsi melepaskan resource yang digunakan oleh controller tanggal. Dengan demikian, seluruh controller yang dibuat di halaman tersebut dikelola dan dibersihkan dengan benar.</p>
-
-                            <strong class="mt-1">Menambahkan Input Tanggal</strong>
-                            <p class="mt-1 mb-0">Kemudian, tambahkan input tanggal di dalam widget form sebelum tombol Simpan.</p>
-                            <img src="images/ss prak3/17.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                            <p class="mt-1 mb-0">TextFormField digunakan sebagai tempat untuk menampilkan tanggal yang telah dipilih. Property readOnly: true membuat pengguna tidak mengetik tanggal secara langsung, tetapi memilihnya melalui kalender. Ketika field ditekan, onTap dijalankan dan showDatePicker() menampilkan kalender. initialDate menggunakan tanggal saat ini sebagai pilihan awal, sedangkan firstDate dan lastDate menentukan rentang tanggal yang dapat dipilih.</p>
-                            <p class="mt-1 mb-0">Setelah pengguna memilih tanggal, hasilnya disimpan pada variabel pickedDate. Kondisi if (pickedDate != null) memastikan bahwa tanggal benar-benar dipilih sebelum dimasukkan ke controller. Nilai hari dan bulan menggunakan padLeft(2, '0') agar format selalu memiliki dua digit. Contohnya, tanggal 5 Januari 2026 akan ditampilkan sebagai 05/01/2026.</p>
-                            <p class="mt-1 mb-4">Validator pada input tanggal memeriksa apakah controller kosong. Jika kosong, validator mengembalikan pesan error "Tanggal transaksi wajib diisi." sehingga pengguna akan melihat pesan tersebut di bawah field. Jika tanggal sudah dipilih, validator mengembalikan null yang menandakan tidak ada kesalahan.</p>
-
-                            <p><strong class="mt-1">Hasil perubahan</strong></p>
-                            <p class="mt-1 mb-0">Setelah kode latihan dijalankan, form memiliki tambahan field Tanggal Transaksi yang terletak setelah dropdown kategori dan sebelum tombol Simpan Transaksi.</p>
-                            <img src="images/ss prak3/18.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                            <p class="mt-1 mb-0">Pengguna dapat menekan field tersebut untuk membuka kalender, kemudian memilih tanggal yang diinginkan. Tanggal yang dipilih akan ditampilkan dalam format DD/MM/YYYY.</p>
-                            <img src="images/ss prak3/19.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                            <p class="mt-1 mb-0">Validasi tetap dilakukan ketika tombol Simpan Transaksi ditekan. Artinya, seluruh field pada form harus memenuhi aturan yang telah ditentukan. Judul transaksi dan nominal tidak boleh kosong, nominal harus berupa angka bulat, dan tanggal transaksi wajib dipilih.</p>
-                            <img src="images/ss prak3/20.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-                            <p class="mt-1 mb-0">Jika semua validasi berhasil, SnackBar menampilkan informasi transaksi beserta tanggal yang telah dipilih.</p>
-                            <img src="images/ss prak3/21.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
-
-                        </div>
                         
-                </section>
+                        <div class="step-list-item justify-text small">
+                            <strong>Membuat Fungsi Pemilihan Tanggal</strong>
+                            <img src="images/ss prak4/31.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Fungsi _selectDate() digunakan untuk menampilkan kalender menggunakan showDatePicker. Parameter context digunakan agar date picker dapat ditampilkan pada halaman yang sedang aktif. initialDate menentukan tanggal awal yang ditampilkan dan menggunakan tanggal saat ini. firstDate dan lastDate digunakan untuk menentukan rentang tanggal yang dapat dipilih.</p>
+                            <p class="mt-1 mb-0">Hasil pemilihan tanggal disimpan dalam variabel picked. Karena pengguna dapat menutup kalender tanpa memilih tanggal, nilai picked dapat bernilai null. Oleh karena itu, dilakukan pengecekan picked != null. Setelah tanggal dipilih, setState() digunakan untuk memperbarui tampilan dan memasukkan tanggal ke dalam _dateController. Nilai tanggal kemudian disusun dalam format DD/MM/YYYY.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>Menambahkan Input Tanggal pada Form</strong>
+                            <p class="mt-1 mb-0">Input tanggal ditambahkan pada bagian form sebelum tombol Simpan. TextFormField digunakan untuk menampilkan tanggal yang dipilih. Field ini dihubungkan dengan _dateController agar nilai tanggal dapat ditampilkan setelah pengguna memilih tanggal. Properti readOnly: true digunakan agar pengguna tidak mengetik tanggal secara langsung, melainkan memilihnya melalui kalender. suffixIcon menampilkan ikon kalender sebagai penanda bahwa field tersebut digunakan untuk memilih tanggal.</p>
+                            <img src="images/ss prak4/32.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">TextFormField digunakan sebagai tempat untuk menampilkan tanggal transaksi. Field dihubungkan dengan _dateController agar nilai tanggal dapat ditampilkan setelah pengguna memilih tanggal. Properti readOnly: true digunakan agar pengguna tidak mengetik tanggal secara langsung, melainkan memilihnya melalui kalender. suffixIcon menampilkan ikon kalender sebagai penanda bahwa field tersebut digunakan untuk memilih tanggal.</p>
+                            <p class="mt-1 mb-0">Ketika field ditekan, onTap akan menjalankan fungsi _selectDate(context) sehingga kalender ditampilkan. Pada bagian validator, dilakukan pemeriksaan untuk memastikan field tanggal telah diisi. Apabila masih kosong, sistem akan menampilkan pesan “Tanggal wajib diisi”.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <figcaption class="text-center pt-3">Kode Lengkap</figcaption>
+                            <img src="images/ss prak4/sadoe5.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>Outputnya</strong>
+                            <p class="mt-1 mb-0">Setelah latihan diterapkan, halaman Catat Transaksi memiliki tiga input utama, yaitu Judul, Nominal, dan Tanggal Transaksi.</p>
+                            <img src="images/ss prak4/33.png" alt="Thumbnail Java" class="img-fluid mt-4 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-5 mb-0">Pada bagian tanggal tersedia ikon kalender yang dapat digunakan untuk membuka showDatePicker</p>
+                            <img src="images/ss prak4/34.png" alt="Thumbnail Java" class="img-fluid mt-4 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-5 mb-0">Setelah pengguna memilih tanggal, tanggal akan ditampilkan dalam format DD/MM/YYYY.</p>
+                            <img src="images/ss prak4/35.png" alt="Thumbnail Java" class="img-fluid mt-4 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-5 mb-0">Jika tanggal belum diisi, aplikasi menampilkan pesan validasi “Tanggal wajib diisi”.</p>
+                            <img src="images/ss prak4/36.png" alt="Thumbnail Java" class="img-fluid mt-4 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-5 mb-0">Setelah seluruh input valid, pengguna menekan tombol Simpan dan aplikasi menampilkan SnackBar sebagai pemberitahuan bahwa transaksi berhasil disimpan. Setelah itu, pengguna kembali ke halaman dashboard.</p>
+                            <img src="images/ss prak4/37.png" alt="Thumbnail Java" class="img-fluid mt-4 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
 
                 <section class="mt-5 pt-4 border-top border-dark">
                     <h2>E. Kesimpulan</h2>
                     <div class="justify-text small text-muted">
-                        <p>Berdasarkan praktikum yang telah dilaksanakan, dapat disimpulkan bahwa praktikum ini memberikan pemahaman mengenai penggunaan Input Widgets dan Forms pada Flutter untuk membangun formulir yang dapat menerima dan mengelola data dari pengguna. Melalui penggunaan TextFormField, DropdownButtonFormField, TextEditingController, dan GlobalKey, data seperti judul transaksi, nominal, dan kategori dapat ditangkap serta diproses dengan lebih terstruktur. Praktikum juga menunjukkan penerapan validasi menggunakan validator untuk memastikan data yang dimasukkan tidak kosong dan memiliki format yang sesuai sebelum diproses.</p>
-                        <p>Pada latihan, formulir dikembangkan dengan menambahkan input Tanggal Transaksi menggunakan showDatePicker. Penambahan ini membuat proses pengisian tanggal lebih mudah sekaligus tetap dapat divalidasi agar wajib diisi. Secara keseluruhan, praktikum ini menunjukkan bahwa Flutter menyediakan widget dan mekanisme yang cukup lengkap untuk membangun form interaktif, menangkap input pengguna, mengatur pilihan data, serta melakukan validasi sehingga data yang diproses menjadi lebih terstruktur dan sesuai kebutuhan aplikasi.</p>
+                        <p>Berdasarkan praktikum yang telah dilakukan, dapat disimpulkan bahwa pengelolaan perpindahan halaman dan pengiriman data antar layar merupakan komponen esensial dalam pengembangan aplikasi menggunakan antarmuka Flutter. Praktikum ini telah berhasil menerapkan penggunaan widget Navigator yang beroperasi berdasarkan konsep tumpukan (stack). Perintah Navigator.push digunakan untuk membuka atau berpindah ke halaman baru, sedangkan Navigator.pop berfungsi untuk menutup layar aktif dan mengembalikan pengguna ke layar sebelumnya. Selain itu, pengiriman data antar halaman terbukti dapat dilakukan secara efektif dengan menyertakan Constructor pada halaman tujuan, yang memanfaatkan variabel final serta parameter required guna memastikan kelengkapan data saat transisi layar berlangsung.</p>
+                        <p>Secara implementasi, konsep navigasi dan passing data tersebut telah berhasil diintegrasikan ke dalam simulasi aplikasi pencatatan keuangan yang terstruktur ke dalam beberapa file terpisah, meliputi halaman Dashboard, form Tambah Transaksi, dan Detail Transaksi. Sebagai contoh, ketika riwayat transaksi pada Dashboard dipilih, aplikasi mengeksekusi navigasi sekaligus mengirimkan parameter spesifik seperti judul, nominal, kategori, dan tanggal ke halaman detail, sehingga antarmuka dapat menampilkan informasi secara dinamis dan akurat. Lebih lanjut, sistem juga sukses mengombinasikan validasi formulir pencatatan dengan pemunculan notifikasi (SnackBar) yang langsung diikuti oleh eksekusi Navigator.pop. Hal ini memungkinkan formulir tertutup secara otomatis dan mengembalikan pengguna ke halaman utama sesaat setelah proses penyimpanan disimulasikan.</p>
                     </div>
                 </section>
             </main>
