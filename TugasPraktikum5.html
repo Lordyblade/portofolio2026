@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas Praktikum 5</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/custom.css">
+    
+    <style>
+        :root {
+            --primary-color: #111827;
+            --text-color: #374151;
+            --muted-color: #6b7280;
+            --bg-color: #f3f4f6; 
+            --container-bg: #ffffff;
+            --border-color: #e5e7eb;
+            --border-dark: #d1d5db;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.75;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Container utama untuk membungkus seluruh dokumen */
+        .main-document-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: var(--container-bg);
+            padding: 60px 80px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border-radius: 8px;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 0; }
+            .main-document-wrapper { padding: 40px 20px; border-radius: 0; }
+        }
+
+        h1 { font-weight: 700; color: var(--primary-color); margin-bottom: 8px; letter-spacing: -0.02em; font-size: 2.2rem; }
+        h2 { font-weight: 600; font-size: 1.3rem; color: var(--primary-color); margin-top: 1px; margin-bottom: 25px; padding-bottom: 8px; border-bottom: 2px solid var(--primary-color); display: inline-block; }
+        h3 { font-weight: 600; font-size: 1.1rem; color: var(--primary-color); margin-top: 25px; }
+        
+        .justify-text { text-align: justify; text-justify: inter-word; }
+
+        /* --- PEMBATAS KOLOM --- */
+        .column-divider {
+            column-count: 2;
+            column-gap: 40px;
+            column-rule: 1px solid var(--border-dark); 
+        }
+
+        .col-bordered {
+            border-right: 1px solid var(--border-dark);
+        }
+
+        /* List Langkah-langkah  */
+        .step-list-item {
+            border-left: 3px solid var(--bs-secondary);
+            background-color: #f9fafb;
+            padding: 20px 25px;
+            border-radius: 0 6px 6px 0;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--bs-secondary);
+        }
+
+        @media (max-width: 768px) { 
+            .column-divider { column-count: 1; column-rule: none; } 
+            .col-bordered { border-right: none; border-bottom: 1px solid var(--border-dark); padding-bottom: 15px; margin-bottom: 15px; }
+        }
+
+        .metadata {
+            margin-bottom: 40px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        pre[class*="language-"] {
+            background: #ffffff !important;
+            border: 1px solid var(--border-color) !important;
+            padding: 1.2em !important;
+            border-radius: 6px !important;
+            margin-top: 15px !important;
+        }
+        .req-item {
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            color: var(--text-color);
+            background-color: var(--container-bg);
+            display: flex;
+            align-items: center;
+        }
+
+        .req-item span {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+    </style>
+</head>
+<body class="bg-ibraaa-gradient">
+
+    <nav class="navbar navbar-expand-md bg-white fixed-top ">
+      <div class="container">
+        <a class="navbar-brand fw-bold link-hover" href="index.html">IM</a>
+
+        <button 
+          class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="nav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link link-hover" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link link-hover" href="about.html">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link link-hover" href="portofolio.html">Portfolio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link link-hover" href="kontak.html">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link link-hover" href="laprak.html">Report</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mb-5 mt-5">
+        <article class="main-document-wrapper shadow">
+            <header class="metadata">
+                <div class="row align-items-center">
+                    <div class="col-md-7">
+                        <h6 class="text-uppercase text-muted mb-2" style="letter-spacing: 1.5px; font-size: 0.75rem; font-weight: 600;">Tugas Praktikum 5</h6>
+                        <h1>Laporan Akhir: Project UangKu - Expensed Tracker</h1>
+                    </div>
+                    <div class="col-md-5 text-md-end mt-3 mt-md-0 text-muted" style="font-size: 0.85rem;">
+                        <span class="d-block text-dark fw-semibold">Ibrahim Mousa Dhani</span>
+                        <span>2411532010</span><br>
+                        <span>IF - Universitas Andalas</span>
+                    </div>
+                </div>
+            </header>
+
+            <main>
+                <section>
+                    <h2>A. Pendahuluan</h2>
+                    <div class="column justify-text small">
+                       <p>Pengelolaan keuangan pribadi memerlukan pencatatan pemasukan dan pengeluaran yang teratur agar pengguna dapat mengetahui perubahan saldo serta meninjau transaksi yang telah dilakukan. Aplikasi pada perangkat bergerak dapat membantu proses tersebut karena informasi dapat dicatat dan diperiksa secara langsung melalui satu antarmuka.</p>
+                       <p>Berdasarkan kebutuhan tersebut, dikembangkan UangKu - Expense Tracker, yaitu aplikasi pencatatan keuangan berbasis Flutter yang merupakan kelanjutan dari materi Praktikum I sampai Praktikum V. Materi widget dan manajemen state, penyusunan layout, input dan validasi formulir, serta navigasi digabungkan dengan fitur Login, Register, dan penyimpanan lokal menggunakan SQLite.</p>
+                       <p>Pada versi ini, pengguna dapat membuat akun, masuk menggunakan akun tersebut, menambahkan transaksi pemasukan atau pengeluaran, melihat saldo dan riwayat transaksi, serta membuka informasi profil. Data akun dan transaksi disimpan pada database lokal perangkat. Oleh karena itu, data dapat dibaca kembali setelah aplikasi dibuka ulang selama data aplikasi tidak dihapus atau aplikasi tidak diuninstal. Laporan ini menjelaskan teori pendukung, struktur berkas, implementasi fitur, serta keluaran yang diharapkan dari aplikasi.</p>
+                </section>
+
+
+                <section class="mt-5">
+                    <h2>B. Tujuan</h2>
+                    <div class="justify-text small text-muted">
+                        <p class="mb-2">Pengembangan UangKu - Expense Tracker bertujuan menghasilkan aplikasi pencatatan keuangan berbasis Flutter yang menggabungkan fitur navigasi, autentikasi pengguna, dan penyimpanan data lokal. Secara khusus, tujuan pengembangan ini adalah sebagai berikut:</p>
+                        <ul class="ps-3 mb-0">
+                            <li class="mb-1">Mengintegrasikan halaman Dashboard, Catat Transaksi, Detail Transaksi, Riwayat, Login, Register, dan Profil dalam satu aplikasi.</li>
+                            <li class="mb-1">Menyediakan proses Register dan Login dengan validasi input serta pemeriksaan akun yang tersimpan secara lokal.</li>
+                            <li class="mb-1">Menggunakan SQLite untuk menyimpan akun dan transaksi sehingga data dapat dibaca kembali setelah aplikasi ditutup dan dibuka ulang.</li>
+                            <li class="mb-1">Menghitung saldo berdasarkan pemasukan dan pengeluaran serta menampilkan riwayat transaksi sesuai akun yang sedang login.</li>
+                    </div>
+                </section>
+
+                <section class="mt-5">
+                    <h2>C. Alat</h2>
+                    <div class="justify-text small text-muted">
+                        <p class="mb-2">Perangkat dan dependensi yang digunakan selama praktikum:</p>
+                        <ul class="ps-3 mb-0">
+                            <li class="mb-1">Flutter SDK</li>
+                            <li class="mb-1">Code Editor : VS Code atau Android Studio. </li>
+                            <li class="mb-1">Emulator Android atau perangkat fisik untuk menjalankan aplikasi.</li>
+                            <li class="mb-1">Proyek Flutter dari Praktikum IV yang berisi halaman Dashboard, form tambah transaksi, dan detail transaksi.</li>
+                            <li class="mb-1">Paket Flutter: sqflite, path, crypto, dan intl.</li>
+                            <li class="mb-1">Perangkat Android atau emulator dengan dukungan SQLite.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="mt-5">
+                    <h2>D. Dasar Teori</h2>
+                    <div class="column justify-text small">
+                       <p><strong>Named Routes</strong><br>
+                       Named Routes adalah metode navigasi Flutter yang menggunakan nama berupa string untuk mengakses halaman. Nama rute didaftarkan pada properti routes di MaterialApp, sehingga pemanggilan halaman tidak perlu menuliskan MaterialPageRoute berulang kali di setiap tombol. Pada praktikum ini, rute “/” digunakan untuk halaman utama yang memiliki tab, sedangkan rute “/add” digunakan untuk halaman tambah transaksi.</p>
+                       <p>Properti initialRoute menentukan halaman pertama yang dibuka. Sementara itu, routes berisi pemetaan nama rute dengan widget yang akan ditampilkan. Setelah rute didaftarkan, perpindahan dapat dilakukan dengan Navigator.pushNamed(context, “/add”).</p>
+                       
+                       <p><strong>Bottom Navigation Bar</strong><br>
+                       BottomNavigationBar merupakan menu navigasi yang diletakkan di bagian bawah layar. Menu ini dapat digunakan untuk berpindah antara halaman utama seperti Beranda, Riwayat, dan Profil tanpa harus membangun navigasi baru pada setiap halaman.</p>
+                       <p>Properti currentIndex menunjukkan tab yang sedang aktif, sedangkan items berisi ikon dan label tiap tab. Ketika pengguna memilih tab, fungsi onTap menerima indeks pilihan. Nilai indeks kemudian diubah menggunakan setState() agar Flutter membangun ulang tampilan dengan halaman yang sesuai.</p>
+                       
+                       <p><strong>Penyimpanan Lokal Menggunakan SQLite</strong><br>
+                       SQLite adalah basis data relasional yang disimpan sebagai berkas pada perangkat. Pada aplikasi ini, SQLite digunakan untuk menyimpan data pengguna dan transaksi melalui paket sqflite. Data tidak hanya berada di variabel atau daftar sementara pada memori, tetapi ditulis ke tabel database sehingga dapat dibaca kembali ketika aplikasi dibuka ulang. Penyimpanan ini bersifat lokal pada perangkat dan tidak otomatis tersinkron ke perangkat lain.</p>
+                       <p>Tabel users menyimpan identitas pengguna, email unik, serta hash dan salt password. Tabel transactions menyimpan transaksi yang berkaitan dengan pengguna melalui user_id. Relasi tersebut membuat setiap pengguna hanya melihat transaksi miliknya. Primary key digunakan sebagai identitas baris, sedangkan batasan UNIQUE pada email membantu mencegah pendaftaran akun dengan email yang sama.</p>
+
+                       <p><strong>Login dan Register</strong><br>
+                       Register merupakan proses pembuatan akun baru dengan mengisi nama, email, password, dan konfirmasi password. Form memvalidasi data sebelum akun disimpan. Login memeriksa email dan password terhadap data yang sudah tersimpan di SQLite. Jika cocok, aplikasi meneruskan data pengguna ke halaman utama; jika tidak cocok, aplikasi menampilkan pesan kegagalan dan tetap berada pada halaman Login.</p>
+                       <p>Untuk demonstrasi lokal ini, password tidak disimpan sebagai teks biasa. Aplikasi menyimpan hash SHA-256 bersama salt acak. Pendekatan ini membantu menghindari penyimpanan password mentah, tetapi tetap merupakan implementasi pembelajaran lokal dan bukan pengganti sistem autentikasi produksi yang dirancang khusus untuk keamanan.</p>
+                </section>
+
+                <section class="mt-5">
+                    <h2>E. Langkah-Langkah Pengembangan Aplikasi</h2>
+                    <p class="justify-text small mb-4">Proyek UangKu - Expense Tracker ini melanjutkan dari praktikum-praktikum sebelumnya. Pada tahap awal, pastikan file main.dart, dashboard_screen.dart, add_transaction_screen.dart, dan transaction_detail_screen.dart tersedia di dalam folder lib (dari Praktikum IV). Selanjutnya, main_screen.dart digunakan sebagai penampung tab utama, sementara history_screen.dart dan profile_screen.dart dikembangkan lebih lanjut (dari Praktikum V). Untuk versi lanjutan dalam laporan ini, ditambahkan login_screen.dart, register_screen.dart, dan app_database.dart untuk mengelola autentikasi serta penyimpanan akun dan transaksi di SQLite.</p>
+        
+                        <div class="step-list-item justify-text small">
+                            <strong>1. Mendaftarkan Named Routes pada main.dart</strong>
+                            <p class="mt-1 mb-0">Pada file main.dart, pemanggilan halaman awal melalui properti home diganti dengan initialRoute dan routes. Dengan cara ini, halaman utama diakses melalui rute “/”, sedangkan halaman tambah transaksi diakses melalui rute “/add”.</p>
+                            <figcaption class="text-muted small text-center pt-3">Konfigurasi Named Routes pada file main.dart.</figcaption>
+                            <img src="images/ss prak5/carbon (1).png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Bagian initialRoute: “/” menetapkan MainScreen sebagai halaman pertama. Pemetaan di dalam routes menghubungkan setiap nama rute dengan widget tujuan. Baris yang mengarah ke AddTransactionScreen memungkinkan layar input transaksi dibuka melalui nama rute, bukan dengan membuat MaterialPageRoute secara langsung.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>2. Membuat MainScreen sebagai Penampung Tab</strong>
+                            <p class="mt-1 mb-0">Buat file main_screen.dart. Widget MainScreen menggunakan StatefulWidget karena indeks tab aktif dapat berubah ketika pengguna memilih menu yang berbeda. Variabel _selectedIndex dimulai dari 0 sehingga tab Beranda aktif ketika halaman pertama kali dibuka.</p>
+                            <figcaption class="text-muted small text-center pt-3">Implementasi MainScreen dan BottomNavigationBar untuk tiga tab utama.</figcaption>
+                            <img src="images/ss prak5/carbon (2).png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">List _pages menampung widget yang ditampilkan. Dalam versi dasar modul, halaman Dashboard diambil dari Praktikum IV, halaman Riwayat masih berupa teks sementara, dan halaman Profil mengarah ke ProfileScreen. Setelah pengguna memilih menu, fungsi _onItemTapped() memanggil setState() untuk memperbarui _selectedIndex. Bagian body kemudian menampilkan widget sesuai indeks yang aktif.</p>
+                            <p class="mt-1 mb-0">BottomNavigationBar memiliki tiga item, yaitu Beranda, Riwayat, dan Profil. Nilai currentIndex mengikuti _selectedIndex, sementara onTap menjalankan _onItemTapped. Dengan susunan ini, navigasi antartab dikelola dari satu Scaffold utama.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>3. Memperbarui Tombol Tambah pada Dashboard</strong>
+                            <p class="mt-1 mb-0">Buka dashboard_screen.dart yang sudah dibuat pada Praktikum IV. Pada bagian floatingActionButton, ganti navigasi berbasis Navigator.push dan MaterialPageRoute dengan Navigator.pushNamed. Rute “/add” sudah terdaftar pada main.dart sehingga tombol dapat memanggilnya secara langsung.</p>
+                            <figcaption class="text-muted small text-center pt-3">Perubahan tombol tambah transaksi menggunakan Navigator.pushNamed.</figcaption>
+                            <img src="images/ss prak5/carbon (3).png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Ketika tombol tambah ditekan, Flutter membuka AddTransactionScreen melalui rute “/add”. Setelah pengguna menutup halaman tersebut dengan Navigator.pop(), aplikasi kembali ke halaman sebelumnya, yaitu Dashboard.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>4. Membuat Halaman Riwayat Transaksi</strong>
+                            <p class="mt-1 mb-0">Buat file history_screen.dart. Halaman ini menampilkan beberapa contoh transaksi dalam bentuk daftar. Data masih ditulis langsung pada kode untuk keperluan tampilan, sehingga belum mengambil data secara dinamis dari penyimpanan aplikasi.</p>
+                            <img src="images/ss prak5/carbon (4).png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">List transactions menyimpan contoh judul, nominal, kategori, tanggal, dan jenis transaksi. ListView.builder menampilkan data tersebut satu per satu. Warna hijau digunakan untuk pemasukan, sedangkan warna merah digunakan untuk pengeluaran agar keduanya mudah dibedakan.</p>
+                        </div>
+
+                        
+                        <div class="step-list-item justify-text small">
+                            <strong>5. Membuat Halaman Profil</strong>
+                            <p class="mt-1 mb-0">Buat atau perbarui file profile_screen.dart. Halaman ini menampilkan avatar, nama pengguna, email, dan tombol Logout. Email diterima melalui constructor dari halaman utama. Agar nama tidak hanya berupa teks tetap, halaman Profil menggunakan getter _displayName untuk membentuk nama tampilan dari bagian alamat email sebelum tanda @. Dengan demikian, isi Profil mengikuti email yang dimasukkan pada halaman Login, tanpa memerlukan kolom nama tambahan.</p>
+                            <img src="images/ss prak5/carbon (5).png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Getter _displayName mengambil bagian email sebelum tanda @, menghapus angka, mengganti pemisah seperti titik, garis bawah, dan tanda hubung menjadi spasi, lalu mengubah huruf awal setiap kata menjadi kapital. Contohnya, email ibrahim.mousa@gmail.com ditampilkan sebagai “Ibrahim Mousa”. Nama tersebut merupakan nama tampilan yang diperkirakan dari email, bukan nama asli yang diambil dari akun atau database; jika nama asli harus diinput pengguna, formulir Login perlu ditambah kolom Nama. Tombol Logout menggunakan Navigator.pushNamedAndRemoveUntil untuk kembali ke halaman Login sekaligus menghapus rute sebelumnya dari tumpukan navigasi, sehingga pengguna tidak langsung kembali ke halaman utama menggunakan tombol kembali setelah logout.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>6. Membuat Halaman Login</strong>
+                            <p class="mt-1 mb-0">Buat file login_screen.dart. Form Login memiliki TextFormField untuk email dan password. Validasi memastikan email tidak kosong dan memiliki karakter “@”, serta password wajib diisi. Karena tugas berfokus pada navigasi dan pengiriman data, login ini hanya berupa simulasi antarmuka dan belum melakukan pemeriksaan akun melalui server atau database.</p>
+                            <img src="images/ss prak5/carbon (6).png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Ketika tombol Login ditekan, fungsi _login() memeriksa validitas form. Jika valid, email yang telah di-trim dikirim melalui argumen pada Navigator.pushReplacementNamed(context, "/", arguments: email). Rute halaman Login digantikan oleh halaman utama sehingga pengguna berpindah ke aplikasi tanpa menumpuk halaman Login di atasnya.</p>
+                         </div>
+
+                         <div class="step-list-item justify-text small">
+                            <strong>7. Mengintegrasikan Rute Login</strong>
+                            <p class="mt-1 mb-0">Agar aplikasi latihan dimulai dari Login, ubah main.dart. Versi dasar pada langkah praktikum menggunakan initialRoute “/”, sedangkan versi latihan menggunakan initialRoute “login” tanpa garis miring awal. Penamaan ini menghindari perilaku Flutter yang dapat membentuk rute “/” sebagai rute perantara saat menyusun initial route. Rute “/” tetap mengarah ke MainScreen dan rute “/add” tetap mengarah ke AddTransactionScreen.</p>
+                            <img src="images/ss prak5/carbon (7).png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Perubahan initialRoute tersebut diperlukan hanya untuk memenuhi alur Login pada tugas. Pada tahap dasar Named Routes, initialRoute “/” tetap sesuai dengan urutan yang diberikan dalam modul. Nama rute “login” tanpa garis miring awal digunakan khusus pada versi latihan agar layar Login dibuka sebagai satu rute awal.</p>
+                         </div>
+
+                         <div class="step-list-item justify-text small">
+                            <strong>8. Memperbarui MainScreen untuk Menampilkan Email dan Halaman Riwayat</strong>
+                            <p class="mt-1 mb-0">Perbarui file main_screen.dart agar daftar halaman menggunakan HistoryScreen yang sudah dibuat. MainScreen membaca email dari argumen rute melalui ModalRoute.of(context)?.settings.arguments. Email tersebut diteruskan ke DashboardScreen dan ProfileScreen. Pada Dashboard, nama tampilan dibuat dari bagian email sebelum tanda @, sedangkan alamat email lengkap tetap ditampilkan di bawah sapaan.</p>
+                            <img src="images/ss prak5/carbon (8).png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Pada versi akhir ini, Dashboard menerima email dari halaman Login melalui argumen named route. Getter _displayName membentuk nama tampilan dari bagian email sebelum tanda @ dengan mengganti pemisah titik, garis bawah, atau tanda hubung menjadi spasi, menghapus angka, dan mengubah huruf awal setiap kata menjadi kapital. Contohnya, ibrahim.mousa@gmail.com akan menghasilkan sapaan “Halo, Ibrahim Mousa”. Alamat email lengkap juga ditampilkan pada baris tersendiri di bawah sapaan. Tampilan saldo, daftar transaksi, dan tombol tambah tetap dipertahankan dari Dashboard Praktikum IV; tombol tambah menggunakan named route “/add” sesuai Modul V.</p>
+                            <img src="images/ss prak5/carbon (9).png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Variabel displayedEmail memastikan alamat email dari Login ditampilkan apa adanya setelah spasi di awal atau akhir dihilangkan. Sementara itu, $_displayName merujuk pada getter yang mengubah bagian nama sebelum tanda @ menjadi nama tampilan yang lebih mudah dibaca. Nama tersebut hanya perkiraan berdasarkan teks email dan bukan nama asli yang diverifikasi.</p>
+                         </div>
+
+                <h4 class="fw-bold mb-3 pt-5" style="font-size: 1.15rem; color: var(--primary-color);">Implementasi Fitur Lanjutan UangKu</h4>
+                <p class="justify-text small mb-4">Halaman Dashboard, navigasi bawah, dan alur pencatatan transaksi tetap dipertahankan dengan gaya visual utama berwarna merah. Halaman Login dan Register ditambahkan sebagai tampilan baru, sedangkan data akun dan transaksi disimpan melalui SQLite. Dengan perubahan ini, daftar transaksi dan saldo tidak lagi hanya mengandalkan data statis yang ditulis langsung pada widget.</p>
+    
+                        <div class="step-list-item justify-text small">
+                            <strong>9. Menghubungkan Halaman Riwayat dengan SQLite</strong>
+                            <p class="mt-1 mb-0">Pada implementasi awal, daftar Riwayat menggunakan data contoh yang ditulis di dalam kode. Pada versi lanjutan, HistoryScreen menerima userId dan mengambil transaksi milik pengguna dari AppDatabase. Data dimuat kembali ketika tab Riwayat dibuka sehingga transaksi yang baru disimpan dapat ditampilkan. Setiap item menampilkan judul, kategori, tanggal, nominal, dan warna yang membedakan pemasukan dengan pengeluaran.</p>
+                            <figcaption class="text-muted small text-center pt-3">Pengambilan riwayat transaksi berdasarkan akun pengguna.</figcaption>
+                            <img src="images/ss project/carbon (1).png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Kode tersebut menunjukkan bahwa halaman Riwayat tidak lagi membuat daftar contoh secara lokal pada setiap render. Fungsi getTransactions mengambil data dari tabel transactions berdasarkan user_id, kemudian hasil query disimpan pada state untuk ditampilkan oleh ListView.builder. Karena menggunakan data dari database, riwayat dapat dibaca kembali setelah aplikasi dibuka ulang.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>10. Membuat Halaman Profil dan Logout</strong>
+                            <p class="mt-1 mb-0">Halaman Profil menampilkan nama dan email yang tersimpan untuk akun yang sedang login. Data pengguna diteruskan sebagai Map dari hasil Login atau Register. Tombol Logout menghapus halaman utama dari tumpukan navigasi dan mengembalikan pengguna ke halaman Login. Logout tidak menghapus data akun atau transaksi di SQLite, sehingga pengguna dapat masuk kembali menggunakan akun yang sama.</p>
+                            <figcaption class="text-muted small text-center pt-3">Pengiriman data pengguna ke halaman Profil dan penghapusan halaman utama saat Logout.</figcaption>
+                            <img src="images/ss project/carbon (2).png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Ketika tombol Logout ditekan, aplikasi menghapus halaman-halaman sebelumnya dari tumpukan navigasi dan kembali ke Login. Data yang tersimpan di SQLite tetap dipertahankan.</p>
+                            <figcaption class="text-muted small text-center pt-3">Pengambilan identitas pengguna dan aksi Logout pada halaman Profil.</figcaption>
+                            <img src="images/ss project/carbon (3).png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>11. Mengembangkan Halaman Login</strong>
+                            <p class="mt-1 mb-0">Halaman Login menyediakan kolom email dan password serta tautan menuju Register. Sebelum pemeriksaan akun dijalankan, form memvalidasi bahwa email diisi dengan format yang sesuai dan password tidak kosong. Selanjutnya, fungsi loginUser pada AppDatabase mencari akun berdasarkan email dan mencocokkan hash password. Jika data tidak sesuai, aplikasi menampilkan pesan kesalahan. Jika cocok, data pengguna diteruskan ke rute /home.</p>
+                            <figcaption class="text-muted small text-center pt-3">Pemeriksaan akun pada SQLite dan pengiriman data pengguna ke halaman utama.</figcaption>
+                            <img src="images/ss project/carbon (4).png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>12. Menambahkan Halaman Register</strong>
+                            <p class="mt-1 mb-0">Halaman Register merupakan fitur baru yang melengkapi Login simulasi pada versi latihan awal. Pengguna mengisi nama lengkap, email, password, dan konfirmasi password. Form memeriksa kolom wajib, format email, panjang password minimal enam karakter, serta kecocokan konfirmasi password. Setelah validasi berhasil, aplikasi memanggil registerUser untuk menyimpan akun baru di tabel users. Email dibuat unik agar tidak dapat digunakan oleh dua akun yang berbeda. Setelah berhasil mendaftar, pengguna langsung diarahkan ke halaman utama.</p>
+                            <figcaption class="text-muted small text-center pt-3">Penyimpanan akun baru dan validasi email pada form Register.</figcaption>
+                            <img src="images/ss project/carbon (5).png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Contoh validator email memeriksa kolom kosong dan format alamat email sebelum data dikirim ke database:</p>
+                            <figcaption class="text-muted small text-center pt-3">Penyimpanan akun baru dan validasi email pada form Register.</figcaption>
+                            <img src="images/ss project/carbon (6).png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p>Jika email sudah pernah digunakan, SQLite menolak data karena kolom email memiliki batasan UNIQUE. Aplikasi kemudian menampilkan pesan bahwa email telah terdaftar. Dengan demikian, proses Register dan Login menggunakan data akun yang sama, bukan data contoh yang hanya berlaku selama aplikasi berjalan.</p>
+                        </div>
+                        
+                        <div class="step-list-item justify-text small">
+                            <strong>13. Membuat Database Lokal dengan SQLite</strong>
+                            <p class="mt-1 mb-0">File app_database.dart bertanggung jawab menyiapkan basis data dan menyediakan operasi untuk membuat akun, memeriksa akun saat Login, membaca transaksi, menghitung saldo, serta menyimpan transaksi baru. Database dibuat dengan nama expense_tracker.db. Tabel users menyimpan informasi akun, sementara tabel transactions menyimpan transaksi dan menghubungkannya dengan pemilik melalui user_id.</p>
+                            <figcaption class="text-muted small text-center pt-3">Struktur tabel pengguna dan transaksi pada SQLite.</figcaption>
+                            <img src="images/ss project/carbon (7).png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Operasi penyimpanan dijalankan melalui metode asynchronous agar antarmuka tetap responsif ketika database diakses. Password tidak disimpan sebagai teks biasa; aplikasi membuat salt acak dan menyimpan hasil hash bersama salt tersebut. Ketika Login dilakukan, hash dihitung kembali dari salt dan password yang dimasukkan, lalu dibandingkan dengan nilai yang tersimpan. Implementasi hashing ini ditujukan untuk kebutuhan pembelajaran lokal dan belum dimaksudkan sebagai mekanisme autentikasi produksi.</p>
+                            <figcaption class="text-muted small text-center pt-3">Menghitung saldo dari pemasukan dikurangi pengeluaran pada database.</figcaption>
+                            <img src="images/ss project/carbon (8).png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p>Ketika akun baru dibuat, aplikasi juga menambahkan dua transaksi contoh, yaitu Makan Siang dan Gaji Bulanan, untuk menjaga agar tampilan awal tetap mendekati contoh Dashboard pada modul. Kedua data tersebut masuk ke SQLite satu kali saat Register berhasil dan tidak dibuat ulang ketika halaman dibangun. Transaksi baru yang dimasukkan pengguna juga disimpan pada tabel yang sama.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>14. Mengintegrasikan Named Routes dan Data Pengguna</strong>
+                            <p class="mt-1 mb-0">Pada versi terintegrasi, aplikasi dimulai dari Login. Named routes digunakan untuk mengatur perpindahan ke Login, Register, halaman utama, dan form tambah transaksi. Rute /home menerima objek user dari hasil Login atau Register. Rute /add menerima userId agar transaksi yang disimpan tercatat sebagai milik pengguna yang sedang masuk.</p>
+                            <figcaption class="text-muted small text-center pt-3">Pemetaan named routes untuk Login, Register, halaman utama, dan tambah transaksi.</figcaption>
+                            <img src="images/ss project/carbon (9).png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">MainScreen bertindak sebagai wadah untuk tiga tab utama. Dashboard menerima data user untuk menampilkan nama dan email, HistoryScreen menerima userId untuk membaca transaksi milik akun yang sedang aktif, dan ProfileScreen menerima data pengguna yang sama. Body menampilkan halaman berdasarkan indeks tab yang dipilih sehingga BottomNavigationBar tetap menjadi navigasi utama.</p>
+                            <figcaption class="text-muted small text-center pt-3">Integrasi Dashboard, Riwayat, Profil, dan BottomNavigationBar.</figcaption>
+                            <img src="images/ss project/carbon (10).png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                         </div>
+
+                         <div class="step-list-item justify-text small">
+                            <strong>15. Menyimpan Transaksi dari Form</strong>
+                            <p class="mt-1 mb-0">Form Catat Transaksi mempertahankan masukan judul, nominal, jenis transaksi, kategori, dan tanggal. Data divalidasi sebelum disimpan. Nominal harus berupa angka positif, tanggal harus dipilih, dan kolom yang diwajibkan tidak boleh kosong. Ketika tombol Simpan ditekan, addTransaction menulis data ke SQLite berdasarkan userId akun aktif. Setelah penyimpanan berhasil, halaman form ditutup dan Dashboard memuat ulang saldo serta transaksi terakhir.</p>
+                            <figcaption class="text-muted small text-center pt-3">Menyimpan data transaksi ke SQLite dan mengembalikan hasil ke Dashboard.</figcaption>
+                            <img src="images/ss project/carbon (11).png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Dashboard menghitung saldo dari seluruh transaksi tersimpan: pemasukan menambah saldo dan pengeluaran mengurangi saldo. Dengan demikian, nominal saldo tidak hanya berupa angka statis, melainkan berubah mengikuti transaksi yang dicatat pengguna. Riwayat mengambil catatan yang sama dari database, sehingga data pada Dashboard dan Riwayat bersumber dari penyimpanan yang konsisten.</p>
+                        </div>
+
+
+                </section>
+
+                 <section class="mt-5 pt-4 border-top border-dark">
+                    <h2>F. File-File yang Digunakan</h2>
+                    <p>Proyek UangKu - Expense Tracker disusun dengan memisahkan fungsi antarmuka, navigasi, validasi formulir, dan pengelolaan database ke dalam beberapa berkas. Pemisahan ini membuat kode lebih mudah dibaca, dirawat, dan dikembangkan. Berkas utama beserta perannya dijelaskan pada tabel berikut.</p>
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped align-middle">
+                            <thead class="table-dark">
+                            <tr>
+                                <th style="width: 30%;">Nama File</th>
+                                <th>Fungsi dan Penjelasan</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><code>lib/main.dart</code></td>
+                                <td>Titik masuk aplikasi. Menginisialisasi format tanggal Indonesia, menetapkan tema, nama aplikasi UangKu - Expense Tracker, serta mengatur rute Login, Register, halaman utama, dan form transaksi.</td>
+                            </tr>
+                            <tr>
+                                <td><code>lib/main_screen.dart</code></td>
+                                <td>Menjadi wadah halaman utama setelah Login. Mengelola tab Beranda, Riwayat, dan Profil melalui BottomNavigationBar serta meneruskan data akun ke halaman yang memerlukannya.</td>
+                            </tr>
+                            <tr>
+                                <td><code>lib/dashboard_screen.dart</code></td>
+                                <td>Menampilkan sapaan dan email pengguna, kartu saldo, daftar transaksi terbaru, dan tombol tambah transaksi. Data saldo serta transaksi dimuat dari SQLite berdasarkan akun yang sedang aktif.</td>
+                            </tr>
+                            <tr>
+                                <td><code>lib/add_transaction_screen.dart</code></td>
+                                <td>Menyediakan formulir untuk judul transaksi, nominal, jenis pemasukan/pengeluaran, kategori, dan tanggal. Input divalidasi sebelum disimpan ke database.</td>
+                            </tr>
+                            <tr>
+                                <td><code>lib/transaction_detail_screen.dart</code></td>
+                                <td>Menampilkan rincian transaksi yang dipilih dari Dashboard atau Riwayat, termasuk judul, nominal, kategori, dan tanggal transaksi.</td>
+                            </tr>
+                            <tr>
+                                <td><code>lib/login_screen.dart</code></td>
+                                <td>Menampilkan form Login berisi email dan password. Form divalidasi, lalu kredensial diperiksa menggunakan fungsi Login pada AppDatabase. Jika cocok, pengguna diarahkan ke halaman utama.</td>
+                            </tr>
+                            <tr>
+                                <td><code>lib/register_screen.dart</code></td>
+                                <td>Menampilkan form pembuatan akun baru, termasuk nama, email, password, dan konfirmasi password. Data divalidasi dan disimpan melalui AppDatabase; email yang sudah terdaftar ditolak.</td>
+                            </tr>
+                            <tr>
+                                <td><code>lib/history_screen.dart</code></td>
+                                <td>Mengambil dan menampilkan riwayat transaksi dari SQLite berdasarkan user_id. Pengguna dapat memperbarui daftar dan membuka detail transaksi dari item yang dipilih.</td>
+                            </tr>
+                            <tr>
+                                <td><code>lib/profile_screen.dart</code></td>
+                                <td>Menampilkan avatar, nama, dan email dari akun aktif. Tombol Logout mengembalikan pengguna ke halaman Login tanpa menghapus akun maupun transaksi yang tersimpan.</td>
+                            </tr>
+                            <tr>
+                                <td><code>lib/app_database.dart</code></td>
+                                <td>Mengelola database SQLite: membuat tabel users dan transactions, mendaftarkan akun, memverifikasi Login, mengambil data transaksi, menambahkan transaksi, serta menghitung saldo. Password disimpan sebagai hash dengan salt, bukan sebagai teks biasa.</td>
+                            </tr>
+                            <tr>
+                                <td><code>pubspec.yaml</code></td>
+                                <td>Mendefinisikan nama dan versi paket, versi SDK yang didukung, serta dependensi seperti sqflite, path, crypto, dan intl yang digunakan aplikasi.</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="mt-5 pt-4 border-top border-dark">
+                    <h2>G. Output Aplikasi</h2>
+                            <p class="mt-1 mb-0"><strong>Pengujian Halaman Register</strong><br>Pengujian dilakukan dengan memasukkan nama pengguna, alamat email, kata sandi, dan konfirmasi kata sandi pada halaman Register. Setelah tombol Register ditekan, diperiksa apakah akun berhasil dibuat dan disimpan ke dalam database SQLite. Pengujian juga dilakukan dengan memasukkan data yang tidak lengkap, kata sandi yang tidak sesuai, atau email yang sudah terdaftar untuk memastikan aplikasi memberikan respons yang sesuai.</p>
+                            <img src="images/ss project/.png" alt="Thumbnail Java" class="img-fluid mt-4 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0"><strong>Pengujian Halaman Login</strong><br>Pengujian dilakukan dengan memasukkan email dan kata sandi dari akun yang telah terdaftar. Setelah tombol Login ditekan, diperiksa apakah aplikasi berhasil mengarahkan pengguna ke halaman utama. Selain itu, pengujian dilakukan menggunakan email atau kata sandi yang salah untuk memastikan aplikasi menolak proses login dan menampilkan pesan yang sesuai.</p>
+                            <img src="images/ss project/.png" alt="Thumbnail Java" class="img-fluid mt-4 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                             <p class="mt-1 mb-0"><strong>Pengujian Halaman Dashboard</strong><br>Pengujian dilakukan dengan memeriksa tampilan Dashboard setelah pengguna berhasil Login. Hal yang diperiksa meliputi sapaan nama pengguna, alamat email, informasi saldo, dan daftar transaksi terbaru. Pengujian ini bertujuan memastikan informasi yang ditampilkan sesuai dengan data pengguna dan transaksi yang tersimpan di dalam database.</p>
+                            <img src="images/ss project/.png" alt="Thumbnail Java" class="img-fluid mt-4 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                             <p class="mt-1 mb-0"><strong>Pengujian Halaman Catat Transaksi</strong><br>Pengujian dilakukan dengan memasukkan data transaksi berupa judul, nominal, jenis transaksi, kategori, dan tanggal. Setelah tombol Simpan ditekan, diperiksa apakah data transaksi berhasil disimpan ke SQLite dan apakah aplikasi memberikan respons yang sesuai. Pengujian juga dilakukan dengan membiarkan kolom wajib kosong untuk memastikan validasi formulir berjalan dengan baik.</p>
+                            <img src="images/ss project/.png" alt="Thumbnail Java" class="img-fluid mt-4 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                             <p class="mt-1 mb-0"><strong>Pengujian Halaman Detail Transaksi</strong><br>Pengujian dilakukan dengan memilih salah satu transaksi pada Dashboard atau halaman Riwayat. Selanjutnya, diperiksa apakah halaman Detail Transaksi menampilkan informasi yang sesuai dengan transaksi yang dipilih, seperti judul, nominal, kategori, jenis transaksi, dan tanggal. Pengujian ini bertujuan memastikan data transaksi diteruskan dan ditampilkan dengan benar.</p>
+                            <img src="images/ss project/.png" alt="Thumbnail Java" class="img-fluid mt-4 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                             <p class="mt-1 mb-0"><strong>Pengujian Halaman Riwayat</strong><br>Pengujian dilakukan dengan membuka menu Riwayat melalui Bottom Navigation Bar. Diperiksa apakah daftar transaksi yang sebelumnya disimpan dapat ditampilkan dengan benar, termasuk informasi pemasukan dan pengeluaran. Pengujian juga dilakukan setelah menambahkan transaksi baru untuk memastikan data tersebut muncul pada halaman Riwayat.</p>
+                            <img src="images/ss project/.png" alt="Thumbnail Java" class="img-fluid mt-4 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                             <p class="mt-1 mb-0"><strong>Pengujian Halaman Profil</strong><br>Pengujian dilakukan dengan membuka menu Profil melalui Bottom Navigation Bar. Hal yang diperiksa meliputi tampilan foto atau avatar, nama pengguna, alamat email, dan tombol Logout. Pengujian ini bertujuan memastikan informasi akun ditampilkan dengan benar serta tombol Logout dapat digunakan untuk mengakhiri sesi pengguna dan kembali ke halaman Login.</p>
+                            <img src="images/ss project/.png" alt="Thumbnail Java" class="img-fluid mt-4 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                             <p class="mt-1 mb-0"><strong>Pengujian Halaman Data Lokal</strong><br>Pengujian dilakukan dengan mendaftarkan akun, Login, dan menambahkan beberapa transaksi ke dalam aplikasi. Setelah itu, aplikasi ditutup dan dibuka kembali, kemudian pengguna melakukan Login menggunakan akun yang sama. Diperiksa apakah akun masih dapat digunakan dan data transaksi sebelumnya tetap tersedia pada Dashboard maupun halaman Riwayat. Pengujian ini bertujuan memastikan SQLite menyimpan data secara lokal sehingga data tidak hilang hanya karena aplikasi ditutup atau pengguna melakukan Logout.</p>
+                            <img src="images/ss project/.png" alt="Thumbnail Java" class="img-fluid mt-4 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+
+                <section class="mt-5 pt-4 border-top border-dark">
+                    <h2>H. Kesimpulan</h2>
+                    <div class="justify-text small text-muted">
+                        <p>Berdasarkan pengembangan aplikasi UangKu – Expense Tracker, dapat disimpulkan bahwa aplikasi ini dirancang untuk membantu pengguna mencatat dan mengelola pemasukan serta pengeluaran keuangan secara lebih teratur. Aplikasi ini memiliki fitur Register dan Login untuk mengelola akun pengguna, Dashboard untuk menampilkan informasi saldo dan transaksi terbaru, halaman Catat Transaksi untuk memasukkan data transaksi, serta halaman Riwayat untuk melihat transaksi yang telah dicatat. Selain itu, halaman Profil digunakan untuk menampilkan informasi pengguna dan menyediakan fitur Logout.</p>
+                        <p>Penyimpanan data menggunakan SQLite diterapkan agar informasi akun dan transaksi dapat disimpan secara lokal pada perangkat, sehingga data tidak hanya bergantung pada data statis di dalam kode program. Penerapan navigasi menggunakan Named Routes dan Bottom Navigation Bar juga membantu pengguna berpindah ant halaman sesuai kebutuhan. Dengan fitur-fitur tersebut, UangKu diharapkan dapat menjadi aplikasi pencatatan keuangan sederhana yang mudah digunakan dan membantu pengguna memantau kondisi keuangannya dengan lebih baik.</p>
+                    </div>
+                </section>
+
+                <section class="mt-5 pt-4 border-top border-dark">
+                    <h2>I. Saran dan Pengembangan Berikutnya</h2>
+                    <div class="justify-text small text-muted">
+                        <p>Penyimpanan SQLite bersifat lokal, sehingga data tidak tersedia secara otomatis di perangkat lain dan dapat hilang jika pengguna menghapus data aplikasi atau melakukan uninstall. Untuk aplikasi yang digunakan secara nyata, keamanan autentikasi perlu ditingkatkan, misalnya dengan pendekatan hashing password yang dirancang khusus untuk password dan pengujian keamanan yang lebih menyeluruh. Fitur ekspor/cadangan database, ubah/hapus transaksi, serta sinkronisasi online dapat dikembangkan pada tahap berikutnya apabila dibutuhkan.</p>
+                    </div>
+                </section>
+            </main>
+        </article>
+  
+        <div class="d-flex justify-content-center align-items-center flex-wrap gap-2 mt-5 mb-5">
+  <a href="https://github.com/Lordyblade/AppMobile2026_B_2411532010_IbrahimMousaDhani/tree/projectpraktikum5"
+     class="btn btn-secondary rounded-pill px-4 fw-bold link-hover" target="_blank">
+    <i class="bi bi-github me-2"></i> Link Repository Github
+  </a>
+
+  <a href="https://drive.google.com/drive/folders/1ZH32VrjxEkdqn8ssgV5iyzY2m97JpcUO?usp=sharing"
+     class="btn btn-primary rounded-pill px-4 fw-bold link-hover" target="_blank">
+    <i class="bi bi-file-earmark me-2"></i> Link APK Project
+  </a>
+
+  <a href="https://drive.google.com/drive/folders/1ZH32VrjxEkdqn8ssgV5iyzY2m97JpcUO?usp=sharing"
+     class="btn btn-danger rounded-pill px-4 fw-bold link-hover" target="_blank">
+    <i class="bi bi-youtube me-2"></i> Link Video
+  </a>
+</div>
+
+    
+    <footer class="bg-white mt-auto shadow">
+        <div class="container text-center text-dark pt-5 ">
+          <div class="row text-center text-md-start">
+            
+            <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                <h5 class="mb-4 fw-normal text-secondary">About</h5>
+                <p class="fw-light text medium">"hustler, dreamer, and a doer. Always striving to learn, grow, and make a positive impact in the world."</p>
+                </p>
+            </div>
+            
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+                <h5 class="mb-4 fw-normal text-secondary">Quick Links</h5>
+                <p><a href="index.html" class="text-dark text-decoration-none link-hover">Home</a></p>
+                <p><a href="about.html" class="text-dark text-decoration-none link-hover">About</a></p>
+                <p><a href="portofolio.html" class="text-dark text-decoration-none link-hover">Portofolio</a></p>
+                <p><a href="kontak.html" class="text-dark text-decoration-none link-hover">Contact</a></p>
+                <p><a href="laprak.html" class="text-dark text-decoration-none link-hover">Laprak</a></p>
+            </div>
+
+            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+                <h5 class="mb-4 fw-normal text-secondary">Social Media</h5>
+                <a href="https://www.instagram.com/ibraahimousa/" class="link-hover p-1"><i class="bi bi-instagram text-dark link-hover"></i></a> 
+                <a href="https://www.linkedin.com/in/ibrahimousa27/" class="link-hover p-1"><i class="bi bi-linkedin text-dark link-hover"></i></a>
+                <a href="https://github.com/Lordyblade" class="link-hover p-1"><i class="bi bi-github text-dark link-hover"></i></a>
+                <a href="mailto:ciburakatoprak@gmail.com" class="link-hover p-1"><i class="bi bi-envelope text-dark link-hover"></i></a>
+                </div>
+            </div>
+                     
+         </div>
+         <div class="container">
+         <div class="row mt-4">
+         <div class="col-md-12">
+                <p class="text-center">&copy; 2025 Design by 
+                  <a href="https://www.instagram.com/ibraahimousa" class="text-warning text-decoration-none fw-bold">Ibrahim Mousa
+                  <i class="bi bi-lightning-charge text-warning"></i></a>. All Rights Reserved.</p> 
+            </div>
+          </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

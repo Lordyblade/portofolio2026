@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Praktikum 5: Arsitektur Navigasi: Named Routes & Bottom Navigation Bar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/custom.css">
+    
+    <style>
+        :root {
+            --primary-color: #111827;
+            --text-color: #374151;
+            --muted-color: #6b7280;
+            --bg-color: #f3f4f6; 
+            --container-bg: #ffffff;
+            --border-color: #e5e7eb;
+            --border-dark: #d1d5db;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.75;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Container utama untuk membungkus seluruh dokumen */
+        .main-document-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: var(--container-bg);
+            padding: 60px 80px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border-radius: 8px;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 0; }
+            .main-document-wrapper { padding: 40px 20px; border-radius: 0; }
+        }
+
+        h1 { font-weight: 700; color: var(--primary-color); margin-bottom: 8px; letter-spacing: -0.02em; font-size: 2.2rem; }
+        h2 { font-weight: 600; font-size: 1.3rem; color: var(--primary-color); margin-top: 1px; margin-bottom: 25px; padding-bottom: 8px; border-bottom: 2px solid var(--primary-color); display: inline-block; }
+        h3 { font-weight: 600; font-size: 1.1rem; color: var(--primary-color); margin-top: 25px; }
+        
+        .justify-text { text-align: justify; text-justify: inter-word; }
+
+        /* --- PEMBATAS KOLOM --- */
+        .column-divider {
+            column-count: 2;
+            column-gap: 40px;
+            column-rule: 1px solid var(--border-dark); 
+        }
+
+        .col-bordered {
+            border-right: 1px solid var(--border-dark);
+        }
+
+        /* List Langkah-langkah  */
+        .step-list-item {
+            border-left: 3px solid var(--bs-secondary);
+            background-color: #f9fafb;
+            padding: 20px 25px;
+            border-radius: 0 6px 6px 0;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--bs-secondary);
+        }
+
+        @media (max-width: 768px) { 
+            .column-divider { column-count: 1; column-rule: none; } 
+            .col-bordered { border-right: none; border-bottom: 1px solid var(--border-dark); padding-bottom: 15px; margin-bottom: 15px; }
+        }
+
+        .metadata {
+            margin-bottom: 40px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        pre[class*="language-"] {
+            background: #ffffff !important;
+            border: 1px solid var(--border-color) !important;
+            padding: 1.2em !important;
+            border-radius: 6px !important;
+            margin-top: 15px !important;
+        }
+        .req-item {
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            color: var(--text-color);
+            background-color: var(--container-bg);
+            display: flex;
+            align-items: center;
+        }
+
+        .req-item span {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+    </style>
+</head>
+<body class="bg-ibraaa-gradient">
+
+    <nav class="navbar navbar-expand-md bg-white fixed-top ">
+      <div class="container">
+        <a class="navbar-brand fw-bold link-hover" href="index.html">IM</a>
+
+        <button 
+          class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="nav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link link-hover" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link link-hover" href="about.html">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link link-hover" href="portofolio.html">Portfolio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link link-hover" href="kontak.html">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link link-hover" href="laprak.html">Report</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mb-5 mt-5">
+        <article class="main-document-wrapper shadow">
+            <header class="metadata">
+                <div class="row align-items-center">
+                    <div class="col-md-7">
+                        <h6 class="text-uppercase text-muted mb-2" style="letter-spacing: 1.5px; font-size: 0.75rem; font-weight: 600;">Laporan Praktikum 5 - Aplikasi Mobile</h6>
+                        <h1>Arsitektur Navigasi: Named Routes & Bottom Navigation Bar</h1>
+                    </div>
+                    <div class="col-md-5 text-md-end mt-3 mt-md-0 text-muted" style="font-size: 0.85rem;">
+                        <span class="d-block text-dark fw-semibold">Ibrahim Mousa Dhani</span>
+                        <span>2411532010</span><br>
+                        <span>IF - Universitas Andalas</span>
+                    </div>
+                </div>
+            </header>
+
+            <main>
+                <section>
+                    <h2>A. Pendahuluan</h2>
+                    <div class="column justify-text small">
+                       <p><strong>Named Routes</strong><br>
+                       Named Routes adalah metode navigasi Flutter yang menggunakan nama berupa string untuk mengakses halaman. Nama rute didaftarkan pada properti routes di MaterialApp, sehingga pemanggilan halaman tidak perlu menuliskan MaterialPageRoute berulang kali di setiap tombol. Pada praktikum ini, rute “/” digunakan untuk halaman utama yang memiliki tab, sedangkan rute “/add” digunakan untuk halaman tambah transaksi.</p>
+                       <p>Properti initialRoute menentukan halaman pertama yang dibuka. Sementara itu, routes berisi pemetaan nama rute dengan widget yang akan ditampilkan. Setelah rute didaftarkan, perpindahan dapat dilakukan dengan Navigator.pushNamed(context, “/add”).</p>
+
+                       <p><strong>Bottom Navigation Bar</strong><br>
+                       BottomNavigationBar merupakan menu navigasi yang diletakkan di bagian bawah layar. Menu ini dapat digunakan untuk berpindah antara halaman utama seperti Beranda, Riwayat, dan Profil tanpa harus membangun navigasi baru pada setiap halaman.</p>
+                       <p>Properti currentIndex menunjukkan tab yang sedang aktif, sedangkan items berisi ikon dan label tiap tab. Ketika pengguna memilih tab, fungsi onTap menerima indeks pilihan. Nilai indeks kemudian diubah menggunakan setState() agar Flutter membangun ulang tampilan dengan halaman yang sesuai.</p>
+                </section>
+
+
+                <section class="mt-5">
+                    <h2>B. Tujuan Praktikum</h2>
+                    <div class="justify-text small text-muted">
+                        <p class="mb-2">Adapun tujuan dari pelaksanaan praktikum ini adalah sebagai berikut:</p>
+                        <ul class="ps-3 mb-0">
+                            <li class="mb-1">Menerapkan Named Routes untuk navigasi terpusat dan rapi. </li>
+                            <li class="mb-1">Membangun menu bawah (BottomNavigationBar) ala aplikasi modern. </li>
+                            <li class="mb-1">Mengintegrasikan Dashboard, Riwayat, dan Profil dalam satu wadah.</li>
+                    </div>
+                </section>
+
+                <section class="mt-5">
+                    <h2>C. Alat</h2>
+                    <div class="justify-text small text-muted">
+                        <p class="mb-2">Perangkat dan dependensi yang digunakan selama praktikum:</p>
+                        <ul class="ps-3 mb-0">
+                            <li class="mb-1">Flutter SDK</li>
+                            <li class="mb-1">Code Editor : VS Code atau Android Studio. </li>
+                            <li class="mb-1">Emulator / Device</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="mt-5">
+                    <h2>D. Langkah-langkah Praktikum</h2>
+                    <p class="justify-text small mb-4">Praktikum 5 ini merupakan lanjutan dari proyek Flutter pada Praktikum 4 sebelumnya. Buka proyek sebelumnya, kemudian pastikan file main.dart, dashboard_screen.dart, add_transaction_screen.dart, dan transaction_detail_screen.dart masih tersedia di dalam folder lib. File baru main_screen.dart dibuat untuk menampung tab utama aplikasi. File profile_screen.dart juga diperlukan karena diimpor oleh MainScreen dan akan diselesaikan pada bagian latihan.</p>
+        
+                        <div class="step-list-item justify-text small">
+                            <strong>1. Mendaftarkan Named Routes pada main.dart</strong>
+                            <p class="mt-1 mb-0">Pada file main.dart, pemanggilan halaman awal melalui properti home diganti dengan initialRoute dan routes. Dengan cara ini, halaman utama diakses melalui rute “/”, sedangkan halaman tambah transaksi diakses melalui rute “/add”.</p>
+                            <figcaption class="text-muted small text-center pt-3">Konfigurasi Named Routes pada file main.dart.</figcaption>
+                            <img src="images/ss prak5/carbon (1).png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Bagian initialRoute: “/” menetapkan MainScreen sebagai halaman pertama. Pemetaan di dalam routes menghubungkan setiap nama rute dengan widget tujuan. Baris yang mengarah ke AddTransactionScreen memungkinkan layar input transaksi dibuka melalui nama rute, bukan dengan membuat MaterialPageRoute secara langsung.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>2. Membuat MainScreen sebagai Penampung Tab</strong>
+                            <p class="mt-1 mb-0">Buat file main_screen.dart. Widget MainScreen menggunakan StatefulWidget karena indeks tab aktif dapat berubah ketika pengguna memilih menu yang berbeda. Variabel _selectedIndex dimulai dari 0 sehingga tab Beranda aktif ketika halaman pertama kali dibuka.</p>
+                            <figcaption class="text-muted small text-center pt-3">Implementasi MainScreen dan BottomNavigationBar untuk tiga tab utama.</figcaption>
+                            <img src="images/ss prak5/carbon (2).png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">List _pages menampung widget yang ditampilkan. Dalam versi dasar modul, halaman Dashboard diambil dari Praktikum IV, halaman Riwayat masih berupa teks sementara, dan halaman Profil mengarah ke ProfileScreen. Setelah pengguna memilih menu, fungsi _onItemTapped() memanggil setState() untuk memperbarui _selectedIndex. Bagian body kemudian menampilkan widget sesuai indeks yang aktif.</p>
+                            <p class="mt-1 mb-0">BottomNavigationBar memiliki tiga item, yaitu Beranda, Riwayat, dan Profil. Nilai currentIndex mengikuti _selectedIndex, sementara onTap menjalankan _onItemTapped. Dengan susunan ini, navigasi antartab dikelola dari satu Scaffold utama.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>3. Memperbarui Tombol Tambah pada Dashboard</strong>
+                            <p class="mt-1 mb-0">Buka dashboard_screen.dart yang sudah dibuat pada Praktikum IV. Pada bagian floatingActionButton, ganti navigasi berbasis Navigator.push dan MaterialPageRoute dengan Navigator.pushNamed. Rute “/add” sudah terdaftar pada main.dart sehingga tombol dapat memanggilnya secara langsung.</p>
+                            <figcaption class="text-muted small text-center pt-3">Perubahan tombol tambah transaksi menggunakan Navigator.pushNamed.</figcaption>
+                            <img src="images/ss prak5/carbon (3).png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Ketika tombol tambah ditekan, Flutter membuka AddTransactionScreen melalui rute “/add”. Setelah pengguna menutup halaman tersebut dengan Navigator.pop(), aplikasi kembali ke halaman sebelumnya, yaitu Dashboard.</p>
+                        </div>
+
+                <h4 class="fw-bold mb-3 pt-5" style="font-size: 1.15rem; color: var(--primary-color);">Latihan</h4>
+                <p class="justify-text small mb-4">Pada latihan ini dilakukan pengembangan tiga fitur yang diminta dalam modul, yaitu halaman Riwayat Transaksi, halaman Profil dengan avatar, nama, email, dan tombol logout, serta halaman Login berisi input email dan password. Setelah login, aplikasi membuka halaman utama dan menampilkan email yang dimasukkan pengguna.</p>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>Membuat Halaman Riwayat Transaksi</strong>
+                            <p class="mt-1 mb-0">Buat file history_screen.dart. Halaman ini menampilkan beberapa contoh transaksi dalam bentuk daftar. Data masih ditulis langsung pada kode untuk keperluan tampilan, sehingga belum mengambil data secara dinamis dari penyimpanan aplikasi.</p>
+                            <img src="images/ss prak5/carbon (4).png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">List transactions menyimpan contoh judul, nominal, kategori, tanggal, dan jenis transaksi. ListView.builder menampilkan data tersebut satu per satu. Warna hijau digunakan untuk pemasukan, sedangkan warna merah digunakan untuk pengeluaran agar keduanya mudah dibedakan.</p>
+                        </div>
+
+                        
+                        <div class="step-list-item justify-text small">
+                            <strong>Membuat Halaman Profil</strong>
+                            <p class="mt-1 mb-0">Buat atau perbarui file profile_screen.dart. Halaman ini menampilkan avatar, nama pengguna, email, dan tombol Logout. Email diterima melalui constructor dari halaman utama. Agar nama tidak hanya berupa teks tetap, halaman Profil menggunakan getter _displayName untuk membentuk nama tampilan dari bagian alamat email sebelum tanda @. Dengan demikian, isi Profil mengikuti email yang dimasukkan pada halaman Login, tanpa memerlukan kolom nama tambahan.</p>
+                            <img src="images/ss prak5/carbon (5).png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Getter _displayName mengambil bagian email sebelum tanda @, menghapus angka, mengganti pemisah seperti titik, garis bawah, dan tanda hubung menjadi spasi, lalu mengubah huruf awal setiap kata menjadi kapital. Contohnya, email ibrahim.mousa@gmail.com ditampilkan sebagai “Ibrahim Mousa”. Nama tersebut merupakan nama tampilan yang diperkirakan dari email, bukan nama asli yang diambil dari akun atau database; jika nama asli harus diinput pengguna, formulir Login perlu ditambah kolom Nama. Tombol Logout menggunakan Navigator.pushNamedAndRemoveUntil untuk kembali ke halaman Login sekaligus menghapus rute sebelumnya dari tumpukan navigasi, sehingga pengguna tidak langsung kembali ke halaman utama menggunakan tombol kembali setelah logout.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>Membuat Halaman Login</strong>
+                            <p class="mt-1 mb-0">Buat file login_screen.dart. Form Login memiliki TextFormField untuk email dan password. Validasi memastikan email tidak kosong dan memiliki karakter “@”, serta password wajib diisi. Karena tugas berfokus pada navigasi dan pengiriman data, login ini hanya berupa simulasi antarmuka dan belum melakukan pemeriksaan akun melalui server atau database.</p>
+                            <img src="images/ss prak5/carbon (6).png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Ketika tombol Login ditekan, fungsi _login() memeriksa validitas form. Jika valid, email yang telah di-trim dikirim melalui argumen pada Navigator.pushReplacementNamed(context, "/", arguments: email). Rute halaman Login digantikan oleh halaman utama sehingga pengguna berpindah ke aplikasi tanpa menumpuk halaman Login di atasnya.</p>
+                         </div>
+
+                         <div class="step-list-item justify-text small">
+                            <strong>Mengintegrasikan Rute Login</strong>
+                            <p class="mt-1 mb-0">Agar aplikasi latihan dimulai dari Login, ubah main.dart. Versi dasar pada langkah praktikum menggunakan initialRoute “/”, sedangkan versi latihan menggunakan initialRoute “login” tanpa garis miring awal. Penamaan ini menghindari perilaku Flutter yang dapat membentuk rute “/” sebagai rute perantara saat menyusun initial route. Rute “/” tetap mengarah ke MainScreen dan rute “/add” tetap mengarah ke AddTransactionScreen.</p>
+                            <img src="images/ss prak5/carbon (7).png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Perubahan initialRoute tersebut diperlukan hanya untuk memenuhi alur Login pada tugas. Pada tahap dasar Named Routes, initialRoute “/” tetap sesuai dengan urutan yang diberikan dalam modul. Nama rute “login” tanpa garis miring awal digunakan khusus pada versi latihan agar layar Login dibuka sebagai satu rute awal.</p>
+                         </div>
+
+                         <div class="step-list-item justify-text small">
+                            <strong>Memperbarui MainScreen untuk Menampilkan Email dan Halaman Riwayat</strong>
+                            <p class="mt-1 mb-0">Perbarui file main_screen.dart agar daftar halaman menggunakan HistoryScreen yang sudah dibuat. MainScreen membaca email dari argumen rute melalui ModalRoute.of(context)?.settings.arguments. Email tersebut diteruskan ke DashboardScreen dan ProfileScreen. Pada Dashboard, nama tampilan dibuat dari bagian email sebelum tanda @, sedangkan alamat email lengkap tetap ditampilkan di bawah sapaan.</p>
+                            <img src="images/ss prak5/carbon (8).png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Pada versi akhir ini, Dashboard menerima email dari halaman Login melalui argumen named route. Getter _displayName membentuk nama tampilan dari bagian email sebelum tanda @ dengan mengganti pemisah titik, garis bawah, atau tanda hubung menjadi spasi, menghapus angka, dan mengubah huruf awal setiap kata menjadi kapital. Contohnya, ibrahim.mousa@gmail.com akan menghasilkan sapaan “Halo, Ibrahim Mousa”. Alamat email lengkap juga ditampilkan pada baris tersendiri di bawah sapaan. Tampilan saldo, daftar transaksi, dan tombol tambah tetap dipertahankan dari Dashboard Praktikum IV; tombol tambah menggunakan named route “/add” sesuai Modul V.</p>
+                            <img src="images/ss prak5/carbon (9).png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Variabel displayedEmail memastikan alamat email dari Login ditampilkan apa adanya setelah spasi di awal atau akhir dihilangkan. Sementara itu, $_displayName merujuk pada getter yang mengubah bagian nama sebelum tanda @ menjadi nama tampilan yang lebih mudah dibaca. Nama tersebut hanya perkiraan berdasarkan teks email dan bukan nama asli yang diverifikasi. Dua informasi ini membuat hasil latihan sesuai instruksi modul: setelah tombol Login ditekan, halaman utama terbuka dan menampilkan informasi email yang dimasukkan pengguna.</p>
+                         </div>
+
+
+                        <div class="step-list-item justify-text small">
+                            <strong>Outputnya</strong>
+                            <p class="mt-1 mb-0">Setelah halaman Riwayat dikembangkan, halaman ini digunakan untuk menampilkan informasi transaksi yang telah dilakukan pengguna. Pengujian dilakukan dengan memilih menu Riwayat pada Bottom Navigation Bar untuk memastikan halaman dapat dibuka dan menampilkan informasi transaksi sesuai dengan implementasi yang dibuat.</p>
+                            <img src="images/ss prak5/1.png" alt="Thumbnail Java" class="img-fluid mt-4 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-5 mb-0">Selanjutnya, halaman Profil dikembangkan untuk menampilkan informasi pengguna, seperti avatar, nama pengguna, dan alamat email, serta menyediakan tombol Logout. Pengujian dilakukan untuk memastikan informasi pengguna dapat ditampilkan dengan baik dan halaman Profil dapat diakses melalui Bottom Navigation Bar.</p>
+                            <img src="images/ss prak5/2.png" alt="Thumbnail Java" class="img-fluid mt-4 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-5 mb-0">Berikutnya, halaman Login dibuat dengan menyediakan kolom email, kata sandi, dan tombol Login. Pengguna memasukkan email dan kata sandi pada kolom yang tersedia, kemudian menekan tombol Login untuk masuk ke halaman utama aplikasi.</p>
+                            <img src="images/ss prak5/3.png" alt="Thumbnail Java" class="img-fluid mt-4 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <img src="images/ss prak5/4.png" alt="Thumbnail Java" class="img-fluid mt-4 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-5 mb-0">Setelah tombol Login ditekan, aplikasi berpindah ke halaman utama dan menampilkan email yang telah dimasukkan oleh pengguna. Pengujian ini dilakukan untuk memastikan navigasi dari halaman Login ke halaman utama berjalan dengan baik serta informasi email dapat diteruskan dan ditampilkan sesuai dengan input pengguna.</p>
+                            <img src="images/ss prak5/5.png" alt="Thumbnail Java" class="img-fluid mt-4 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+
+                <section class="mt-5 pt-4 border-top border-dark">
+                    <h2>E. Kesimpulan</h2>
+                    <div class="justify-text small text-muted">
+                        <p>Berdasarkan praktikum yang telah dilakukan, dapat disimpulkan bahwa navigasi merupakan bagian penting dalam pengembangan aplikasi Flutter karena memungkinkan pengguna berpindah dari satu halaman ke halaman lainnya dengan mudah. Melalui praktikum ini, penggunaan Named Routes dipelajari untuk mengatur navigasi berdasarkan nama rute, sedangkan Bottom Navigation Bar digunakan untuk mempermudah perpindahan antara halaman Beranda, Riwayat, dan Profil. Selain itu, praktikum ini merupakan pengembangan dari Modul IV dengan mempertahankan fitur utama Dashboard dan penambahan transaksi, sekaligus mengintegrasikan beberapa halaman agar aplikasi menjadi lebih terstruktur.</p>
+                        <p>Melalui latihan yang dikerjakan, pemahaman mengenai pengiriman data ant halaman juga bertambah, terutama dalam meneruskan email yang dimasukkan pada halaman Login ke halaman utama aplikasi. Informasi tersebut dapat ditampilkan pada Dashboard maupun Profil sesuai kebutuhan, sehingga halaman dapat menampilkan data berdasarkan masukan pengguna. Dengan demikian, praktikum ini memberikan pemahaman mengenai penerapan navigasi, pengelolaan perpindahan halaman, dan pengiriman data dalam Flutter sebagai dasar untuk mengembangkan aplikasi yang lebih kompleks.</p>
+                    </div>
+                </section>
+            </main>
+        </article>
+            <div class="d-flex justify-content-center align-items-center flex-wrap gap-2 mt-5 mb-5">
+  <a href="https://github.com/Lordyblade/AppMobile2026_B_2411532010_IbrahimMousaDhani/tree/praktikum5"
+     class="btn btn-secondary rounded-pill px-4 fw-bold link-hover" target="_blank">
+    <i class="bi bi-github me-2"></i> Link Github
+  </a>
+
+  <a href="TugasPraktikum5.html"
+     class="btn btn-primary rounded-pill px-4 fw-bold link-hover" target="_blank">
+    <i class="bi bi-file-earmark me-2"></i> Link Tugas Praktikum 5
+  </a>
+</div>
+
+    
+    
+
+    <footer class="bg-white mt-auto shadow">
+        <div class="container text-center text-dark pt-5 ">
+          <div class="row text-center text-md-start">
+            
+            <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                <h5 class="mb-4 fw-normal text-secondary">About</h5>
+                <p class="fw-light text medium">"hustler, dreamer, and a doer. Always striving to learn, grow, and make a positive impact in the world."</p>
+                </p>
+            </div>
+            
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+                <h5 class="mb-4 fw-normal text-secondary">Quick Links</h5>
+                <p><a href="index.html" class="text-dark text-decoration-none link-hover">Home</a></p>
+                <p><a href="about.html" class="text-dark text-decoration-none link-hover">About</a></p>
+                <p><a href="portofolio.html" class="text-dark text-decoration-none link-hover">Portofolio</a></p>
+                <p><a href="kontak.html" class="text-dark text-decoration-none link-hover">Contact</a></p>
+                <p><a href="laprak.html" class="text-dark text-decoration-none link-hover">Laprak</a></p>
+            </div>
+
+            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+                <h5 class="mb-4 fw-normal text-secondary">Social Media</h5>
+                <a href="https://www.instagram.com/ibraahimousa/" class="link-hover p-1"><i class="bi bi-instagram text-dark link-hover"></i></a> 
+                <a href="https://www.linkedin.com/in/ibrahimousa27/" class="link-hover p-1"><i class="bi bi-linkedin text-dark link-hover"></i></a>
+                <a href="https://github.com/Lordyblade" class="link-hover p-1"><i class="bi bi-github text-dark link-hover"></i></a>
+                <a href="mailto:ciburakatoprak@gmail.com" class="link-hover p-1"><i class="bi bi-envelope text-dark link-hover"></i></a>
+                </div>
+            </div>
+                     
+         </div>
+         <div class="container">
+         <div class="row mt-4">
+         <div class="col-md-12">
+                <p class="text-center">&copy; 2025 Design by 
+                  <a href="https://www.instagram.com/ibraahimousa" class="text-warning text-decoration-none fw-bold">Ibrahim Mousa
+                  <i class="bi bi-lightning-charge text-warning"></i></a>. All Rights Reserved.</p> 
+            </div>
+          </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
