@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Praktikum 6: State Management pada Aplikasi ResepKu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/custom.css">
+    
+    <style>
+        :root {
+            --primary-color: #111827;
+            --text-color: #374151;
+            --muted-color: #6b7280;
+            --bg-color: #f3f4f6; 
+            --container-bg: #ffffff;
+            --border-color: #e5e7eb;
+            --border-dark: #d1d5db;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.75;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Container utama untuk membungkus seluruh dokumen */
+        .main-document-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: var(--container-bg);
+            padding: 60px 80px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border-radius: 8px;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 0; }
+            .main-document-wrapper { padding: 40px 20px; border-radius: 0; }
+        }
+
+        h1 { font-weight: 700; color: var(--primary-color); margin-bottom: 8px; letter-spacing: -0.02em; font-size: 2.2rem; }
+        h2 { font-weight: 600; font-size: 1.3rem; color: var(--primary-color); margin-top: 1px; margin-bottom: 25px; padding-bottom: 8px; border-bottom: 2px solid var(--primary-color); display: inline-block; }
+        h3 { font-weight: 600; font-size: 1.1rem; color: var(--primary-color); margin-top: 25px; }
+        
+        .justify-text { text-align: justify; text-justify: inter-word; }
+
+        /* --- PEMBATAS KOLOM --- */
+        .column-divider {
+            column-count: 2;
+            column-gap: 40px;
+            column-rule: 1px solid var(--border-dark); 
+        }
+
+        .col-bordered {
+            border-right: 1px solid var(--border-dark);
+        }
+
+        /* List Langkah-langkah  */
+        .step-list-item {
+            border-left: 3px solid var(--bs-secondary);
+            background-color: #f9fafb;
+            padding: 20px 25px;
+            border-radius: 0 6px 6px 0;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--bs-secondary);
+        }
+
+        @media (max-width: 768px) { 
+            .column-divider { column-count: 1; column-rule: none; } 
+            .col-bordered { border-right: none; border-bottom: 1px solid var(--border-dark); padding-bottom: 15px; margin-bottom: 15px; }
+        }
+
+        .metadata {
+            margin-bottom: 40px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        pre[class*="language-"] {
+            background: #ffffff !important;
+            border: 1px solid var(--border-color) !important;
+            padding: 1.2em !important;
+            border-radius: 6px !important;
+            margin-top: 15px !important;
+        }
+        .req-item {
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            color: var(--text-color);
+            background-color: var(--container-bg);
+            display: flex;
+            align-items: center;
+        }
+
+        .req-item span {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+    </style>
+</head>
+<body class="bg-ibraaa-gradient">
+
+    <nav class="navbar navbar-expand-md bg-white fixed-top ">
+      <div class="container">
+        <a class="navbar-brand fw-bold link-hover" href="index.html">IM</a>
+
+        <button 
+          class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="nav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link link-hover" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link link-hover" href="about.html">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link link-hover" href="portofolio.html">Portfolio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link link-hover" href="kontak.html">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link link-hover" href="laprak.html">Report</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mb-5 mt-5">
+        <article class="main-document-wrapper shadow">
+            <header class="metadata">
+                <div class="row align-items-center">
+                    <div class="col-md-7">
+                        <h6 class="text-uppercase text-muted mb-2" style="letter-spacing: 1.5px; font-size: 0.75rem; font-weight: 600;">Laporan Praktikum 6 - Aplikasi Mobile</h6>
+                        <h1>State Management pada Aplikasi ResepKu</h1>
+                    </div>
+                    <div class="col-md-5 text-md-end mt-3 mt-md-0 text-muted" style="font-size: 0.85rem;">
+                        <span class="d-block text-dark fw-semibold">Ibrahim Mousa Dhani</span>
+                        <span>2411532010</span><br>
+                        <span>IF - Universitas Andalas</span>
+                    </div>
+                </div>
+            </header>
+
+            <main>
+                <section>
+                    <h2>A. Pendahuluan</h2>
+                    <div class="column justify-text small">
+                       <p>State management merupakan cara untuk mengelola data yang dapat berubah selama aplikasi berjalan dan memengaruhi tampilan antarmuka. Pada pengembangan aplikasi Flutter, pengelolaan state dapat dilakukan menggunakan setState() maupun Provider. setState() digunakan untuk data lokal yang hanya dibutuhkan oleh satu widget atau halaman, sedangkan Provider lebih sesuai untuk data yang perlu dibagikan dan diakses oleh beberapa widget atau halaman sekaligus.</p>
+                       <p>Pada praktikum ini dikembangkan aplikasi ResepKu dengan fitur pengaturan jumlah porsi dan daftar resep favorit. Fitur jumlah porsi menggunakan setState() karena hanya diperlukan pada halaman detail resep. Sementara itu, fitur favorit menggunakan Provider melalui ChangeNotifier, sehingga status favorit dapat dibaca dan diperbarui dari daftar resep, halaman detail, badge pada AppBar, dan halaman Favorit. Praktikum juga mencakup penerapan tema gelap dan terang serta fitur untuk menghapus seluruh resep favorit dengan konfirmasi pengguna.</p>
+                </section>
+
+
+                <section class="mt-5">
+                    <h2>B. Tujuan Praktikum</h2>
+                    <div class="justify-text small text-muted">
+                        <p class="mb-2">Setelah menyelesaikan modul ini, mahasiswa mampu:</p>
+                        <ul class="ps-3 mb-0">
+                            <li class="mb-1">Membuat state lokal dengan StatefulWidget dan setState() pada fitur jumlah porsi di halaman detail.</li>
+                            <li class="mb-1">Menjelaskan keterbatasan state lokal ketika satu data dibutuhkan oleh banyak widget dan halaman. </li>
+                            <li class="mb-1">Membuat state global dengan package provider (ChangeNotifier dan MultiProvider) pada fitur favorit.</li>
+                            <li class="mb-1">Membaca state dengan context.watch, context.read, dan Consumer di beberapa halaman. </li>
+                    </div>
+                </section>
+
+                <section class="mt-5">
+                    <h2>C. Alat</h2>
+                    <div class="justify-text small text-muted">
+                        <p class="mb-2">Perangkat dan dependensi yang digunakan selama praktikum:</p>
+                        <ul class="ps-3 mb-0">
+                            <li class="mb-1">Flutter SDK</li>
+                            <li class="mb-1">Code Editor : VS Code atau Android Studio. </li>
+                            <li class="mb-1">Emulator Android, atau HP Android dengan USB debugging aktif. </li>
+                            <li class="mb-1">Koneksi internet untuk menjalankan flutter pub add. </li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="mt-5">
+                    <h2>D. Langkah-langkah Praktikum</h2>
+
+                    <div>
+                    <h4 class="fw-bold mb-3 pt-3" style="font-size: 1.15rem; color: var(--primary-color);">Bagian A — Menyiapkan ResepKu dan State Lokal</h4>
+                    <p class="justify-text small mb-4"> Bertujuan membuat project ResepKu dengan halaman Home dan Detail, serta fitur jumlah porsi yang memakai setState(). </p>
+                    </div>
+        
+                        <div class="step-list-item justify-text small">
+                            <strong>1. Menyiapkan project ResepKu</strong>
+                            <p class="mt-1 mb-0">Project dibuat menggunakan perintah flutter create resepku, kemudian folder lib disusun menjadi models, data, providers, pages, dan widgets. Model Recipe dibuat untuk merepresentasikan data resep, seperti nama, jenis masakan, tingkat kesulitan, waktu memasak, jumlah porsi, kalori, rating, gambar, dan bahan-bahan. Selanjutnya, enam data resep awal dimasukkan ke dalam dummy_recipes.dart sebagai sumber data sementara.</p>
+                            <figcaption class="text-muted small text-center pt-3">Struktur Folder dan File</figcaption>
+                            <img src="images/ss prak6/a/image.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">lib/models/recipe.dart</figcaption>
+                            <img src="images/ss prak6/a/3.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">lib/data/dummy_recipes.dart</figcaption>
+                            <img src="images/ss prak6/a/2.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>2. Membuat halaman Home dan Detail</strong>
+                            <p class="mt-1 mb-0">Halaman HomePage menampilkan daftar resep dari dummyRecipes menggunakan widget RecipeTile. Setiap resep dapat dipilih untuk membuka DetailPage. Halaman detail menampilkan informasi resep, daftar bahan, jumlah porsi, dan total kalori. Pada tahap ini juga dibuat IdentityFooter dan dipasang melalui parameter builder pada MaterialApp agar identitas mahasiswa tampil di bagian bawah setiap halaman.</p>
+                            <figcaption class="text-muted small text-center pt-3">lib/widgets/identity_footer.dart</figcaption>
+                            <img src="images/ss prak6/a/6.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">lib/main.dart (versi awal)</figcaption>
+                            <img src="images/ss prak6/a/1.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">lib/pages/home_page.dart (versi awal)</figcaption>
+                            <img src="images/ss prak6/a/5.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">lib/widgets/recipe_tile.dart (versi awal)</figcaption>
+                            <img src="images/ss prak6/a/7.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>3. Menerapkan state lokal dengan setState()</strong>
+                            <p class="mt-1 mb-0">DetailPage dibuat sebagai StatefulWidget karena jumlah porsi dapat berubah ketika tombol tambah atau kurang ditekan. Nilai awal porsi diambil dari widget.recipe.servings melalui initState(). Perubahan jumlah porsi dilakukan menggunakan setState(), kemudian total kalori dihitung berdasarkan perkalian kalori per porsi dengan jumlah porsi yang sedang dipilih. Tombol kurang dibuat tidak aktif ketika jumlah porsi sudah mencapai satu.</p>
+                            <figcaption class="text-muted small text-center pt-3">lib/pages/detail_page.dart (setState dan pengaturan jumlah porsi)</figcaption>
+                            <img src="images/ss prak6/a/4.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+
+                        <p><strong>Checkpoint 1</strong></p>
+                        <div class="step-list-item justify-text small mb-5 ">
+                            <p class="mt-1 mb-0">Checkpoint 1 dilakukan dengan membuka detail Classic Margherita Pizza dan mengubah jumlah porsi menjadi 6. Dengan kalori sebesar 300 kkal per porsi, total kalori yang ditampilkan harus menjadi 1.800 kkal. Tombol kurang dibuat nonaktif ketika porsi bernilai 1 melalui kondisi onPressed: _servings > 1 ? _removeServing : null.</p>
+                            <figcaption class="text-muted small text-center pt-3">Tampilan Home Page</figcaption>
+                            <img src="images/ss prak6/a/8.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Menampilkan jumlah porsi 6 dan total kalori 1.800 kkal.</figcaption>
+                            <img src="images/ss prak6/a/9.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Menampilkan jumlah porsi 1 dan tombol kurang tidak aktif.</figcaption>
+                            <img src="images/ss prak6/a/10.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+
+
+                    <div class="mt-4">
+                    <h4 class="fw-bold mb-3 pt-3" style="font-size: 1.15rem; color: var(--primary-color);">Bagian B	— Eksperimen: Favorit dengan State Lokal</h4>
+                    <p class="justify-text small mb-4">Bertujuan melihat secara langsung keterbatasan state lokal ketika satu data dibutuhkan di banyak tempat. Sebelum memakai Provider, kita coba cara yang paling sederhana terlebih dahulu: setiap RecipeTile menyimpan status favoritnya sendiri dengan setState().</p>
+                    </div>
+                        
+                        <div class="step-list-item justify-text small">
+                            <strong>1. Mengganti RecipeTile</strong>
+                            <p class="mt-1 mb-0">Ganti seluruh isi recipe_tile.dart dengan versi eksperimen berikut. </p>
+                            <figcaption class="text-muted small text-center pt-3">lib/widgets/recipe_tile.dart (versi eksperimen)</figcaption>
+                            <img src="images/ss prak6/b/1.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">RecipeTile diubah menjadi StatefulWidget dan setiap tile diberi variabel _isFavorite bertipe boolean. Ikon hati berubah ketika ditekan karena nilai variabel tersebut diperbarui menggunakan setState(). Namun, status favorit hanya tersimpan pada masing-masing RecipeTile sehingga HomePage maupun DetailPage tidak dapat membaca status tersebut secara langsung. Eksperimen ini menunjukkan bahwa state lokal kurang sesuai untuk data yang perlu digunakan bersama oleh beberapa bagian aplikasi.</p>
+                            <figcaption class="text-muted small text-center pt-3">Outputnya</figcaption>
+                            <img src="images/ss prak6/b/2.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Halaman Detail tidak mengetahui status favorit</figcaption>
+                            <img src="images/ss prak6/b/3.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+
+
+                        <div class="mt-4">
+                    <h4 class="fw-bold mb-3 pt-3" style="font-size: 1.15rem; color: var(--primary-color);">Bagian C — Fitur	Favorit dengan Provider </h4>
+                    <p class="justify-text small mb-4">Bertujuan menyimpan daftar favorit sebagai app state, lalu membacanya dari daftar resep, halaman detail, badge, dan halaman Favorit.</p>
+                    </div>
+                        
+                        <div class="step-list-item justify-text small">
+                            <strong>1. Menerapkan Provider untuk fitur favorit</strong>
+                            <p class="mt-1 mb-0">Package Provider dipasang menggunakan perintah flutter pub add provider. Selanjutnya dibuat FavoriteProvider yang meng-extend ChangeNotifier dan menyimpan daftar resep pada variabel _items. Method toggle() digunakan untuk menambahkan atau menghapus resep dari daftar favorit, sedangkan method clear() digunakan untuk mengosongkan seluruh daftar. Setiap perubahan diikuti pemanggilan notifyListeners() agar widget yang mendengarkan perubahan dapat memperbarui tampilannya.</p>
+                            <p class="mt-1 mb-0">FavoriteProvider didaftarkan melalui MultiProvider di atas MaterialApp agar dapat diakses oleh semua halaman. RecipeTile, DetailPage, FavoriteBadgeButton, dan FavoritePage kemudian dihubungkan dengan Provider. context.watch digunakan ketika widget perlu memperbarui tampilan saat data berubah, sedangkan context.read digunakan ketika hanya perlu memanggil method, misalnya ketika ikon hati ditekan. Halaman Favorit menggunakan Consumer untuk menampilkan daftar resep yang disimpan.</p>
+                            <figcaption class="text-muted small text-center pt-3">lib/providers/favorite_provider.dart</figcaption>
+                            <img src="images/ss prak6/c/1.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">lib/main.dart (MultiProvider)</figcaption>
+                            <img src="images/ss prak6/c/2.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">lib/widgets/recipe_tile.dart ( membaca Provider)</figcaption>
+                            <img src="images/ss prak6/c/3.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">lib/pages/detail_page.dart (tombol favorit)</figcaption>
+                            <img src="images/ss prak6/c/4.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">lib/pages/favorite_page.dart</figcaption>
+                            <img src="images/ss prak6/c/5.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">lib/widgets/favorite_badge_button.dart</figcaption>
+                            <img src="images/ss prak6/c/6.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">lib/widgets/home_page.dart (versi dengan badge favorit)</figcaption>
+                            <img src="images/ss prak6/c/7.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+
+                        <p><strong>Langkah C.7 — Menguji aplikasi</strong></p>
+                        <div class="step-list-item justify-text small">
+                            
+                            <p class="mt-1 mb-0">Pengujian dilakukan untuk memastikan status favorit tetap konsisten pada halaman Home, Detail, dan Favorit.</p>
+                            <div class="table-responsive">
+                                <table class="table table-bordered align-middle">
+                                    <thead style="background-color: #1f5b70; color: #ffffff;">
+                                    <tr>
+                                        <th scope="col" class="text-center" style="width: 5%;">No</th>
+                                        <th scope="col" style="width: 40%;">Skenario</th>
+                                        <th scope="col" style="width: 45%;">Hasil yang diharapkan</th>
+                                        <th scope="col" class="text-center" style="width: 10%;">Sesuai?</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td class="text-center">1</td>
+                                        <td>Tap ikon hati pada Margherita dan Alfredo di Home</td>
+                                        <td>Ikon berwarna merah, badge menunjukkan angka 2</td>
+                                        <td class="text-center">&#10004;</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">2</td>
+                                        <td>Buka detail Margherita</td>
+                                        <td>Ikon hati di AppBar terisi</td>
+                                        <td class="text-center">&#10004;</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">3</td>
+                                        <td>Di halaman detail, tap ikon hati, lalu kembali ke Home</td>
+                                        <td>Ikon Margherita kosong, badge menunjukkan angka 1</td>
+                                        <td class="text-center">&#10004;</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">4</td>
+                                        <td>Tap badge di AppBar</td>
+                                        <td>Halaman Favorit hanya berisi Alfredo</td>
+                                        <td class="text-center">&#10004;</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">5</td>
+                                        <td>Hapus Alfredo dari halaman Favorit, lalu kembali</td>
+                                        <td>Muncul pesan "Belum ada resep favorit", badge hilang</td>
+                                        <td class="text-center">&#10004;</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">6</td>
+                                        <td>Ubah porsi menjadi 2, kembali ke Home, lalu buka lagi resep yang sama</td>
+                                        <td>Porsi kembali ke nilai awal, karena state lokal ikut dibuang ketika halaman ditutup</td>
+                                        <td class="text-center">&#10004;</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <figcaption class="text-muted small text-center pt-3">Tampilan Skenario 1</figcaption>
+                            <img src="images/ss prak6/c/8.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Tampilan Skenario 2</figcaption>
+                            <img src="images/ss prak6/c/9.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Tampilan Skenario 3</figcaption>
+                            <img src="images/ss prak6/c/10.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Tampilan Skenario 4</figcaption>
+                            <img src="images/ss prak6/c/12.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Tampilan Skenario 5</figcaption>
+                            <img src="images/ss prak6/c/14.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Tampilan Skenario 6</figcaption>
+                            <img src="images/ss prak6/c/a.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <img src="images/ss prak6/c/b.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <img src="images/ss prak6/c/c.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+
+                        <P><strong>Checkpoint 2</strong></P>
+                        <div class="step-list-item justify-text small">
+                            <p class="mt-1 mb-0">Checkpoint 2 meminta tiga tampilan utama, yaitu Home dengan badge bernilai 2, halaman Detail dengan ikon hati terisi, serta halaman Favorit. Semua screenshot harus memperlihatkan footer identitas.</p>
+                            <figcaption class="text-muted small text-center pt-3">Home dengan badge bernilai 2</figcaption>
+                            <img src="images/ss prak6/c/8.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Halaman Detail dengan ikon hati terisi</figcaption>
+                            <img src="images/ss prak6/c/9.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Halaman Favorit</figcaption>
+                            <img src="images/ss prak6/c/12.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+
+                        <P><strong><strong>Pengamatan Bagian B</strong></strong></P>
+                        <div class="step-list-item justify-text small">
+                            <p class="mt-2 mb-0"><strong>1. Apakah ikon hati berubah? Mengapa?</strong><br>
+                                Ikon hati berubah ketika ditekan, karena setiap RecipeTile memiliki variabel _isFavorite yang menyimpan status favoritnya sendiri. Ketika ikon ditekan, nilai variabel tersebut dibalik menggunakan setState(), sehingga widget membangun ulang tampilannya dan menampilkan ikon hati terisi atau kosong sesuai nilai terbaru.</p>
+                            <p class="mt-4 mb-0"><strong>2. Apakah jumlah resep favorit dapat ditampilkan pada AppBar HomePage? Di class mana data _isFavorite berada dan apakah HomePage dapat membacanya?</strong><br>
+                                Jumlah resep favorit tidak dapat diketahui secara langsung oleh HomePage pada eksperimen ini. Variabel _isFavorite berada di dalam class _RecipeTileState, sehingga setiap tile hanya mengetahui status favorit miliknya sendiri. HomePage tidak dapat mengakses variabel tersebut secara langsung karena berada di luar class dan state masing-masing RecipeTile. Oleh sebab itu, diperlukan pengelolaan state bersama seperti Provider agar jumlah favorit dapat dihitung dan ditampilkan pada AppBar.</p>
+                            <p class="mt-4 mb-0"><strong>3. Bagaimana halaman Detail mengetahui bahwa resep sudah difavoritkan?</strong><br>
+                                Status favorit perlu dipindahkan ke state global menggunakan Provider agar dapat diakses oleh halaman daftar, detail, dan halaman Favorit.</p>    
+                        </div>
+
+                        <P><strong><strong>Pertanyaan Analisis</strong></strong></P>
+                        <div class="step-list-item justify-text small">
+                            <p class="mt-2 mb-2"><strong>1. Tuliskan jawaban tiga pertanyaan pada Langkah B.2, lengkap dengan alasannya.</strong><br>
+                                Sudah terjawab di poin sebelumnya.</p>
+                            <p class="mt-4 mb-0"><strong>2. Mengapa jumlah porsi tetap menggunakan setState() dan tidak dimasukkan ke Provider? Hubungkan dengan hasil skenario 6 pada Langkah C.7.</strong><br>
+                                Jumlah porsi tetap menggunakan setState() karena data tersebut hanya dibutuhkan pada halaman Detail dan tidak perlu dibagikan ke halaman lain. Penggunaan state lokal lebih sederhana dan sesuai untuk perubahan sementara pada satu halaman. Hal ini terlihat pada skenario 6 Langkah C.7, yaitu ketika jumlah porsi diubah menjadi 2 lalu pengguna kembali ke Home dan membuka resep yang sama, jumlah porsi kembali ke nilai awal. Kondisi tersebut terjadi karena state lokal pada halaman Detail dibuang ketika halaman ditutup, sehingga nilai sebelumnya tidak disimpan sebagai state global.</p>
+                            <p class="mt-4 mb-0"><strong>3. Apa yang terjadi jika ChangeNotifierProvider dipindahkan dari main() ke dalam HomePage dan mengapa?</strong><br>
+                                Jika ChangeNotifierProvider dipindahkan ke dalam HomePage dan hanya membungkus Scaffold, halaman Favorit dapat mengalami ProviderNotFoundException ketika dibuka. Hal ini terjadi karena Provider hanya tersedia bagi widget yang berada di bawahnya dalam widget tree. Saat navigasi dilakukan, halaman Favorit dibuat sebagai route baru oleh Navigator yang posisinya berada di atas Provider tersebut, sehingga halaman Favorit bukan bagian dari subtree yang dapat mengakses FavoriteProvider. Oleh karena itu, Provider perlu diletakkan di atas MaterialApp agar dapat diakses oleh seluruh halaman.</p>
+                                <figcaption class="text-muted small text-center pt-3">Halaman Favorit setelah ChangeNotifierProvider dipindahkan dari main() ke dalam HomePage</figcaption>
+                            <img src="images/ss prak6/c/13.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">    
+                        </div>
+                        
+
+                <h4 class="fw-bold mb-3 pt-5" style="font-size: 1.15rem; color: var(--primary-color);">Latihan 1 — Tema Gelap dan Terang</h4>
+                <p class="justify-text small mb-4">Menambahkan halaman Pengaturan yang berisi SwitchListTile "Mode gelap". Ketika switch diaktifkan, seluruh aplikasi berubah ke tema gelap. Ketika switch dinonaktifkan, aplikasi kembali menggunakan tema terang. Pengaturan tema disimpan pada ThemeProvider yang meng-extend ChangeNotifier. </p>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>Membuat file lib/providers/theme_provider.dart</strong>
+                            <figcaption class="text-muted small text-center pt-3">lib/providers/theme_provider.dart</figcaption>
+                            <img src="images/ss prak6/lat1/1.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Variabel _themeMode menyimpan tema yang sedang digunakan dan pada awalnya diatur ke ThemeMode.light. Getter themeMode digunakan untuk membaca nilai tema. Method setThemeMode() menerima nilai boolean dari switch, kemudian mengubah tema menjadi ThemeMode.dark atau ThemeMode.light. Pemanggilan notifyListeners() memberi tahu widget yang menggunakan provider bahwa nilai tema telah berubah.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>Mendaftarkan ThemeProvider dan mengatur MaterialApp pada lib/main.dart</strong>
+                            <figcaption class="text-muted small text-center pt-3">lib/main.dart</figcaption>
+                            <img src="images/ss prak6/lat1/2.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">FavoriteProvider tetap didaftarkan agar pengelolaan daftar favorit tidak terganggu. ThemeProvider ditambahkan ke dalam MultiProvider sehingga seluruh halaman dapat mengakses pengaturan tema. Pada ResepKuApp, context.watch<ThemeProvider>().themeMode digunakan untuk membaca tema aktif. Parameter theme mendefinisikan tema terang, darkTheme mendefinisikan tema gelap, dan themeMode menentukan tema yang sedang diterapkan. Footer identitas tetap dipasang melalui builder agar tampil pada setiap halaman.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>Membuat halaman lib/pages/settings_page.dart</strong>
+                            <figcaption class="text-muted small text-center pt-3">lib/pages/settings_page.dart</figcaption>
+                            <img src="images/ss prak6/lat1/3.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">SettingsPage menggunakan SwitchListTile untuk menampilkan pengaturan mode gelap. Nilai switch dibaca dari themeProvider.themeMode. Ketika switch diubah, context.read<ThemeProvider>() memanggil setThemeMode() dengan nilai terbaru. Dengan demikian, halaman pengaturan tidak perlu mengelola state tema sendiri karena perubahan sudah ditangani oleh ThemeProvider.</p>
+                        </div>
+                        
+                        <div class="step-list-item justify-text small">
+                            <strong>Menambahkan tombol Pengaturan pada lib/pages/home_page.dart</strong>
+                            <figcaption class="text-muted small text-center pt-3">lib/pages/home_page.dart</figcaption>
+                            <img src="images/ss prak6/lat1/4.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Tombol pengaturan ditambahkan pada actions AppBar menggunakan IconButton. Ketika tombol ditekan, Navigator.push() membuka SettingsPage. FavoriteBadgeButton tetap dipertahankan agar badge jumlah favorit masih dapat digunakan bersamaan dengan fitur pengaturan tema.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>Output dan Pengujian</strong>
+                            <p class="mt-1 mb-0">Hasil yang diharapkan adalah tema seluruh aplikasi berubah mengikuti posisi switch. </p>
+                            <figcaption class="text-muted small text-center pt-3">Membuka HomePage dan memastikan ikon pengaturan tampil pada AppBar.</figcaption>
+                            <img src="images/ss prak6/lat1/5.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Menekan ikon pengaturan untuk membuka halaman Pengaturan.</figcaption>
+                            <img src="images/ss prak6/lat1/6.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Mengubah posisi switch untuk mengaktifkan mode gelap</figcaption>
+                            <img src="images/ss prak6/lat1/7.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Memastikan seluruh tampilan aplikasi berubah menjadi gelap.</figcaption>
+                            <img src="images/ss prak6/lat1/8.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+                        
+
+                <h4 class="fw-bold mb-3 pt-5" style="font-size: 1.15rem; color: var(--primary-color);">Latihan 2 - Menghapus Semua Favorit</h4>
+                <p class="justify-text small mb-4">Menambahkan tombol "Hapus semua" berupa ikon, pada appbar halaman favorit yang memanggil clear() dari FavoriteProvider setelah pengguna mengonfirmasi melalui AlertDialog. Tombol harus nonaktif ketika daftar favorit kosong. </p>
+
+                        <div class="step-list-item justify-text small mb-4">
+                            <strong>Memodifikasi file lib/pages/favorite_page.dart</strong>
+                            <figcaption class="text-muted small text-center pt-3">lib/pages/favorite_page.dart</figcaption>
+                            <img src="images/ss prak6/lat2/1.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Consumer FavoriteProvider digunakan agar halaman Favorit menerima data terbaru ketika daftar favorit berubah. Tombol IconButton dengan ikon delete_sweep ditambahkan pada AppBar. Kondisi favorite.count == 0 ? null : ... membuat tombol tidak aktif ketika tidak ada resep favorit. Jika daftar masih berisi data, tombol akan menjalankan showDialog<bool>() untuk menampilkan dialog konfirmasi.</p>
+                            <p class="mt-1 mb-0">Dialog menyediakan dua pilihan. Tombol Batal mengembalikan nilai false, sedangkan tombol Hapus Semua mengembalikan nilai true. Setelah dialog ditutup, program memeriksa nilai confirm. Method clear() pada FavoriteProvider hanya dipanggil ketika pengguna memberikan konfirmasi. Method tersebut mengosongkan daftar favorit dan memanggil notifyListeners(), sehingga Consumer membangun ulang tampilan dan menampilkan pesan bahwa belum ada resep favorit.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-4">
+                            <strong>Output dan Pengujian</strong>
+                            <p class="mt-1 mb-0">Hasil yang diharapkan adalah seluruh resep favorit hanya terhapus setelah pengguna memilih Hapus Semua pada dialog konfirmasi.</p>
+                            <figcaption class="text-muted small text-center pt-3">Membuka halaman Favorit ketika daftar kosong dan memastikan tombol Hapus Semua tidak aktif.</figcaption>
+                            <img src="images/ss prak6/lat2/2.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Menambahkan beberapa resep ke daftar favorit dan memastikan seluruh resep tampil.</figcaption>
+                            <img src="images/ss prak6/lat2/3.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Menekan tombol Hapus Semua dan memastikan AlertDialog konfirmasi muncul.</figcaption>
+                            <img src="images/ss prak6/lat2/4.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Memilih Hapus Semua pada dialog konfirmasi dan memastikan daftar favorit kosong serta tombol Hapus Semua kembali tidak aktif.</figcaption>
+                            <img src="images/ss prak6/lat2/5.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+                </section>
+
+                <section class="mt-5 pt-4 border-top border-dark">
+                    <h2>E. Kesimpulan</h2>
+                    <div class="justify-text small text-muted">
+                        <p>Berdasarkan praktikum yang telah dilakukan, dapat disimpulkan bahwa state management merupakan bagian penting dalam pengembangan aplikasi Flutter karena berfungsi untuk mengelola perubahan data yang memengaruhi tampilan aplikasi. Melalui praktikum ini, dipelajari penggunaan setState() untuk mengelola state lokal, seperti fitur pengaturan jumlah porsi pada halaman detail resep, serta penggunaan Provider untuk mengelola state global yang membutuhkan akses dari beberapa halaman. Penerapan ChangeNotifier, notifyListeners(), context.watch, context.read, dan Consumer menunjukkan bagaimana data dapat dibagikan dan diperbarui secara terstruktur tanpa harus menyimpan state secara terpisah pada setiap widget. Selain itu, melalui eksperimen pada Bagian B, terlihat bahwa penggunaan state lokal untuk fitur favorit memiliki keterbatasan karena data hanya dapat diakses oleh widget yang menyimpannya. Keterbatasan tersebut dapat diatasi dengan Provider sehingga status favorit dapat digunakan secara konsisten pada halaman Home, Detail, badge AppBar, dan halaman Favorit.<br> Pada bagian latihan, pengelolaan state juga diterapkan untuk membuat fitur perubahan tema terang dan gelap serta menghapus seluruh resep favorit dengan konfirmasi pengguna. Dengan demikian, praktikum ini memberikan pemahaman mengenai pemilihan dan penerapan state management sesuai kebutuhan aplikasi, sehingga aplikasi menjadi lebih terstruktur, interaktif, dan mudah dikembangkan.</p>
+
+                        </div>
+                </section>
+            </main>
+        </article>
+        <div class="d-flex justify-content-center flex-wrap gap-2 mt-5"><a href= "https://github.com/Lordyblade/2411532010_KelasB_AppMob_ResepKu" class="btn btn-secondary rounded-pill px-4 fw-bold link-hover" target="_blank">
+    <i class="bi bi-github me-2"></i> Link Github Project
+  </a>
+</div>
+
+    </div>
+
+    
+    
+
+    <footer class="bg-white mt-auto shadow">
+        <div class="container text-center text-dark pt-5 ">
+          <div class="row text-center text-md-start">
+            
+            <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                <h5 class="mb-4 fw-normal text-secondary">About</h5>
+                <p class="fw-light text medium">"hustler, dreamer, and a doer. Always striving to learn, grow, and make a positive impact in the world."</p>
+                </p>
+            </div>
+            
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+                <h5 class="mb-4 fw-normal text-secondary">Quick Links</h5>
+                <p><a href="index.html" class="text-dark text-decoration-none link-hover">Home</a></p>
+                <p><a href="about.html" class="text-dark text-decoration-none link-hover">About</a></p>
+                <p><a href="portofolio.html" class="text-dark text-decoration-none link-hover">Portofolio</a></p>
+                <p><a href="kontak.html" class="text-dark text-decoration-none link-hover">Contact</a></p>
+                <p><a href="laprak.html" class="text-dark text-decoration-none link-hover">Laprak</a></p>
+            </div>
+
+            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+                <h5 class="mb-4 fw-normal text-secondary">Social Media</h5>
+                <a href="https://www.instagram.com/ibraahimousa/" class="link-hover p-1"><i class="bi bi-instagram text-dark link-hover"></i></a> 
+                <a href="https://www.linkedin.com/in/ibrahimousa27/" class="link-hover p-1"><i class="bi bi-linkedin text-dark link-hover"></i></a>
+                <a href="https://github.com/Lordyblade" class="link-hover p-1"><i class="bi bi-github text-dark link-hover"></i></a>
+                <a href="mailto:ciburakatoprak@gmail.com" class="link-hover p-1"><i class="bi bi-envelope text-dark link-hover"></i></a>
+                </div>
+            </div>
+                     
+         </div>
+         <div class="container">
+         <div class="row mt-4">
+         <div class="col-md-12">
+                <p class="text-center">&copy; 2025 Design by 
+                  <a href="https://www.instagram.com/ibraahimousa" class="text-warning text-decoration-none fw-bold">Ibrahim Mousa
+                  <i class="bi bi-lightning-charge text-warning"></i></a>. All Rights Reserved.</p> 
+            </div>
+          </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
