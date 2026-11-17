@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Praktikum 8: HTTP Request dan Integrasi API pada ResepKu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/custom.css">
+    
+    <style>
+        :root {
+            --primary-color: #111827;
+            --text-color: #374151;
+            --muted-color: #6b7280;
+            --bg-color: #f3f4f6; 
+            --container-bg: #ffffff;
+            --border-color: #e5e7eb;
+            --border-dark: #d1d5db;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.75;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Container utama untuk membungkus seluruh dokumen */
+        .main-document-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: var(--container-bg);
+            padding: 60px 80px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border-radius: 8px;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 0; }
+            .main-document-wrapper { padding: 40px 20px; border-radius: 0; }
+        }
+
+        h1 { font-weight: 700; color: var(--primary-color); margin-bottom: 8px; letter-spacing: -0.02em; font-size: 2.2rem; }
+        h2 { font-weight: 600; font-size: 1.3rem; color: var(--primary-color); margin-top: 1px; margin-bottom: 25px; padding-bottom: 8px; border-bottom: 2px solid var(--primary-color); display: inline-block; }
+        h3 { font-weight: 600; font-size: 1.1rem; color: var(--primary-color); margin-top: 25px; }
+        
+        .justify-text { text-align: justify; text-justify: inter-word; }
+
+        /* --- PEMBATAS KOLOM --- */
+        .column-divider {
+            column-count: 2;
+            column-gap: 40px;
+            column-rule: 1px solid var(--border-dark); 
+        }
+
+        .col-bordered {
+            border-right: 1px solid var(--border-dark);
+        }
+
+        /* List Langkah-langkah  */
+        .step-list-item {
+            border-left: 3px solid var(--bs-secondary);
+            background-color: #f9fafb;
+            padding: 20px 25px;
+            border-radius: 0 6px 6px 0;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--bs-secondary);
+        }
+
+        @media (max-width: 768px) { 
+            .column-divider { column-count: 1; column-rule: none; } 
+            .col-bordered { border-right: none; border-bottom: 1px solid var(--border-dark); padding-bottom: 15px; margin-bottom: 15px; }
+        }
+
+        .metadata {
+            margin-bottom: 40px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        pre[class*="language-"] {
+            background: #ffffff !important;
+            border: 1px solid var(--border-color) !important;
+            padding: 1.2em !important;
+            border-radius: 6px !important;
+            margin-top: 15px !important;
+        }
+        .req-item {
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            color: var(--text-color);
+            background-color: var(--container-bg);
+            display: flex;
+            align-items: center;
+        }
+
+        .req-item span {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+    </style>
+</head>
+<body class="bg-ibraaa-gradient">
+
+    <nav class="navbar navbar-expand-md bg-white fixed-top ">
+      <div class="container">
+        <a class="navbar-brand fw-bold link-hover" href="index.html">IM</a>
+
+        <button 
+          class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="nav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link link-hover" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link link-hover" href="about.html">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link link-hover" href="portofolio.html">Portfolio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link link-hover" href="kontak.html">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link link-hover" href="laprak.html">Report</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mb-5 mt-5">
+        <article class="main-document-wrapper shadow">
+            <header class="metadata">
+                <div class="row align-items-center">
+                    <div class="col-md-7">
+                        <h6 class="text-uppercase text-muted mb-2" style="letter-spacing: 1.5px; font-size: 0.75rem; font-weight: 600;">Laporan Praktikum 8 - Aplikasi Mobile</h6>
+                        <h1>HTTP Request dan Integrasi API pada ResepKu</h1>
+                    </div>
+                    <div class="col-md-5 text-md-end mt-3 mt-md-0 text-muted" style="font-size: 0.85rem;">
+                        <span class="d-block text-dark fw-semibold">Ibrahim Mousa Dhani</span>
+                        <span>2411532010</span><br>
+                        <span>IF - Universitas Andalas</span>
+                    </div>
+                </div>
+            </header>
+
+            <main>
+                <section>
+                    <h2>A. Pendahuluan</h2>
+                    <div class="column justify-text small">
+                       <p>HTTP Request dan integrasi API merupakan salah satu bagian penting dalam pengembangan aplikasi mobile karena memungkinkan aplikasi berkomunikasi dengan server untuk mengambil maupun mengirim data. Dalam Flutter, proses komunikasi tersebut dapat dilakukan menggunakan REST API dengan beberapa metode HTTP, seperti GET untuk mengambil data dan POST untuk mengirim data. Data yang diterima dari server umumnya berbentuk JSON, sehingga perlu diubah menjadi objek menggunakan proses parsing seperti factory fromJson. Selain itu, Flutter menyediakan fitur asynchronous seperti Future dan async/await untuk menjalankan proses yang membutuhkan waktu tanpa menghambat aplikasi, serta FutureBuilder untuk menampilkan kondisi loading, data, dan error berdasarkan hasil proses tersebut.</p>
+                       <p>Pada praktikum ini, aplikasi ResepKu dikembangkan lebih lanjut dengan dengan mengganti sumber data yang sebelumnya menggunakan enam resep dummy menjadi data yang diambil langsung dari REST API DummyJSON. Proses pengambilan data dilakukan menggunakan package http melalui class RecipeService, kemudian respons JSON diubah menjadi objek Recipe dan ditampilkan menggunakan FutureBuilder. Praktikum ini juga menambahkan penanganan kondisi ketika data sedang dimuat atau gagal diperoleh, tombol untuk mencoba kembali, serta fitur pull-to-refresh. Selain itu, dibuat fitur penambahan resep melalui form menggunakan metode POST untuk mengirim data ke server. Melalui praktikum ini, aplikasi ResepKu dapat menampilkan data secara lebih dinamis sekaligus memberikan pemahaman mengenai penerapan komunikasi API dalam aplikasi Flutter.</p>
+                </section>
+
+
+                <section class="mt-5">
+                    <h2>B. Tujuan Praktikum</h2>
+                    <div class="justify-text small text-muted">
+                        <p class="mb-2">Setelah menyelesaikan modul ini, mahasiswa mampu:</p>
+                        <ul class="ps-3 mb-0">
+                            <li class="mb-1">Membaca struktur respons JSON dari REST API dan membuat factory fromJson untuk model Recipe.</li>
+                            <li class="mb-1">Melakukan request GET dengan package http di dalam sebuah class service. </li>
+                            <li class="mb-1">Menampilkan data dengan FutureBuilder lengkap dengan loading state, error state, tombol coba lagi, dan pull-to-refresh.</li>
+                            <li class="mb-1">Mengirim data baru dengan request POST dari sebuah form, lalu menangani hasilnya.</li>
+                    </div>
+                </section>
+
+                <section class="mt-5">
+                    <h2>C. Alat</h2>
+                    <div class="justify-text small text-muted">
+                        <p class="mb-2">Perangkat dan dependensi yang digunakan selama praktikum:</p>
+                        <ul class="ps-3 mb-0">
+                            <li class="mb-1">Flutter SDK versi stable, VS Code dengan extension Flutter, dan project resepku dari Modul 6. </li>
+                            <li class="mb-1">Emulator Android atau HP Android yang terhubung ke internet, karena foto resep diambil dari cdn.dummyjson.com. </li>
+                            <li class="mb-1">Browser di laptop untuk membaca respons API dan dokumentasi https://dummyjson.com/docs/recipes.</li>
+                            <li class="mb-1">Package http dari pub.dev (dipasang pada Langkah A.2).</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="mt-5">
+                    <h2>D. Langkah-langkah Praktikum</h2>
+
+                    <div>
+                    <h4 class="fw-bold mb-3 pt-3" style="font-size: 1.15rem; color: var(--primary-color);">Bagian A — Mengenal API dan Model fromJson </h4>
+                    <p class="justify-text small mb-4"> Bertujuan memahami bentuk data dari server, lalu menyiapkan model Recipe agar dapat dibuat dari JSON.</p>
+                    </div>
+        
+                        <div class="step-list-item justify-text small">
+                            <strong>1. Membaca respons API di browser </strong>
+                            <p class="mt-1 mb-0">Buka URL berikut di browser laptop: </p>
+                            <pre class="language-none">https://dummyjson.com/docs/recipes</pre>
+                            <figcaption class="text-muted small text-center pt-3">https://dummyjson.com/docs/recipes</figcaption>
+                            <img src="images/ss prak8/a/1.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <div class="table-responsive">
+                                <table class="table table-bordered align-middle">
+                                    <thead style="background-color: #1f5b70; color: #ffffff;">
+                                    <tr>
+                                        <th scope="col" class="text-center" style="width: 5%;">Pertanyaan</th>
+                                        <th scope="col" class="text-center" style="width: 40%;">Jawaban</th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td class="text-center">Nilai total</td>
+                                        <td class="text-center">50 resep</td>
+                                       
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">Key yang berisi daftar resep</td>
+                                        <td class="text-center">recipes</td>
+                                      
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">Tipe nilai rating pada resep pertama (int atau double?)</td>
+                                        <td class="text-center">double(nilai desimal 4.6 pada respons JSON)</td>
+                                      
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">Tiga key resep yang belum ada di model Recipe Modul 7</td>
+                                        <td class="text-center">instructions, tags, dan reviewCount</td>
+                                      
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>2. Memasang package http</strong>
+                            <p class="mt-1 mb-0">Jalankan perintah berikut di terminal:</p>
+                            <pre class="language-none">flutter pub add http</pre>
+                            <figcaption class="text-muted small text-center pt-3">Menjalankan flutter pub add http</figcaption>
+                            <img src="images/ss prak8/a/2.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Package ini digunakan untuk mengirim request HTTP ke server dan menerima responsnya. Setelah proses pemasangan berhasil, dependency http tercatat pada pubspec.yaml dan dapat diimpor pada file service.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>3. Model Recipe dengan fromJson</strong>
+                            <p class="mt-1 mb-0">File lib/models/recipe.dart diperbarui dengan menambahkan field instructions dan factory constructor Recipe.fromJson</p>
+                            <figcaption class="text-muted small text-center pt-3">lib/models/recipe.dart</figcaption>
+                            <img src="images/ss prak8/a/3.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">. Factory tersebut mengambil nilai dari setiap key JSON sesuai tipe data yang dibutuhkan model. Field yang bersifat opsional diberi nilai bawaan agar aplikasi tidak mengalami error ketika respons server tidak menyertakan field tertentu. Nilai rating dibaca sebagai num lalu dikonversi menjadi double, sedangkan array ingredients dan instructions dikonversi menjadi List< String >.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>4. Menghapus data dummy</strong>
+                            <p class="mt-1 mb-0">Setelah model dapat membaca JSON, file lib/data/dummy_recipes.dart beserta folder data dihapus karena sumber resep selanjutnya berasal dari API.</p>
+                            <figcaption class="text-muted small text-center pt-3">Menghapus folder data beserta isinya</figcaption>
+                            <img src="images/ss prak8/a/4.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Penghapusan ini menyebabkan referensi dummyRecipes pada HomePage sementara menampilkan error sampai bagian B selesai. Jika filter cuisine dari Modul 7 sudah digunakan, daftar cuisine perlu diambil dari data recipes yang diterima melalui FutureBuilder, bukan lagi dari dummyRecipes.</p>
+                        </div>
+
+
+                    <div class="mt-4">
+                    <h4 class="fw-bold mb-3 pt-3" style="font-size: 1.15rem; color: var(--primary-color);">Bagian B	— RecipeService dan FutureBuilder</h4>
+                    <p class="justify-text small mb-4">Bertujuan mengambil 50 resep dari server dengan GET, lalu menampilkannya dengan FutureBuilder lengkap dengan loading dan error state.</p>
+                    </div>
+                        
+                        <div class="step-list-item justify-text small">
+                            <strong>1. Membuat RecipeService</strong>
+                            <p class="mt-1 mb-0">Membuat folder baru yaitu lib/services, kemudian file recipe_service.dart ditambahkan.</p>
+                            <figcaption class="text-muted small text-center pt-3">lib/services/recipe_service.dart</figcaption>
+                            <img src="images/ss prak8/b/1.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Class RecipeService menjadi tempat seluruh komunikasi dengan API, termasuk request GET ke endpoint /recipes?limit=50. Respons diperiksa status kodenya, di-decode menjadi Map JSON, lalu daftar pada key recipes diubah menjadi List<Recipe> melalui Recipe.fromJson. Request juga diberi batas waktu 10 detik agar aplikasi tidak menunggu tanpa batas.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>2. Mendaftarkan RecipeService sebagai Provider</strong>
+                            <p class="mt-1 mb-0">Ganti seluruh isi lib/main.dart.</p>
+                            <figcaption class="text-muted small text-center pt-3">lib/main.dart</figcaption>
+                            <img src="images/ss prak8/b/2.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">RecipeService didaftarkan pada MultiProvider di lib/main.dart menggunakan Provider biasa, bukan ChangeNotifierProvider, karena service tidak menyimpan state yang berubah dan tidak membutuhkan notifyListeners. FavoriteProvider dan ThemeProvider tetap dipertahankan agar fitur favorit dan tema dari Modul 6 tidak hilang. Provider juga mengatur pemanggilan service.close() ketika service tidak lagi digunakan. Setelah mengubah main.dart, aplikasi perlu di-hot restart.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>3. Widget ErrorView</strong>
+                            <p class="mt-1 mb-0">Buat widget untuk error state agar dapat dipakai di beberapa halaman</p>
+                            <figcaption class="text-muted small text-center pt-3">lib/widgets/error_view.dart</figcaption>
+                            <img src="images/ss prak8/b/3.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">File lib/widgets/error_view.dart dibuat sebagai widget khusus untuk menampilkan kondisi ketika request gagal. ErrorView menampilkan ikon koneksi bermasalah, pesan error, dan tombol Coba lagi. Tombol tersebut menerima callback onRetry sehingga dapat digunakan kembali oleh halaman yang membutuhkan penanganan error.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>4. HomePage dengan FutureBuilder</strong>
+                            <p class="mt-1 mb-0">Ganti seluruh isi lib/pages/home_page.dart.</p>
+                            <figcaption class="text-muted small text-center pt-3">lib/pages/home_page.dart (versi Bagian B)</figcaption>
+                            <img src="images/ss prak8/b/4.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);"> 
+                            <p class="mt-1 mb-0">HomePage diperbarui agar mengambil data dari RecipeService. Future daftar resep disimpan pada field _recipesFuture dan dibuat satu kali di initState, sehingga perubahan tampilan list atau grid tidak mengirim request baru. FutureBuilder kemudian memeriksa connectionState, hasError, dan data untuk menampilkan loading indicator, ErrorView, atau daftar resep. Fungsi _reload digunakan untuk mencoba request kembali, sedangkan RefreshIndicator menyediakan fitur pull-to-refresh. Fungsi _buildList dan _buildGrid menerima data resep sebagai parameter agar keduanya memakai hasil API yang sama.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>5. Menampilkan langkah memasak di halaman detail</strong>
+                            <p class="mt-1 mb-0">Model Recipe yang berasal dari API sudah memiliki data instructions. Pada halaman detail, daftar langkah memasak ditambahkan setelah daftar bahan. Setiap langkah ditampilkan menggunakan ListTile dengan nomor urut. Jika halaman detail menggunakan ListView, widget Text dan ListTile dapat diletakkan langsung dalam daftar children. Jika menggunakan CustomScrollView dari bonus Modul 7, judul dibungkus dengan SliverToBoxAdapter dan daftar instruksi menggunakan SliverList.builder agar tetap sesuai dengan struktur sliver.</p>
+                            <figcaption class="text-muted small text-center pt-3">lib/pages/detail_page.dart (versi SliverAppBar, tambahan di dalam slivers)</figcaption>
+                            <img src="images/ss prak8/b/5.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);"> 
+                        </div>
+
+                        <p><strong>Checkpoint 1</strong></p>
+                        <div class="step-list-item justify-text small mb-5 ">
+                            <p class="mt-1 mb-0">Checkpoint 1 dilakukan dengan menampilkan Indikator loading, Home dengan resep dari server (perlihatkan resep yang tidak ada di 6 resep dummy), dan halaman Detail yang menampilkan bagian Langkah.</p>
+                            <figcaption class="text-muted small text-center pt-3">Indikator loading</figcaption>
+                            <img src="images/ss prak8/b/6.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Home dengan resep dari server (perlihatkan resep yang tidak ada di 6 resep dummy)</figcaption>
+                            <img src="images/ss prak8/b/7.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Halaman Detail yang menampilkan bagian Langkah</figcaption>
+                            <img src="images/ss prak8/b/8.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>6. Menguji error state dan refresh</strong>
+                            <p class="mt-1 mb-0">Error state diuji dengan mengaktifkan mode pesawat lalu melakukan hot restart. Ketika request tidak dapat dilakukan, aplikasi menampilkan ErrorView beserta tombol Coba lagi. Setelah mode pesawat dimatikan, tombol tersebut digunakan untuk mengirim request ulang. Fitur pull-to-refresh kemudian diuji dengan menarik daftar resep ke bawah. Selama refresh berlangsung, daftar lama tetap terlihat dan indikator refresh muncul di bagian atas.</p>
+                            <figcaption class="text-muted small text-center pt-3">Aktifkan mode pesawat, lalu hot restart. ErrorView tampil dengan pesan error.</figcaption>
+                            <img src="images/ss prak8/b/9.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);"> 
+                            <figcaption class="text-muted small text-center pt-3">Matikan mode pesawat, lalu tekan "Coba lagi". Daftar resep tampil kembali.</figcaption>
+                            <img src="images/ss prak8/b/10.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);"> 
+                            <figcaption class="text-muted small text-center pt-3">Tarik daftar ke bawah (pull-to-refresh). Indikator berputar di atas daftar, sementara daftar lama tetap terlihat.</figcaption>
+                            <img src="images/ss prak8/b/11.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);"> 
+                        </div>
+
+                        <p><strong>Checkpoint 2</strong></p>
+                        <div class="step-list-item justify-text small mb-5 ">
+                            <p class="mt-1 mb-0">Checkpoint 2 dilakukan dengan menampilkan ErrorView saat mode pesawat aktif, dan pull-to-refresh yang sedang berjalan.</p>
+                            <figcaption class="text-muted small text-center pt-3">Tampilan ErrorView saat mode pesawat aktif</figcaption>
+                            <img src="images/ss prak8/b/9.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Tampilan pull-to-refresh yang sedang berjalan.</figcaption>
+                            <img src="images/ss prak8/b/11.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+
+
+                    <div class="mt-4">
+                    <h4 class="fw-bold mb-3 pt-3" style="font-size: 1.15rem; color: var(--primary-color);">Bagian C — Mengirim Resep Baru (POST)</h4>
+                    <p class="justify-text small mb-4">Bertujuan mengirim data dari form ke server dengan request POST, lalu menangani hasil dan kegagalannya.</p>
+                    </div>
+                        
+                        <div class="step-list-item justify-text small">
+                            <strong>1. Method addRecipe</strong>
+                            <p class="mt-1 mb-0">Di recipe_service.dart, tambahkan method berikut tepat sebelum komentar /// Status 2xx berarti berhasil.</p>
+                            <figcaption class="text-muted small text-center pt-3">Menambahkan method addRecipe di lib/services/recipe_service.dart</figcaption>
+                            <img src="images/ss prak8/c/1.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Method ini mengirim nama resep, cuisine, dan waktu memasak melalui request POST. Header Content-Type diatur menjadi application/json, sedangkan jsonEncode digunakan untuk mengubah Map Dart menjadi teks JSON. Respons server kemudian diubah kembali menjadi objek Recipe menggunakan Recipe.fromJson.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>2. Halaman form AddRecipePage</strong>
+                            <p class="mt-1 mb-0">Membuat file baru lib/pages/add_recipe_page.dart</p>
+                            <figcaption class="text-muted small text-center pt-3">lib/pages/add_recipe_page.dart</figcaption>
+                            <img src="images/ss prak8/c/2.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">File lib/pages/add_recipe_page.dart dibuat menggunakan StatefulWidget karena halaman menyimpan input pengguna dan status proses penyimpanan. Form menyediakan tiga TextFormField untuk nama resep, cuisine, dan waktu memasak. Validasi dilakukan sebelum request dikirim. Selama proses penyimpanan berlangsung, tombol Simpan dinonaktifkan dan menampilkan indikator kecil. Controller dihapus melalui dispose agar tidak menimbulkan kebocoran memori.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>3. Menambahkan tombol tambah pada HomePage</strong>
+                            <figcaption class="text-muted small text-center pt-3">Di home_page.dart, tambahkan import 'package:resepku/pages/add_recipe_page.dart';</figcaption>
+                            <img src="images/ss prak8/c/3.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Menambahkan method _openAddPage di dalam _HomePageState, sebelum @override Widget build</figcaption>
+                            <img src="images/ss prak8/c/4.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Menambahkan tombol tambah pada HomePage  pada Scaffold, setelah body</figcaption>
+                            <img src="images/ss prak8/c/5.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">HomePage ditambahkan method _openAddPage untuk membuka AddRecipePage menggunakan Navigator.push. Setelah form berhasil mengirim resep, halaman form mengembalikan objek Recipe kepada HomePage. Aplikasi kemudian menampilkan SnackBar berisi nama resep dan ID yang diberikan server. Tombol tambah ditempatkan sebagai FloatingActionButton pada Scaffold.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>4. Mencoba requestPOST </strong>
+                            <p class="mt-1 mb-0">Pengujian dilakukan dengan menekan tombol tambah dan mencoba menyimpan form dalam keadaan kosong. Pesan Wajib diisi harus muncul dan request tidak dikirim. Setelah form diisi dengan nama Rendang, cuisine Indonesian, dan waktu memasak 180 menit, aplikasi mengirim data ke server dan menampilkan ID pada SnackBar. Ketika daftar di-refresh, resep tersebut tidak muncul kembali karena DummyJSON hanya menyimulasikan POST dan tidak menyimpan perubahan secara permanen.</p>
+                            <figcaption class="text-muted small text-center pt-3">Tekan tombol +, lalu tekan Simpan dengan form kosong. Pesan "Wajib diisi" muncul dan tidak ada request yang dikirim</figcaption>
+                            <img src="images/ss prak8/c/6.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Isi nama Rendang, cuisine Indonesian, dan waktu 180, lalu tekan Simpan. Form tertutup dan SnackBar menampilkan id yang diberikan server</figcaption>
+                            <img src="images/ss prak8/c/7.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Tarik daftar untuk refresh. Rendang tidak muncul, karena dummyjson hanya menyimulasikan penyimpanan</figcaption>
+                            <img src="images/ss prak8/c/8.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+
+                        <p><strong>Checkpoint 3</strong></p>
+                        <div class="step-list-item justify-text small mb-5 ">
+                            <p class="mt-1 mb-0">Checkpoint 3 dilakukan dengan menampilkan form dengan pesan validasi, dan SnackBar berisi id dari server setelah resep dikirim. </p>
+                            <figcaption class="text-muted small text-center pt-3">Tampilan Form dengan pesan validasi</figcaption>
+                            <img src="images/ss prak8/c/6.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Tampilan SnackBar berisi id dari server setelah resep dikirim</figcaption>
+                            <img src="images/ss prak8/c/7.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+                        
+                    <div class="mt-4">
+                    <h4 class="fw-bold mb-3 pt-3" style="font-size: 1.15rem; color: var(--primary-color);">Bagian D	— Pengujian</h4>
+                    <p class="justify-text small mb-4">Bertujuan memastikan semua fitur dari Modul 6 sampai Modul 8 tetap berjalan dengan data dari server.</p>
+                    </div>
+                        
+                        <p><strong>Langkah D.1 — Menguji aplikasi</strong></p>
+                        <div class="step-list-item justify-text small">
+                            
+                            <p class="mt-1 mb-0">Setelah semua perubahan selesai, aplikasi dihentikan dan dijalankan kembali. Pengujian dilakukan mengikuti tujuh skenario pada modul</p>
+                            <div class="table-responsive">
+                                <table class="table table-bordered align-middle">
+                                    <thead style="background-color: #1f5b70; color: #ffffff;">
+                                    <tr>
+                                        <th scope="col" class="text-center" style="width: 5%;">No</th>
+                                        <th scope="col" style="width: 40%;">Skenario</th>
+                                        <th scope="col" style="width: 45%;">Hasil yang diharapkan</th>
+                                        <th scope="col" class="text-center" style="width: 10%;">Sesuai?</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td class="text-center">1</td>
+                                        <td>Buka aplikasi</td>
+                                        <td>Indikator loading, lalu 50 resep dari server</td>
+                                        <td class="text-center">&#10004;</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">2</td>
+                                        <td>Tandai dua resep sebagai favorit, lalu tarik untuk refresh </td>
+                                        <td>Ikon hati kedua resep tetap merah dan badge tetap 2</td>
+                                        <td class="text-center">&#10004;</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">3</td>
+                                        <td>Tekan tombol grid, lalu kembali ke list</td>
+                                        <td>Tidak ada indikator loading baru</td>
+                                        <td class="text-center">&#10004;</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">4</td>
+                                        <td>Buka detail salah satu resep</td>
+                                        <td>Foto, porsi, bahan, dan langkah memasak tampil</td>
+                                        <td class="text-center">&#10004;</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">5</td>
+                                        <td>Mode pesawat, lalu hot restart</td>
+                                        <td>ErrorView dengan tombol "Coba lagi"</td>
+                                        <td class="text-center">&#10004;</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">6</td>
+                                        <td>Matikan mode pesawat, tekan "Coba lagi"</td>
+                                        <td>Daftar resep tampil kembali</td>
+                                        <td class="text-center">&#10004;</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">7</td>
+                                        <td>Kirim resep baru melalui tombol +</td>
+                                        <td>SnackBar berisi id dari server</td>
+                                        <td class="text-center">&#10004;</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <figcaption class="text-muted small text-center pt-3">Tampilan Skenario 1</figcaption>
+                            <img src="images/ss prak8/d/1.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Tampilan Skenario 2</figcaption>
+                            <img src="images/ss prak8/d/2.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Tampilan Skenario 3</figcaption>
+                            <img src="images/ss prak8/d/3.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Tampilan Skenario 4</figcaption>
+                            <img src="images/ss prak8/d/4.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Tampilan Skenario 5</figcaption>
+                            <img src="images/ss prak8/d/5.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Tampilan Skenario 6</figcaption>
+                            <img src="images/ss prak8/d/6.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Tampilan Skenario 7</figcaption>
+                            <img src="images/ss prak8/d/7.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+
+
+                        <P><strong><strong>Pertanyaan Analisis</strong></strong></P>
+                        <div class="step-list-item justify-text small">
+                            <p class="mt-2 mb-2"><strong>1. Pada skenario 2, setiap refresh membuat objek Recipe yang baru dari JSON. Mengapa status favorit tetap benar? Hubungkan dengan cara FavoriteProvider membandingkan resep (Modul 6).</strong><br>
+                                Karena FavoriteProvider membandingkan resep berdasarkan nilai id, bukan berdasarkan objek Recipe secara langsung. Setiap kali data dimuat ulang, aplikasi memang membuat objek Recipe baru dari JSON, tetapi resep tersebut tetap memiliki ID yang sama dengan data sebelumnya. Method isFavorite() pada FavoriteProvider memeriksa kesamaan ID tersebut, sehingga status favorit tetap dapat dikenali meskipun objeknya berbeda. Dengan cara ini, daftar favorit tidak bergantung pada alamat objek di memori, melainkan pada identitas resep.</p>
+                            <p class="mt-4 mb-0"><strong>2. Pada skenario 3, mengapa menekan tombol grid tidak memunculkan indikator loading? Apa yang akan terjadi jika future ditulis langsung di dalam build()?</strong><br>
+                                Karena Future daftar resep sudah dibuat satu kali di initState() dan disimpan dalam variabel _recipesFuture. Ketika tombol grid ditekan, setState() hanya mengubah tampilan dari list menjadi grid atau sebaliknya, sedangkan Future yang digunakan FutureBuilder tetap sama. Jika pemanggilan fetchRecipes() ditulis langsung di dalam build(), setiap build dijalankan request baru akan dibuat. Akibatnya, perpindahan tampilan dapat mengirim request berulang dan indikator loading muncul kembali.</p>
+                            <p class="mt-4 mb-0"><strong>3. HomePage tidak memanggil http.get secara langsung, melainkan melalui RecipeService. Sebutkan dua keuntungan cara ini</strong><br>
+                                Kode lebih terstruktur karena bagian tampilan tidak perlu mengurus proses komunikasi dengan server secara langsung, logika request dapat digunakan kembali oleh beberapa halaman tanpa harus menulis kode HTTP berulang kali, dan proses pengujian juga menjadi lebih mudah karena client pada RecipeService dapat diganti dengan MockClient, sehingga request dapat diuji menggunakan respons palsu tanpa membutuhkan koneksi internet.</p>
+                            <p class="mt-4 mb-0"><strong>4. Setelah POST berhasil, server memberi id baru, tetapi resep tidak muncul saat daftar dimuat ulang. Jelaskan penyebabnya, dan bagaimana aplikasi dengan server sungguhan biasanya menampilkan data yang baru ditambahkan.</strong><br>
+                                Karena DummyJSON hanya menyimulasikan proses penambahan data. Server mengembalikan respons yang berisi data resep dan ID baru, tetapi data tersebut tidak benar-benar disimpan pada server. Pada aplikasi yang menggunakan server sungguhan, data biasanya disimpan ke database setelah request berhasil. Ketika daftar resep dimuat ulang, request GET akan mengambil data terbaru dari database sehingga resep yang baru ditambahkan dapat muncul. Aplikasi juga dapat memperbarui daftar lokal berdasarkan respons POST yang diterima.</p>
+                            <p class="mt-4 mb-0"><strong>5. Di AddRecipePage terdapat if (!mounted) return; setelah await. Jelaskan skenario yang dicegah oleh baris tersebut.</strong><br>
+                                Pemeriksaan if (!mounted) return; digunakan untuk memastikan halaman masih aktif sebelum aplikasi melanjutkan proses setelah menjalankan operasi asynchronous. Contohnya, ketika pengguna menekan Simpan lalu menutup halaman form sebelum request POST selesai, halaman tersebut sudah tidak lagi terpasang pada widget tree. Tanpa pemeriksaan mounted, aplikasi masih dapat mencoba menggunakan context atau menjalankan navigasi pada halaman yang sudah ditutup. Kondisi ini dapat menimbulkan error, sehingga pemeriksaan mounted diperlukan agar proses hanya dilanjutkan ketika halaman masih aktif.</p>
+                            </div>
+                        
+
+                <h4 class="fw-bold mb-3 pt-5" style="font-size: 1.15rem; color: var(--primary-color);">Latihan 1 — Pencarian Resep</h4>
+                <p class="justify-text small mb-4">Menambahkan halaman pencarian yang dibuka dari ikon kaca pembesar di AppBar Home. User mengetik kata kunci, menekan Enter, lalu hasil ditampilkan dengan FutureBuilder.</p>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>Menambahkan method searchRecipes()</strong>
+                            <p class="mt-1 mb-0">Buka file lib/services/recipe_service.dart. Pada file ini, sebelumnya sudah terdapat method fetchRecipes() untuk mengambil seluruh resep dari server. Lalu tambahkan method searchRecipes() tepat setelah method fetchRecipes() dan sebelum method _checkStatus()</p>
+                            <figcaption class="text-muted small text-center pt-3">lib/services/recipe_service.dart</figcaption>
+                            <img src="images/ss prak8/lat1/1.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">  
+                            <p class="mt-1 mb-0">Method searchRecipes() digunakan untuk melakukan pencarian resep berdasarkan kata kunci yang diberikan pengguna. Parameter query berisi teks pencarian, kemudian Uri.parse() digunakan untuk membentuk alamat endpoint pencarian.</p>
+                            <p class="mt-1 mb-0">Bagian .replace(queryParameters: {'q': query}) digunakan agar kata kunci dimasukkan ke parameter URL dengan format encoding yang benar, termasuk apabila terdapat spasi atau karakter khusus. Selanjutnya, _client.get() mengirimkan request GET ke server. Respons yang diterima diubah dari JSON menjadi objek Recipe menggunakan Recipe.fromJson(). Dengan demikian, method ini dapat mengembalikan daftar resep sesuai kata kunci yang dicari.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>Membuat SearchPage</strong>
+                            <p class="mt-1 mb-0">Buat file baru yaitu lib/pages/search_page.dart. Halaman ini merupakan halaman khusus untuk pencarian resep. Berbeda dengan HomePage, halaman ini menggunakan FutureBuilder yang awalnya belum memiliki Future sampai pengguna memasukkan kata kunci pencarian.</p>
+                            <figcaption class="text-muted small text-center pt-3">lib/pages/search_page.dart</figcaption>
+                            <img src="images/ss prak8/lat1/2.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">  
+                            <p class="mt-1 mb-0">Variabel _searchFuture digunakan untuk menyimpan proses pencarian resep dari server. Tipe datanya dibuat nullable karena sebelum pengguna melakukan pencarian, belum ada request yang dijalankan. Sementara itu, _query menyimpan kata kunci terakhir yang digunakan sehingga pencarian dapat dilakukan kembali apabila terjadi kesalahan.</p>
+                            <p class="mt-1 mb-0">Method _search() dipanggil ketika pengguna menekan Enter pada TextField. Fungsi trim() digunakan untuk menghilangkan spasi yang tidak diperlukan pada awal dan akhir kata kunci. Apabila input kosong, pencarian tidak dijalankan. Jika input tersedia, aplikasi membuat Future baru melalui RecipeService dan memperbarui tampilan menggunakan setState().</p>
+                            <p class="mt-1 mb-0">Method _retry() digunakan apabila request pencarian mengalami kegagalan. Method ini menjalankan kembali pencarian menggunakan kata kunci terakhir yang disimpan dalam _query.</p>
+                            <p class="mt-1 mb-0">TextField ditempatkan pada bagian title AppBar sehingga pengguna dapat langsung mengetikkan kata kunci setelah halaman pencarian dibuka. Parameter textInputAction mengatur tombol keyboard menjadi tombol pencarian, sedangkan onSubmitted menjalankan method _search() ketika pengguna menekan Enter.</p>
+                            <p class="mt-1 mb-0">FutureBuilder< List< Recipe>> digunakan untuk mengamati proses pencarian. Apabila request masih berlangsung, aplikasi menampilkan indikator loading. Jika terjadi kesalahan, aplikasi menggunakan kembali ErrorView. Apabila server tidak menemukan resep yang sesuai, aplikasi menampilkan pesan khusus. Jika data berhasil diperoleh, hasilnya ditampilkan menggunakan ListView.builder dan widget RecipeTile.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small">
+                            <strong>Menambahkan tombol/ikon pencarian pada HomePage</strong>
+                            <p class="mt-1 mb-0">Ikon pencarian ditambahkan ke actions pada AppBar HomePage. Ketika ditekan, aplikasi membuka SearchPage menggunakan Navigator.push. Letakkan tombol ini bersama tombol tampilan grid, Favorit, dan Pengaturan yang sudah ada.</p>
+                            <p class="mt-1 mb-0">Buka file lib/pages/home_page.dart, dan tambahkan import berikut pada bagian import paling atas:</p>
+                            <figcaption class="text-muted small text-center pt-3">lib/pages/home_page.dart</figcaption>
+                            <img src="images/ss prak8/lat1/3.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">  
+                            <p class="mt-1 mb-0">Selanjutnya, cari bagian AppBar pada method build(). Pada parameter actions, tambahkan IconButton untuk pencarian.</p>
+                            <figcaption class="text-muted small text-center pt-3">lib/pages/home_page.dart</figcaption>
+                            <img src="images/ss prak8/lat1/4.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">IconButton digunakan untuk menampilkan ikon kaca pembesar pada AppBar Home. Ketika ditekan, Navigator.push() digunakan untuk membuka halaman SearchPage. Dengan demikian, pengguna dapat melakukan pencarian resep tanpa mengubah halaman utama.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-4">
+                            <strong>Output dan Pengujian</strong>
+                            <p class="mt-1 mb-0">Hasilnya adalah sebagai berikut:</p>
+                            <figcaption class="text-muted small text-center pt-3">Buka ikon pencarian, maka Halaman SearchPage terbuka.</figcaption>
+                            <img src="images/ss prak8/lat1/5.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Cari kata kunci yang memiliki hasil misalnya pasta, maka Daftar resep hasil pencarian ditampilkan.</figcaption>
+                            <img src="images/ss prak8/lat1/6.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Cari kata kunci yang tidak memiliki hasil, makaPesan Resep tidak ditemukan ditampilkan.</figcaption>
+                            <img src="images/ss prak8/lat1/7.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Lakukan pencarian ketika koneksi bermasalah, maka ErrorView dan tombol Coba lagi muncul.</figcaption>
+                            <img src="images/ss prak8/lat1/8.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Aktifkan kembali koneksi dan tekan Coba lagi, maka Hasil pencarian dapat ditampilkan kembali.</figcaption>
+                            <img src="images/ss prak8/lat1/9.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Tekan salah satu hasil pencarian, maka Halaman Detail resep terbuka.</figcaption>
+                            <img src="images/ss prak8/lat1/10.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+                        
+
+                <h4 class="fw-bold mb-3 pt-5" style="font-size: 1.15rem; color: var(--primary-color);">Latihan 2 - Mengubah	dan	menghapus resep</h4>
+                <p class="justify-text small mb-4">Menambahkan PopupMenuButton di AppBar halaman detail</p>
+
+                        <div class="step-list-item justify-text small mb-4">
+                            <strong>Menambahkan method updateRecipe() dan deleteRecipe()</strong>
+                            <p class="mt-1 mb-0">Buka file lib/services/recipe_service.dart, dan tambahkan dua method baru di dalam class RecipeService, tepat setelah method addRecipe() dan sebelum _checkStatus().</p>
+                            <figcaption class="text-muted small text-center pt-3">lib/services/recipe_service.dart</figcaption>
+                            <img src="images/ss prak8/lat2/1.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Method updateRecipe() digunakan untuk mengubah nama resep berdasarkan ID yang dimiliki. Parameter id menentukan resep yang akan diubah, sedangkan name berisi nama baru yang dikirimkan oleh pengguna.</p>
+                            <p class="mt-1 mb-0">Method deleteRecipe() digunakan untuk menghapus resep berdasarkan ID. Proses penghapusan menggunakan metode HTTP DELETE. Alamat endpoint disusun menggunakan ID resep yang akan dihapus. Setelah server memberikan respons, aplikasi memeriksa status request dan mengubah respons JSON menjadi Map. Respons tersebut nantinya digunakan untuk memeriksa nilai isDeleted. Apabila bernilai true, aplikasi akan menampilkan pesan bahwa resep berhasil dihapus.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-4">
+                            <strong>Menambahkan PopupMenuButton pada halaman Detail</strong>
+                            <p class="mt-1 mb-0">Buka file lib/pages/detail_page.dart. Pada file ini, kita akan melakukan tiga perubahan, yaitu menambahkan import RecipeService, membuat method untuk mengubah dan menghapus resep, serta menambahkan PopupMenuButton di bagian SliverAppBar.</p>
+                            <p class="mt-1 mb-0">a. Menambahkan import RecipeService di bagian paling atas file. Import ini diperlukan agar halaman Detail dapat memanggil method PUT dan DELETE melalui Provider.</p>
+                            <figcaption class="text-muted small text-center pt-3">lib/pages/detail_page.dart</figcaption>
+                            <img src="images/ss prak8/lat2/2.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">b. Membuat method untuk mengubah nama resep. Letakkan method berikut di dalam class _DetailPageState, setelah method _removeServing() dan sebelum @override Widget build().</p>
+                            <figcaption class="text-muted small text-center pt-3">Method _editRecipeName()</figcaption>
+                            <img src="images/ss prak8/lat2/3.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Method _editRecipeName() digunakan untuk menampilkan dialog yang berisi TextField agar pengguna dapat memasukkan nama resep baru.</p>
+                            <p class="mt-1 mb-0">TextEditingController digunakan untuk mengambil dan mengelola teks yang dimasukkan. Nilai awal controller diisi menggunakan widget.recipe.name, sehingga nama resep saat ini sudah muncul di dalam kolom input.</p>
+                            <p class="mt-1 mb-0">Ketika tombol Simpan ditekan, aplikasi mengambil teks baru dan mengirimkannya melalui method updateRecipe() yang terdapat di RecipeService. Jika request berhasil, nama yang dikembalikan oleh server ditampilkan melalui SnackBar. Apabila terjadi kesalahan, aplikasi menampilkan pesan kegagalan.</p>
+                            <p class="mt-1 mb-0">Bagian if (!mounted) digunakan untuk memastikan halaman Detail masih aktif sebelum menggunakan BuildContext setelah proses asynchronous selesai.</p>
+
+                            <p class="mt-1 mb-0">c. Membuat method untuk menghapus resep. Masih di dalam class _DetailPageState, letakkan method _confirmDeleteRecipe() berikut setelah _editRecipeName() dan sebelum method build().</p>
+                            <figcaption class="text-muted small text-center pt-3">Method _confirmDeleteRecipe()</figcaption>
+                            <img src="images/ss prak8/lat2/4.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Method _confirmDeleteRecipe() digunakan untuk menampilkan dialog konfirmasi sebelum resep dihapus. Pengguna diberikan dua pilihan, yaitu Batal dan Hapus. Jika memilih Batal, proses penghapusan tidak dijalankan.</p>
+                            <p class="mt-1 mb-0">Namun, apabila pengguna memilih Hapus, aplikasi memanggil method deleteRecipe() dari RecipeService dengan menyertakan ID resep yang sedang dibuka.</p>
+                            <p class="mt-1 mb-0">Setelah server memberikan respons, aplikasi memeriksa apakah isDeleted bernilai true. Jika berhasil, SnackBar ditampilkan dan halaman Detail ditutup menggunakan Navigator.pop(context). Jika terjadi kesalahan, aplikasi menampilkan pesan bahwa proses penghapusan gagal.</p>
+                       
+                            <p class="mt-1 mb-0">d. Menambahkan PopupMenuButton pada SliverAppBar. Pada bagian SliverAppBar di dalam method build(), bagian actions biasanya hanya berisi tombol favorit. Tambahkan PopupMenuButton setelah tombol favorit seperti gambar berikut.</p>
+                            <figcaption class="text-muted small text-center pt-3">Menambahkan PopupMenuButton pada SliverAppBar di lib/pages/detail_page.dart</figcaption>
+                            <img src="images/ss prak8/lat2/5.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">PopupMenuButton< String> digunakan untuk menampilkan menu pilihan ketika ikon tiga titik ditekan. Menu tersebut memiliki dua pilihan, yaitu Ubah nama dan Hapus resep.</p>
+                            <p class="mt-1 mb-0">Parameter onSelected digunakan untuk menentukan tindakan berdasarkan pilihan pengguna. Apabila memilih Ubah nama, aplikasi memanggil _editRecipeName(). Sementara itu, apabila memilih Hapus resep, aplikasi menjalankan _confirmDeleteRecipe().</p>
+                            <p class="mt-1 mb-0">Dengan penambahan ini, pengguna dapat melakukan perubahan maupun penghapusan resep langsung dari halaman Detail.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-4">
+                            <strong>Output dan Pengujian</strong>
+                            <p class="mt-1 mb-0">Hasilnya adalah sebagai berikut:</p>
+                            <figcaption class="text-muted small text-center pt-3">Buka halaman Detail dan tekan menu tiga titik, maka menu Ubah nama dan Hapus resep muncul.</figcaption>
+                            <img src="images/ss prak8/lat2/6.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Pilih Ubah nama, maka AlertDialog dengan TextField muncul.</figcaption>
+                            <img src="images/ss prak8/lat2/7.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Ganti nama resep dan tekan Simpan, maka Request PUT berhasil dan SnackBar menampilkan nama dari respons server.</figcaption>
+                            <img src="images/ss prak8/lat2/8.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <img src="images/ss prak8/lat2/9.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Pilih Hapus resep, maka Dialog konfirmasi muncul.</figcaption>
+                            <img src="images/ss prak8/lat2/10.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Pilih Hapus dan konfirmasi, makaRequest DELETE dikirim ke server dan SnackBar menampilkan pesan sukses serta halaman detail tertutup.</figcaption>
+                            <img src="images/ss prak8/lat2/11.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+                </section>
+
+                <h4 class="fw-bold mb-3 pt-5" style="font-size: 1.15rem; color: var(--primary-color);">Latihan 3 - Unit	test tanpa internet</h4>
+                <p class="justify-text small mb-4">Menguji fungsi Recipe.fromJson() dan RecipeService.fetchRecipes() tanpa harus mengakses internet atau server DummyJSON secara langsung.</p>
+
+                        <div class="step-list-item justify-text small mb-4">
+                            <strong>Membuat file pengujian recipe_service_test.dart pada folder test</strong>
+                            <figcaption class="text-muted small text-center pt-3">test/recipe_service_test.dart</figcaption>
+                            <img src="images/ss prak8/lat3/1.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <p class="mt-1 mb-0">Pengujian pertama memastikan rating bernilai int pada JSON dapat dikonversi menjadi double serta field yang tidak tersedia memperoleh nilai bawaan. Pengujian berikutnya memastikan fetchRecipes dapat membaca respons palsu dan melempar RecipeServiceException ketika server memberikan status 404</p>
+                            <figcaption class="text-muted small text-center pt-3">test/recipe_service_test.dart</figcaption>
+                            <img src="images/ss prak8/lat3/2.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">                              
+                            <p class="mt-1 mb-0">Kode diawali dengan beberapa import yang diperlukan untuk menjalankan pengujian. Package dart:convert digunakan untuk mengubah data berbentuk Map menjadi JSON menggunakan jsonEncode(). Selanjutnya, flutter_test menyediakan fungsi pengujian seperti group(), test(), dan expect(). Package http digunakan untuk membuat respons HTTP, sedangkan MockClient dari http/testing.dart digunakan untuk menggantikan komunikasi dengan server asli. Selain itu, file recipe.dart dan recipe_service.dart diimpor karena keduanya merupakan bagian yang akan diuji.</p>
+                            <p class="mt-1 mb-0">Bagian pertama menggunakan group('Recipe.fromJson') untuk menguji proses konversi data JSON menjadi objek Recipe. Data pengujian dibuat dengan memasukkan id, name, dan rating yang bernilai 5 dalam bentuk integer. Setelah data diproses menggunakan Recipe.fromJson(), fungsi expect() digunakan untuk memastikan bahwa nilai rating berhasil dikonversi menjadi double dengan nilai 5.0. Pengujian juga dilakukan terhadap beberapa field yang tidak tersedia pada JSON untuk memastikan bahwa masing-masing field menggunakan nilai bawaan sesuai implementasi pada model Recipe.</p>
+                            <p class="mt-1 mb-0">Bagian kedua menggunakan group('RecipeService.fetchRecipes') untuk menguji proses pengambilan data resep menggunakan respons server palsu. MockClient dibuat untuk memberikan respons JSON yang berisi satu data resep dengan status HTTP 200. Ketika fetchRecipes() dijalankan, aplikasi akan memproses respons tersebut menjadi daftar objek Recipe. Selanjutnya, beberapa fungsi expect() digunakan untuk memastikan bahwa hasilnya berbentuk List< Recipe>, memiliki satu data, serta mempunyai nama dan rating yang sesuai dengan respons yang diberikan.</p>
+                            <p class="mt-1 mb-0">Bagian ketiga menguji penanganan kesalahan ketika server memberikan status HTTP 404. Pada pengujian ini, MockClient diatur agar mengembalikan respons dengan status 404 dan pesan Not Found. Ketika fetchRecipes() dijalankan, method _checkStatus() pada RecipeService akan memeriksa status respons tersebut dan melempar RecipeServiceException karena statusnya tidak termasuk dalam rentang 2xx. Fungsi expectLater() kemudian digunakan untuk memastikan bahwa exception yang dihasilkan sesuai dengan tipe yang diharapkan.</p>
+                            <p class="mt-1 mb-0">Dengan adanya ketiga pengujian tersebut, proses konversi data, pengambilan daftar resep, dan penanganan respons error dapat diperiksa tanpa harus mengakses server DummyJSON. Penggunaan MockClient juga membuat pengujian lebih mudah dilakukan karena respons yang diterima sudah ditentukan di dalam kode.</p>
+                        </div>
+
+                        <div class="step-list-item justify-text small mb-4">
+                            <strong>Pengujian</strong>
+                            <p class="mt-1 mb-0">Setelah kode selesai dimasukkan dan disimpan, buka terminal VS Code pada direktori utama project ResepKu. Jalankan perintah berikut untuk menjalankan seluruh pengujian pada file yang telah dibuat.</p>
+                            <pre class="bg-light p-3 rounded"><code>flutter test test/recipe_service_test.dart</code></pre>
+                            <p class="mt-1 mb-0">atau perintah ini agar menampilkan nama setiap pengujian secara lebih terperinci.</p>
+                            <pre class="bg-light p-3 rounded"><code>flutter test test/recipe_service_test.dart --reporter expanded</code></pre>
+                            <p class="mt-1 mb-0">Perintah tersebut akan menjalankan tiga skenario pengujian yang sudah didefinisikan, yaitu:</p>
+                            <p class="mt-1 mb-0">1. Pengujian Recipe.fromJson untuk memastikan rating integer dapat dikonversi menjadi double dan field yang tidak tersedia menggunakan nilai bawaan.</p>
+                            <p class="mt-1 mb-0">2. Pengujian RecipeService.fetchRecipes untuk memastikan data resep berhasil diperoleh dari respons palsu dengan status 200.</p>
+                            <p class="mt-1 mb-0">3. Pengujian RecipeService.fetchRecipes untuk memastikan respons dengan status 404 menghasilkan RecipeServiceException.</p>
+
+                            <strong>Output</strong>
+                            <p class="mt-1 mb-0">Jika seluruh pengujian berhasil, maka output yang ditampilkan di terminal akan menunjukkan bahwa semua test telah lulus tanpa error.</p>
+                            <figcaption class="text-muted small text-center pt-3">Output Pengujian flutter test test/recipe_service_test.dart</figcaption>
+                            <img src="images/ss prak8/lat3/3.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                            <figcaption class="text-muted small text-center pt-3">Output Pengujian flutter test test/recipe_service_test.dart --reporter expanded</figcaption>
+                            <img src="images/ss prak8/lat3/4.png" alt="Thumbnail Java" class="img-fluid mt-2 mb-3 d-block mx-auto" style="border-radius: 6px; border: 1px solid var(--border-color);">
+                        </div>
+                </section>
+
+                <section class="mt-5 pt-4 border-top border-dark">
+                    <h2>E. Kesimpulan</h2>
+                    <div class="justify-text small text-muted">
+                        <p>Berdasarkan praktikum yang telah dilakukan, dapat disimpulkan bahwa integrasi REST API memungkinkan aplikasi ResepKu mengambil dan mengirim data melalui komunikasi dengan server. Melalui penggunaan package http, RecipeService, dan factory fromJson, proses pengambilan data dapat dipisahkan dari tampilan aplikasi sehingga struktur kode menjadi lebih teratur dan mudah digunakan kembali. Penerapan FutureBuilder juga membantu aplikasi menangani beberapa kondisi request, mulai dari proses loading, data berhasil diterima, hingga error yang dapat dicoba kembali. Selain itu, penggunaan POST menunjukkan bagaimana data dari form dikirim ke server dan responsnya ditampilkan kepada pengguna, meskipun pada DummyJSON proses penambahan, perubahan, dan penghapusan hanya disimulasikan. Melalui latihan pencarian, pengubahan dan penghapusan resep, serta unit test menggunakan MockClient, pemahaman mengenai penggunaan endpoint API dan pengujian tanpa koneksi internet menjadi lebih baik. Secara keseluruhan, praktikum ini memberikan pengalaman dalam menghubungkan aplikasi Flutter dengan REST API sekaligus mempertahankan fitur yang telah dikembangkan pada modul sebelumnya.</p>
+                        </div>
+                </section>
+            </main>
+        </article>
+        <div class="d-flex justify-content-center flex-wrap gap-2 mt-5"><a href= "https://github.com/Lordyblade/2411532010_KelasB_AppMob_ResepKu/tree/praktikum8" class="btn btn-secondary rounded-pill px-4 fw-bold link-hover" target="_blank">
+    <i class="bi bi-github me-2"></i> Link Github Project
+  </a>
+</div>
+
+    </div>
+
+    
+    
+
+    <footer class="bg-white mt-auto shadow">
+        <div class="container text-center text-dark pt-5 ">
+          <div class="row text-center text-md-start">
+            
+            <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                <h5 class="mb-4 fw-normal text-secondary">About</h5>
+                <p class="fw-light text medium">"hustler, dreamer, and a doer. Always striving to learn, grow, and make a positive impact in the world."</p>
+                </p>
+            </div>
+            
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+                <h5 class="mb-4 fw-normal text-secondary">Quick Links</h5>
+                <p><a href="index.html" class="text-dark text-decoration-none link-hover">Home</a></p>
+                <p><a href="about.html" class="text-dark text-decoration-none link-hover">About</a></p>
+                <p><a href="portofolio.html" class="text-dark text-decoration-none link-hover">Portofolio</a></p>
+                <p><a href="kontak.html" class="text-dark text-decoration-none link-hover">Contact</a></p>
+                <p><a href="laprak.html" class="text-dark text-decoration-none link-hover">Laprak</a></p>
+            </div>
+
+            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+                <h5 class="mb-4 fw-normal text-secondary">Social Media</h5>
+                <a href="https://www.instagram.com/ibraahimousa/" class="link-hover p-1"><i class="bi bi-instagram text-dark link-hover"></i></a> 
+                <a href="https://www.linkedin.com/in/ibrahimousa27/" class="link-hover p-1"><i class="bi bi-linkedin text-dark link-hover"></i></a>
+                <a href="https://github.com/Lordyblade" class="link-hover p-1"><i class="bi bi-github text-dark link-hover"></i></a>
+                <a href="mailto:ciburakatoprak@gmail.com" class="link-hover p-1"><i class="bi bi-envelope text-dark link-hover"></i></a>
+                </div>
+            </div>
+                     
+         </div>
+         <div class="container">
+         <div class="row mt-4">
+         <div class="col-md-12">
+                <p class="text-center">&copy; 2025 Design by 
+                  <a href="https://www.instagram.com/ibraahimousa" class="text-warning text-decoration-none fw-bold">Ibrahim Mousa
+                  <i class="bi bi-lightning-charge text-warning"></i></a>. All Rights Reserved.</p> 
+            </div>
+          </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
